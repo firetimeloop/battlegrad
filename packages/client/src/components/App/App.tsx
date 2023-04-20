@@ -15,6 +15,9 @@ import Error404 from '../../pages/Error404';
 
 import { AppWrapper } from './styles';
 
+// Пока без SSR пропишу явно
+const __SERVER_PORT__ = 3001;
+
 function App() {
   useEffect(() => {
     const fetchServerData = async () => {
