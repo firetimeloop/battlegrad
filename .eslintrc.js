@@ -15,10 +15,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 11,
   },
-  plugins: [
-    '@typescript-eslint',
-    'react-hooks',
-  ],
+  plugins: ['@typescript-eslint', 'react-hooks'],
   rules: {
     'max-len': [2, 100],
     '@typescript-eslint/ban-ts-comment': 1,
@@ -43,6 +40,11 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
+    ],
+    'no-underscore-dangle': [
+      'error',
+      {
+        allow: ['__SERVER_PORT__'],
         devDependencies: true,
       },
     ],
@@ -67,6 +69,7 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'import/no-unresolved': 'off',
   },
   settings: {
     'import/resolver': {
