@@ -18,6 +18,7 @@
     "paths": {
       "@components/*": ["./src/components/*"],
       "@pages/*": ["./src/pages/*"],
+      "@icons/*": ["./src/assets/icons/*"]
     }
   },
   "include": ["src"],

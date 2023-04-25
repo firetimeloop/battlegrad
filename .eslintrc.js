@@ -70,6 +70,8 @@ module.exports = {
       },
     ],
     'import/no-unresolved': 'off',
+    'react/require-default-props': 'off',
+    'object-curly-newline': 'off',
   },
   settings: {
     'import/resolver': {
