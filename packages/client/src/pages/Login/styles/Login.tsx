@@ -9,6 +9,14 @@ export const LoginContainer = styled.div`
   background: ${({ theme }) => theme.color.background.blue};
 `;
 
+export const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: 430px;
+`;
+
 export const LoginBlock = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,8 +66,23 @@ const Button = styled.button`
 
 export const SubmitButton = styled(Button)`
   width: 100%;
+  border-radius: 60px;
   max-width: 500px;
   padding: 25px 0;
-  color: ${({ theme }) => theme.color.text.primary};
+  color: ${({ theme }) => theme.color.white};
   background: ${({ theme }) => theme.color.background.blue2};
+`;
+
+export const BtnText = styled.div`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+`;
+
+export const LoaderBtnContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
