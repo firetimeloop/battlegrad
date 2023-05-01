@@ -41,7 +41,7 @@ function Game() {
   useEffect(() => {
     window.addEventListener('keyup', openPauseMenu);
 
-    return function () {
+    return () => {
       window.removeEventListener('keyup', openPauseMenu);
     };
   }, [openPauseMenu]);
