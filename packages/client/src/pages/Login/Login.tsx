@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { ErrorMessage, Formik } from 'formik';
 import { useTheme } from 'styled-components';
+import { toFormikValidate } from 'zod-formik-adapter';
 import {
   BtnText, FormContainer, LoaderBtnContainer, LoginBlock, LoginContainer, SubmitButton,
 } from './styles';
-import { H2, Input } from '../../styles';
-import { IKeyStringObject } from '../../interface';
+import { H1, Input } from '../../styles';
+import { LoginValidationModel } from '../../interface';
 import MiniLoader from '../../components/Loader';
 import { LoaderSizeEnum } from '../../enum';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -19,21 +20,10 @@ function Login() {
   return (
     <LoginContainer>
       <LoginBlock>
-        <H2>Вход</H2>
+        <H1>Вход</H1>
         <Formik
           initialValues={{ login: '', password: '' }}
-          validate={(values) => {
-            const errors: IKeyStringObject = {};
-
-            if (values.login.length < 4) {
-              errors.login = 'Логин не может быть короче 4 символов';
-            }
-            if (values.password.length < 4) {
-              errors.password = 'Пароль не может быть короче 4 символов';
-            }
-
-            return errors;
-          }}
+          validate={toFormikValidate(LoginValidationModel)}
           onSubmit={(values) => {
             dispatch(LogIn(values));
           }}
@@ -69,9 +59,9 @@ function Login() {
                   Авторизация
                 </BtnText>
                 {isFetching && (
-                <LoaderBtnContainer>
-                  <MiniLoader color={theme.color.white} size={LoaderSizeEnum.small} />
-                </LoaderBtnContainer>
+                  <LoaderBtnContainer>
+                    <MiniLoader color={theme.color.white} size={LoaderSizeEnum.small} />
+                  </LoaderBtnContainer>
                 )}
               </SubmitButton>
 

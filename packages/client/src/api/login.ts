@@ -1,22 +1,21 @@
 import {
-  IGetMeResponse, ILoginProps, ILoginResponse, IThunkApi,
+  IBaseApiProps, IGetMeResponse, ILoginApiProps, ILoginResponse,
 } from '../interface';
-import { axiosInstance } from '../app/api';
+import { axiosYandexApi } from '../app/api';
+import { withAbortController } from '../utils/withAbortController';
 
-export async function login(data: ILoginProps, thunkApi: IThunkApi): Promise<ILoginResponse> {
-  const controller = new AbortController();
-  const response = await axiosInstance.post<ILoginResponse>('/auth/signin', data, {
-    signal: thunkApi.signal,
-  });
-  controller.abort();
-  return response.data;
+export async function login({ thunkApi, data }: ILoginApiProps) {
+  return withAbortController<ILoginResponse>(
+    axiosYandexApi.post<ILoginResponse>('/auth/signin', data, {
+      signal: thunkApi.signal,
+    }),
+  );
 }
 
-export async function getMe(thunkApi: IThunkApi): Promise<IGetMeResponse> {
-  const controller = new AbortController();
-  const response = await axiosInstance.get<IGetMeResponse>('/auth/user', {
-    signal: thunkApi.signal,
-  });
-  controller.abort();
-  return response.data;
+export async function getMe({ thunkApi }: IBaseApiProps) {
+  return withAbortController<IGetMeResponse>(
+    axiosYandexApi.get<IGetMeResponse>('/auth/user', {
+      signal: thunkApi.signal,
+    }),
+  );
 }

@@ -29,8 +29,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
     'no-param-reassign': 'off',
-    // eslint-disable-next-line max-len
-    // https://stackoverflow.com/questions/63961803/eslint-says-all-enums-in-typescript-app-are-already-declared-in-the-upper-scope
+    // чтобы не ругался на enum
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'warn',
     'no-unused-vars': 'off',

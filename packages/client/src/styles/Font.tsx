@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
-export const H2 = styled.div`
+export const H1 = styled.h1`
   font-family: Inter, serif;
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
-  line-height: 20px;
-  color: ${({ theme }) => theme.color.text.primary}
+  line-height: 24px;
+  color: ${({ theme }) => theme.color.text.primary};
+  margin: 0;
 `;

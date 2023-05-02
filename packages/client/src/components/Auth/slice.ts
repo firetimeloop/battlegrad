@@ -8,13 +8,13 @@ import { getMe, login } from '../../api/login';
 
 export const LogIn = createAsyncThunk<ILoginResponse, ILoginProps, IThunkApi>(
   'LogIn',
-  (data, thunkApi) => login(data, thunkApi)
+  (data, thunkApi) => login({ data, thunkApi })
     .then((resolve) => resolve),
 );
 
 export const GetMe = createAsyncThunk<IGetMeResponse, void, IThunkApi>(
   'GetMe',
-  (data, thunkApi) => getMe(thunkApi)
+  (data, thunkApi) => getMe({ thunkApi })
     .then((resolve) => resolve),
 );
 
