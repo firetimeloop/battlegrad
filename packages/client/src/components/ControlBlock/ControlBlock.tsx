@@ -1,8 +1,8 @@
-import UpArrow from '@icons/up-arrow.svg';
-import DownArrow from '@icons/down-arrow.svg';
-import LeftArrow from '@icons/left-arrow.svg';
-import RightArrow from '@icons/right-arrow.svg';
-import SpaceBar from '@icons/space-bar.svg';
+import upArrow from '@icons/up-arrow.svg';
+import downArrow from '@icons/down-arrow.svg';
+import leftArrow from '@icons/left-arrow.svg';
+import rightArrow from '@icons/right-arrow.svg';
+import spaceBar from '@icons/space-bar.svg';
 
 import { ControlBlockWrapper, ControlList, ControlListIrem } from './styles';
 
@@ -12,23 +12,23 @@ function ControlBlock() {
       <ControlList>
         <ControlListIrem>
           <span>Движение вперед</span>
-          <img alt="Стрелка вверх" src={UpArrow} />
+          <img alt="Стрелка вверх" src={upArrow} />
         </ControlListIrem>
         <ControlListIrem>
           <span>Движение назад</span>
-          <img alt="Стрелка вниз" src={DownArrow} />
+          <img alt="Стрелка вниз" src={downArrow} />
         </ControlListIrem>
         <ControlListIrem>
           <span>Движение влево</span>
-          <img alt="Стрелка влево" src={LeftArrow} />
+          <img alt="Стрелка влево" src={leftArrow} />
         </ControlListIrem>
         <ControlListIrem>
           <span>Движение вправо</span>
-          <img alt="Стрелка вправо" src={RightArrow} />
+          <img alt="Стрелка вправо" src={rightArrow} />
         </ControlListIrem>
         <ControlListIrem>
           <span>Стрелять</span>
-          <img alt="Пробел" src={SpaceBar} />
+          <img alt="Пробел" src={spaceBar} />
         </ControlListIrem>
       </ControlList>
     </ControlBlockWrapper>

@@ -1,13 +1,12 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 import { ModalWrapper, ModalContent } from './styles';
 
-type ModalProps = {
+type ModalProps = PropsWithChildren<{
   isVisible: boolean;
   toggleModal?: () => void;
-  children: ReactNode;
   isClosable?: boolean;
-};
+}>;
 
 function Modal({ isVisible, children, isClosable, toggleModal }: ModalProps) {
   if (!isVisible) {
@@ -19,7 +18,7 @@ function Modal({ isVisible, children, isClosable, toggleModal }: ModalProps) {
       return;
     }
 
-    if (typeof toggleModal === 'function') {
+    if (toggleModal) {
       toggleModal();
     }
   };
