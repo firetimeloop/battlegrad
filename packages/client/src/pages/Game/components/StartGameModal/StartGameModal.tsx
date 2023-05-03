@@ -7,6 +7,7 @@ import { SelectModeBlock, SelectPage } from './styles';
 type ModalProps = {
   isVisible: boolean;
   selectedMode?: number;
+  // eslint-disable-next-line no-unused-vars
   onSelectMode: (selectedMode: number) => void;
   onCloseModal: () => void;
 };
