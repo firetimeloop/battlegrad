@@ -28,28 +28,34 @@ module.exports = {
     'no-restricted-exports': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
+    'no-param-reassign': 'off',
+    // чтобы не ругался на enum
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'warn',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: true
-      }
+        devDependencies: true,
+      },
     ],
-    'no-underscore-dangle':  [
+    'no-underscore-dangle': [
       'error',
-      { 
-        allow: ["__SERVER_PORT__"] 
-      }
+      {
+        allow: ['__SERVER_PORT__'],
+      },
     ],
     'react/jsx-filename-extension': [
       2,
-      { 
+      {
         extensions: [
           '.js',
           '.jsx',
           '.ts',
-          '.tsx'
-        ]
-      }
+          '.tsx',
+        ],
+      },
     ],
     'import/extensions': [
       'error',
@@ -58,15 +64,15 @@ module.exports = {
         js: 'never',
         jsx: 'never',
         ts: 'never',
-        tsx: 'never'
-      }
-   ]
+        tsx: 'never',
+      },
+    ],
   },
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js','.ts', '.tsx']
-      }
-    }
-},
-}
+        extensions: ['.js', '.ts', '.tsx'],
+      },
+    },
+  },
+};
