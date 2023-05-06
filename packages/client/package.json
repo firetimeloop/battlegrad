@@ -9,6 +9,7 @@
     "lint": "npm-run-all lint:*",
     "lint:typescript": "tsc --noEmit",
     "lint:eslint": "eslint .",
+    "lint:eslint:fix": "eslint . --fix",
     "lint:style": "stylelint './src/**/*.tsx'",
     "format": "prettier --write .",
     "test": "jest ./"

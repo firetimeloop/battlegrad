@@ -28,16 +28,20 @@ module.exports = {
     'no-restricted-exports': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'warn',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+    'consistent-return': 'off',
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/no-useless-constructor': 'error',
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-empty-function': 'error',
+    'no-underscore-dangle': 'off',
     'import/no-extraneous-dependencies': [
       'error',
       {
         devDependencies: true
-      }
-    ],
-    'no-underscore-dangle':  [
-      'error',
-      { 
-        allow: ["__SERVER_PORT__"] 
       }
     ],
     'react/jsx-filename-extension': [

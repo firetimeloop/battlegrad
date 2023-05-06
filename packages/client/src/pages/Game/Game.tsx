@@ -1,6 +1,8 @@
+import GameComponent from '../../components/Game';
+
 function Game() {
   return (
-    <div>Game</div>
+    <GameComponent />
   );
 }
 
