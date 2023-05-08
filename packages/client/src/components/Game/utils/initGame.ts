@@ -2,7 +2,7 @@ import { Game } from './game';
 import { Level } from './level';
 import { LevelView } from './levelView';
 import { Sprite } from './sprite';
-import levels from '../../../assets/levelsData.json';
+import { LEVELS } from '../../../assets/levelsData';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './consts';
 
 const sprite = new Sprite('/sprite.png');
@@ -30,7 +30,7 @@ export function initGame(canvas: HTMLCanvasElement | null): Game | undefined {
       context,
       sprite,
     ),
-    levels,
+    LEVELS,
   );
 
   game.startGame();

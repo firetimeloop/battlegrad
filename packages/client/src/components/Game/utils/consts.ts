@@ -8,11 +8,11 @@ export const CELL_SIZE = 16;
 export enum LEVEL_OBJECT {
     EMPTY = 0,
     WALL = 1,
-    LEFT_WALL = 2,
-    RIGHT_WALL = 3,
-    TOP_WALL = 4,
-    BOTTOM_WALL = 5,
-    BOTTOM_METAL_WALL = 6,
+    BOTTOM_WALL = 2,
+    LEFT_WALL = 3,
+    RIGHT_WALL = 4,
+    TOP_WALL = 5,
+    TOP_METAL_WALL = 6,
     STANDARD = 7,
 }
 
@@ -23,18 +23,18 @@ const {
   RIGHT_WALL,
   TOP_WALL,
   BOTTOM_WALL,
-  BOTTOM_METAL_WALL,
+  TOP_METAL_WALL,
   STANDARD,
 } = LEVEL_OBJECT;
 
 export const LEVEL_OBJECT_SPRITE_CODE = {
   [EMPTY]: [21, 0],
   [WALL]: [16, 0],
-  [LEFT_WALL]: [17, 0],
-  [RIGHT_WALL]: [18, 0],
-  [TOP_WALL]: [19, 0],
-  [BOTTOM_WALL]: [20, 0],
-  [BOTTOM_METAL_WALL]: [20, 1],
+  [LEFT_WALL]: [19, 0],
+  [RIGHT_WALL]: [17, 0],
+  [TOP_WALL]: [20, 0],
+  [BOTTOM_WALL]: [18, 0],
+  [TOP_METAL_WALL]: [20, 1],
   [STANDARD]: [19, 2],
 };
 
