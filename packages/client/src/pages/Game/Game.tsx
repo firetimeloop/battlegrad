@@ -9,7 +9,8 @@ function Game() {
   const [selectedMode, setSelectedMode] = useState<number | undefined>(
     undefined,
   );
-  const [isStartGameModalVisible, setStartGameModalVisible] = useState<boolean>(true);
+  const [isStartGameModalVisible, setStartGameModalVisible] =
+    useState<boolean>(true);
   const [isPauseModalVisible, setPauseModalVisible] = useState<boolean>(false);
 
   const togglePauseMenu = useCallback(() => {
@@ -39,7 +40,7 @@ function Game() {
 
   return (
     <>
-      <div>Game</div>
+      {!isStartGameModalVisible && <GameComponent />}
       <StartGameModal
         isVisible={isStartGameModalVisible}
         onCloseModal={() => setStartGameModalVisible(false)}
