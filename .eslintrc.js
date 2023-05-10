@@ -39,7 +39,6 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'import/no-extraneous-dependencies': [
       'error',
-      {
     ],
     'no-underscore-dangle': [
       'error',

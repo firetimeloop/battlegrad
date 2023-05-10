@@ -4,22 +4,17 @@ import { ModalWrapper, ModalContent } from './styles';
 
 type ModalProps = PropsWithChildren<{
   isVisible: boolean;
-  toggleModal?: () => void;
-  isClosable?: boolean;
+  closeModal?: () => void;
 }>;
 
-function Modal({ isVisible, children, isClosable, toggleModal }: ModalProps) {
+function Modal({ isVisible, children, closeModal }: ModalProps) {
   if (!isVisible) {
     return null;
   }
 
   const onCloseModalHandler = () => {
-    if (!isClosable) {
-      return;
-    }
-
-    if (toggleModal) {
-      toggleModal();
+    if (closeModal) {
+      closeModal();
     }
   };
 
@@ -29,9 +24,5 @@ function Modal({ isVisible, children, isClosable, toggleModal }: ModalProps) {
     </ModalWrapper>
   );
 }
-
-Modal.defaultProps = {
-  isClosable: true,
-};
 
 export default Modal;
