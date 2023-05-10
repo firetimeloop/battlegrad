@@ -18,12 +18,23 @@ function StartGameModal({
   onSelectMode,
   onCloseModal,
 }: ModalProps) {
+  const selectSingleModeHandler = () => {
+    onSelectMode(1);
+  };
+
+  const selectDoubleModeHandler = () => {
+    onSelectMode(2);
+  };
+
   return (
     <Modal isVisible={isVisible}>
       {!selectedMode && (
         <SelectModeBlock>
-          <Button onClick={() => onSelectMode(1)}>1 игрок</Button>
-          <Button onClick={() => onSelectMode(2)} disabled>
+          <Button onClick={selectSingleModeHandler}>1 игрок</Button>
+          <Button
+            data-test-id="my-btn-2"
+            onClick={selectDoubleModeHandler}
+            disabled>
             2 игрока
           </Button>
         </SelectModeBlock>

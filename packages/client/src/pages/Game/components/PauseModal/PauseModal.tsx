@@ -12,15 +12,19 @@ type ModalProps = {
 function PauseModal({ isVisible }: ModalProps) {
   const navigate = useNavigate();
 
+  const finishGameHandler = () => {
+    console.log('Закончить игру');
+  };
+
+  const saveGameHandler = () => {
+    console.log('Сохранить игру');
+  };
+
   return (
     <Modal isVisible={isVisible}>
       <PauseMenu>
-        <Button onClick={() => console.log('Закончить игру')}>
-          Закончить игру
-        </Button>
-        <Button onClick={() => console.log('Сохранить игру')}>
-          Сохранить игру
-        </Button>
+        <Button onClick={finishGameHandler}>Закончить игру</Button>
+        <Button onClick={saveGameHandler}>Сохранить игру</Button>
         <Button onClick={() => navigate('/forum')}>Форум</Button>
         <Button onClick={() => navigate('/profile')}>Профиль</Button>
         <Button onClick={() => navigate('/leaderboard')}>

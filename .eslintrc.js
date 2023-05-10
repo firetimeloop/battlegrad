@@ -71,6 +71,8 @@ module.exports = {
     'import/no-unresolved': 'off',
     'react/require-default-props': 'off',
     'object-curly-newline': 'off',
+    'react/jsx-closing-bracket-location': 'off',
+    'operator-linebreak': 'off',
   },
   settings: {
     'import/resolver': {
