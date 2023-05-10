@@ -1,7 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-
 import Modal from '@components/Modal/Modal';
 import Button from '@components/Button/Button';
+import LinkButton from '@components/LinkButton';
 
 import { PauseMenu } from './styles';
 
@@ -10,8 +9,6 @@ type ModalProps = {
 };
 
 function PauseModal({ isVisible }: ModalProps) {
-  const navigate = useNavigate();
-
   const finishGameHandler = () => {
     console.log('Закончить игру');
   };
@@ -25,11 +22,9 @@ function PauseModal({ isVisible }: ModalProps) {
       <PauseMenu>
         <Button onClick={finishGameHandler}>Закончить игру</Button>
         <Button onClick={saveGameHandler}>Сохранить игру</Button>
-        <Button onClick={() => navigate('/forum')}>Форум</Button>
-        <Button onClick={() => navigate('/profile')}>Профиль</Button>
-        <Button onClick={() => navigate('/leaderboard')}>
-          Таблица рекордов
-        </Button>
+        <LinkButton to="/forum">Форум</LinkButton>
+        <LinkButton to="/profile">Профиль</LinkButton>
+        <LinkButton to="/leaderboard">Таблица рекордов</LinkButton>
       </PauseMenu>
     </Modal>
   );
