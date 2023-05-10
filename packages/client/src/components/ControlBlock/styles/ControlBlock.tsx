@@ -19,7 +19,19 @@ export const ControlList = styled.ul`
   }
 `;
 
-export const ControlListIrem = styled.li`
+export const ControlListItem = styled.li`
   display: flex;
   justify-content: space-between;
+
+  img.down-arrow {
+    rotate: -180deg;
+  }
+
+  img.left-arrow {
+    rotate: -90deg;
+  }
+
+  img.right-arrow {
+    rotate: 90deg;
+  }
 `;
