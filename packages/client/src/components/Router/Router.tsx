@@ -17,13 +17,15 @@ import { PrivateRoute } from './privateRoute/PrivateRoute';
 import { GetMe } from '../Auth/slice';
 
 export function Router() {
-  const { needFetchUser, user } = useAppSelector((state) => state.auth);
+  const { user, needFetchUser } = useAppSelector((state) => state.auth);
   const loggedIn = !!user;
   const dispatch = useAppDispatch();
+
   useEffect(() => {
-    if (needFetchUser) {
-      dispatch(GetMe());
-    }
+    const request = dispatch(GetMe());
+    return () => {
+      request.abort();
+    };
   }, [dispatch, needFetchUser]);
 
   return (

@@ -4,6 +4,7 @@ import Layout from '../Layout';
 
 import { AppWrapper } from './styles';
 import { Router } from '../Router';
+import Alert from '../Alert';
 
 // Пока без SSR пропишу явно
 const __SERVER_PORT__ = 3001;
@@ -23,6 +24,7 @@ function App() {
     <AppWrapper>
       <Layout />
       <Router />
+      <Alert />
     </AppWrapper>
   );
 }

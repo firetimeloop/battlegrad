@@ -6,7 +6,7 @@ export const LoginContainer = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background: ${({ theme }) => theme.color.background.blue};
+  background: ${({ theme }) => theme.color.background.lightBlue};
 `;
 
 export const FormContainer = styled.form`
@@ -70,7 +70,7 @@ export const SubmitButton = styled(Button)`
   max-width: 500px;
   padding: 25px 0;
   color: ${({ theme }) => theme.color.white};
-  background: ${({ theme }) => theme.color.background.blue2};
+  background: ${({ theme }) => theme.color.background.blue};
 `;
 
 export const BtnText = styled.div`

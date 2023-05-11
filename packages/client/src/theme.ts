@@ -3,8 +3,8 @@ import { DefaultTheme } from 'styled-components';
 export const theme: DefaultTheme = {
   color: {
     background: {
-      blue: '#0882FF',
-      blue2: '#3369F3',
+      lightBlue: '#0882FF',
+      blue: '#3369F3',
       orange: '#FF5931',
       green: '#58E07E',
       black: '#1E1E1E',

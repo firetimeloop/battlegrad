@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { IThunkApi } from './index';
 
 export interface ILoginProps {
   login: string
@@ -8,14 +7,6 @@ export interface ILoginProps {
 
 export interface IErrorResponse {
   reason: string
-}
-
-export interface IBaseApiProps {
-  thunkApi: IThunkApi
-}
-
-export interface ILoginApiProps extends IBaseApiProps {
-  data: ILoginProps
 }
 
 export type ILoginResponse = IErrorResponse | null
@@ -35,7 +26,9 @@ export type IUser = z.infer<typeof UserModel>
 
 export type IGetMeResponse = IUser | IErrorResponse
 
+const MIN_LOGIN = 4;
+const MIN_PASSWORD = 4;
 export const LoginValidationModel = z.object({
-  login: z.string().min(4, 'Логин не может быть короче 4 символов'),
-  password: z.string().min(4, 'Пароль не может быть короче 4 символов'),
+  login: z.string().min(MIN_LOGIN, `Логин не может быть короче ${MIN_LOGIN} символов`),
+  password: z.string().min(MIN_PASSWORD, `Пароль не может быть короче ${MIN_PASSWORD} символов`),
 });

@@ -6,5 +6,5 @@ interface PrivateLoggedRouteProps {
 }
 
 export function PrivateLoggedRoute({ loggedIn }: PrivateLoggedRouteProps) {
-  return loggedIn ? <Navigate to="/game" /> : <Outlet />;
+  return loggedIn ? <Navigate to="/" /> : <Outlet />;
 }

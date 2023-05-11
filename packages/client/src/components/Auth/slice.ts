@@ -4,30 +4,38 @@ import {
 import {
   IGetMeResponse, ILoginProps, ILoginResponse, IThunkApi, IUser, UserModel,
 } from '../../interface';
-import { getMe, login } from '../../api/login';
+import { axiosYandexApi } from '../../app/api';
 
 export const LogIn = createAsyncThunk<ILoginResponse, ILoginProps, IThunkApi>(
   'LogIn',
-  (data, thunkApi) => login({ data, thunkApi })
-    .then((resolve) => resolve),
+  async (data, { signal }) => {
+    const response = await axiosYandexApi.post<ILoginResponse>('/auth/signin', data, {
+      signal,
+    });
+    return response.data;
+  },
 );
 
 export const GetMe = createAsyncThunk<IGetMeResponse, void, IThunkApi>(
   'GetMe',
-  (data, thunkApi) => getMe({ thunkApi })
-    .then((resolve) => resolve),
+  async (data, { signal }) => {
+    const response = await axiosYandexApi.get<IGetMeResponse>('/auth/user', {
+      signal,
+    });
+    return response.data;
+  },
 );
 
 interface IAuthState {
   isFetching: boolean
-  needFetchUser: boolean
   user: IUser | null
+  needFetchUser: boolean
 }
 
 const AuthStateInit: IAuthState = {
   isFetching: false,
-  needFetchUser: true,
   user: null,
+  needFetchUser: true,
 };
 
 export const slice = createSlice({
@@ -40,12 +48,12 @@ export const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(GetMe.fulfilled, (state, action) => {
-      state.user = UserModel.parse(action.payload);
       state.needFetchUser = false;
+      state.user = UserModel.parse(action.payload);
     });
     builder.addCase(GetMe.rejected, (state) => {
-      state.user = null;
       state.needFetchUser = false;
+      state.user = null;
     });
     builder.addCase(LogIn.fulfilled, (state) => {
       state.needFetchUser = true;
