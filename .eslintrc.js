@@ -40,7 +40,6 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        allow: ['__SERVER_PORT__'],
         devDependencies: true,
       },
     ],

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ButtonWrapper = styled.button`
   color: ${({ theme }) => theme.color.white};
-  background-color: ${({ theme }) => theme.color.background.blue2};
+  background-color: ${({ theme }) => theme.color.background.blue};
   border-radius: 60px;
   font-family: Inter, serif;
   font-style: normal;
