@@ -13,9 +13,7 @@ function Modal({ isVisible, children, closeModal }: ModalProps) {
   }
 
   const onCloseModalHandler = () => {
-    if (closeModal) {
-      closeModal();
-    }
+    closeModal?.();
   };
 
   return (
