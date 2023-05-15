@@ -9,11 +9,14 @@
     "lint": "npm-run-all lint:*",
     "lint:typescript": "tsc --noEmit",
     "lint:eslint": "eslint .",
+    "lint:eslint:fix": "eslint . --fix",
     "lint:style": "stylelint './src/**/*.tsx'",
     "format": "prettier --write .",
     "test": "jest ./"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "1.9.5",
+    "axios": "1.4.0",
     "dotenv": "16.0.2",
     "eslint-config-prettier": "8.5.0",
     "formik": "2.2.9",
@@ -21,8 +24,11 @@
     "prettier": "2.7.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-redux": "8.0.5",
     "react-router-dom": "6.10.0",
-    "styled-components": "5.3.9"
+    "styled-components": "5.3.9",
+    "zod": "3.21.4",
+    "zod-formik-adapter": "1.2.0"
   },
   "devDependencies": {
     "@testing-library/react": "13.3.0",

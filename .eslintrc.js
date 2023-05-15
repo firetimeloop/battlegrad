@@ -15,10 +15,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 11,
   },
-  plugins: [
-    '@typescript-eslint',
-    'react-hooks',
-  ],
+  plugins: ['@typescript-eslint', 'react-hooks'],
   rules: {
     'max-len': [2, 100],
     '@typescript-eslint/ban-ts-comment': 1,
@@ -28,28 +25,34 @@ module.exports = {
     'no-restricted-exports': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
+    'no-param-reassign': 'off',
+    // чтобы не ругался на enum
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'warn',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+    'consistent-return': 'off',
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/no-useless-constructor': 'error',
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-empty-function': 'error',
+    'no-underscore-dangle': 'off',
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: true
-      }
-    ],
-    'no-underscore-dangle':  [
-      'error',
-      { 
-        allow: ["__SERVER_PORT__"] 
-      }
+        devDependencies: true,
+      },
     ],
     'react/jsx-filename-extension': [
       2,
-      { 
+      {
         extensions: [
           '.js',
           '.jsx',
           '.ts',
-          '.tsx'
-        ]
-      }
+          '.tsx',
+        ],
+      },
     ],
     'import/extensions': [
       'error',
@@ -58,15 +61,20 @@ module.exports = {
         js: 'never',
         jsx: 'never',
         ts: 'never',
-        tsx: 'never'
-      }
-   ]
+        tsx: 'never',
+      },
+    ],
+    'import/no-unresolved': 'off',
+    'react/require-default-props': 'off',
+    'object-curly-newline': 'off',
+    'react/jsx-closing-bracket-location': 'off',
+    'operator-linebreak': 'off',
   },
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js','.ts', '.tsx']
-      }
-    }
-},
-}
+        extensions: ['.js', '.ts', '.tsx'],
+      },
+    },
+  },
+};
