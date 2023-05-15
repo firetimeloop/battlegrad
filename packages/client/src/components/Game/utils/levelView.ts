@@ -10,6 +10,8 @@ import {
 } from './consts';
 import { Projectile } from './projectile';
 
+type InitControlFunction = (code: string) => void;
+
 // Представление уровня
 export class LevelView {
   constructor(
@@ -17,7 +19,17 @@ export class LevelView {
         private sprite: Sprite,
   ) {}
 
-  async init() {
+  async init(initKeyDownControls: InitControlFunction, initKeyUpControls: InitControlFunction) {
+    document.addEventListener('keydown', (event) => {
+      const { code } = event;
+      initKeyDownControls(code);
+    });
+
+    document.addEventListener('keyup', (event) => {
+      const { code } = event;
+
+      initKeyUpControls(code);
+    });
     await this.sprite.load();
   }
 

@@ -33,27 +33,29 @@ type CellWithoutSprite = Omit<Cell, 'spriteType' | 'colliderBorders'> & {
   colliderBorders: [number, number, number, number];
 };
 
+const PROJECTILE_VELOCITY = 5;
+
 const getVelocity = (lastControlKey: LastControlKey) => {
   const { lastKey } = lastControlKey;
 
   if (lastKey === MOVE_CONTROL_KEYS.UP) {
     return {
-      y: -5,
+      y: -PROJECTILE_VELOCITY,
       x: 0,
     };
   } if (lastKey === MOVE_CONTROL_KEYS.DOWN) {
     return {
-      y: 5,
+      y: PROJECTILE_VELOCITY,
       x: 0,
     };
   } if (lastKey === MOVE_CONTROL_KEYS.LEFT) {
     return {
-      x: -5,
+      x: -PROJECTILE_VELOCITY,
       y: 0,
     };
   } if (lastKey === MOVE_CONTROL_KEYS.RIGHT) {
     return {
-      x: 5,
+      x: PROJECTILE_VELOCITY,
       y: 0,
     };
   }

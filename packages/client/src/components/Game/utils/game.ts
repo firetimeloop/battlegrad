@@ -57,6 +57,8 @@ export class Game {
         private allLevels: number[][][],
   ) {
     this.animate = this.animate.bind(this);
+    this.initKeyDownControls = this.initKeyDownControls.bind(this);
+    this.initKeyUpControls = this.initKeyUpControls.bind(this);
   }
 
   initControls() {
@@ -85,8 +87,29 @@ export class Game {
     });
   }
 
+  initKeyDownControls(code: string) {
+    if (!isControlKeyCode(code)) {
+      return;
+    }
+    this.activeControlKeys.add(code);
+    this.lastControlKey.lastKey = code;
+  }
+
+  initKeyUpControls(code: string) {
+    if (isSpecialControlKeyCode(code)) {
+      this.activeControlKeys.add(code);
+      return;
+    }
+
+    if (!isControlKeyCode(code)) {
+      return;
+    }
+
+    this.activeControlKeys.delete(code);
+  }
+
   async startGame() {
-    await this.levelView.init();
+    await this.levelView.init(this.initKeyDownControls, this.initKeyUpControls);
     this.level.setLevel(this.allLevels[0]);
 
     this.initControls();

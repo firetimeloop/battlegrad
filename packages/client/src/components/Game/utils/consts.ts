@@ -11,14 +11,14 @@ export const TANK_SIZE = CELL_SIZE - 2;
 export const SHOW_COLLIDERS = true;
 
 export enum LEVEL_OBJECT {
-    EMPTY = 0,
-    WALL = 1,
-    BOTTOM_WALL = 2,
-    LEFT_WALL = 3,
-    RIGHT_WALL = 4,
-    TOP_WALL = 5,
-    TOP_METAL_WALL = 6,
-    STANDARD = 7,
+    EMPTY,
+    WALL,
+    BOTTOM_WALL,
+    LEFT_WALL,
+    RIGHT_WALL,
+    TOP_WALL,
+    TOP_METAL_WALL,
+    STANDARD,
 }
 
 const {
