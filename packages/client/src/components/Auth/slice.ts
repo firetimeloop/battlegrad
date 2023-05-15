@@ -5,11 +5,31 @@ import {
   IGetMeResponse, ILoginProps, ILoginResponse, IThunkApi, IUser, UserModel,
 } from '../../interface';
 import { axiosYandexApi } from '../../app/api';
+import { IRegisterProps, IRegisterResponse } from '../../interface/Register';
 
 export const LogIn = createAsyncThunk<ILoginResponse, ILoginProps, IThunkApi>(
   'LogIn',
   async (data, { signal }) => {
     const response = await axiosYandexApi.post<ILoginResponse>('/auth/signin', data, {
+      signal,
+    });
+    return response.data;
+  },
+);
+
+export const CreateUser = createAsyncThunk<IRegisterResponse, IRegisterProps, IThunkApi>(
+  'CreateUser',
+  async (data, { signal }) => {
+    const response = await axiosYandexApi.post<IRegisterResponse>('/auth/signup', data, {
+      signal,
+    });
+    return response.data;
+  },
+);
+export const LogOut = createAsyncThunk<ILoginResponse, undefined, IThunkApi>(
+  'LogOut',
+  async (data, { signal }) => {
+    const response = await axiosYandexApi.post<ILoginResponse>('/auth/logout', data, {
       signal,
     });
     return response.data;
@@ -55,27 +75,35 @@ export const slice = createSlice({
       state.needFetchUser = false;
       state.user = null;
     });
-    builder.addCase(LogIn.fulfilled, (state) => {
+    builder.addCase(LogOut.fulfilled, (state) => {
+      state.user = null;
+    });
+    builder.addMatcher(isAnyOf(
+      LogIn.fulfilled,
+      CreateUser.fulfilled,
+    ), (state) => {
       state.needFetchUser = true;
     });
-
     builder.addMatcher(isAnyOf(
       LogIn.pending,
       GetMe.pending,
+      CreateUser.pending,
     ), (state) => {
       state.isFetching = true;
     });
     builder.addMatcher(isAnyOf(
       LogIn.fulfilled,
       GetMe.fulfilled,
+      CreateUser.fulfilled,
     ), (state) => {
       state.isFetching = false;
     });
     builder.addMatcher(isAnyOf(
       LogIn.rejected,
       GetMe.rejected,
+      CreateUser.rejected,
     ), (state, action) => {
-      // если пошел новый запрос а старый отменили, лоадер не убираем
+      // если пошел новый запрос, а старый отменили, лоадер не убираем
       if (action.error.message !== 'Aborted') {
         state.isFetching = false;
       }

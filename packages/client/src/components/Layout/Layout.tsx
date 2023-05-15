@@ -1,9 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
+import Button from '@components/Button';
+import { LogOut } from '@components/Auth/slice';
 import { LayoutWrapper, NavLinks } from './styles';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 // компонент временный для разработки
 function Layout() {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
+  const loggedIn = !!user;
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    dispatch(LogOut())
+      .then(() => navigate('/login'));
+  };
+
   return (
     <LayoutWrapper>
       <NavLinks>
@@ -40,6 +53,11 @@ function Layout() {
         <li>
           <Link to="/nothing-here">Nothing Here</Link>
         </li>
+        {loggedIn && (
+        <li>
+          <Button onClick={logOut}>Выйти</Button>
+        </li>
+        )}
       </NavLinks>
     </LayoutWrapper>
   );
