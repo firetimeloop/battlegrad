@@ -26,7 +26,6 @@ export function initGame(canvas: HTMLCanvasElement | null): Game | undefined {
   const game = new Game(
     new Level(),
     new LevelView(
-      canvas,
       context,
       sprite,
     ),

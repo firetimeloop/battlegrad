@@ -1,8 +1,9 @@
 import { PartialPosition, Position, Sprite } from './types';
 
-import { CELL_SIZE, CANVAS_HEIGHT, CANVAS_WIDTH } from './consts';
+import { CELL_SIZE } from './consts';
 
 import { MOVE_CONTROL_KEYS, CONTROL_KEYS } from './game';
+import { getNextPosition } from './getNextPosition';
 
 const {
   DOWN,
@@ -19,9 +20,9 @@ const CONTROL_TO_SPRITE_CODE = {
 };
 
 export class Tank {
-  private x = 100;
+  private x = 0;
 
-  private y = 100;
+  private y = 0;
 
   private spriteCode = 0;
 
@@ -35,47 +36,16 @@ export class Tank {
   }
 
   set position({ x, y }: PartialPosition) {
-    if (x) {
+    if (x !== undefined && x >= 0) {
       this.x = x;
     }
-    if (y) {
+    if (y !== undefined && y >= 0) {
       this.y = y;
     }
   }
 
   get sprite(): Sprite {
     return [(this.spriteCode + +this.isNextFrame) * CELL_SIZE, 0, CELL_SIZE, CELL_SIZE];
-  }
-
-  get positionMove() {
-    const { x: playerX, y: playerY } = this.position;
-
-    return {
-      [DOWN]: () => {
-        if (this.position.y <= CANVAS_HEIGHT - CELL_SIZE) {
-          this.position = {
-            y: playerY + 1,
-          };
-        }
-      },
-      [UP]: () => {
-        this.position = {
-          y: playerY - 1,
-        };
-      },
-      [LEFT]: () => {
-        this.position = {
-          x: playerX - 1,
-        };
-      },
-      [RIGHT]: () => {
-        if (this.position.x <= CANVAS_WIDTH - CELL_SIZE) {
-          this.position = {
-            x: playerX + 1,
-          };
-        }
-      },
-    };
   }
 
   setSpriteCode(code: number) {
@@ -86,7 +56,7 @@ export class Tank {
     this.isNextFrame = !this.isNextFrame;
   }
 
-  update(activeControlKeys: Set<CONTROL_KEYS>) {
+  update(activeControlKeys: Set<CONTROL_KEYS>, withMove: boolean) {
     let activeKey: MOVE_CONTROL_KEYS | null = null;
 
     if (activeControlKeys.has(DOWN)) {
@@ -99,10 +69,13 @@ export class Tank {
       activeKey = RIGHT;
     }
 
-    if (activeKey) {
-      this.positionMove[activeKey]();
-      this.setSpriteCode(CONTROL_TO_SPRITE_CODE[activeKey]);
+    if (activeKey && withMove) {
+      this.position = getNextPosition(this.position, activeKey);
       this.toggleIsNextFrame();
+    }
+
+    if (activeKey) {
+      this.setSpriteCode(CONTROL_TO_SPRITE_CODE[activeKey]);
     }
   }
 }

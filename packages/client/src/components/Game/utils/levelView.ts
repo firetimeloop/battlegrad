@@ -1,14 +1,18 @@
 import { Sprite } from './sprite';
 import type { Level } from './level';
 import type { Tank } from './tank';
-import { Cell } from './level';
-import { SPRITE_MAP, CELL_SIZE } from './consts';
+import { Cell, colliders } from './level';
+import {
+  SPRITE_MAP,
+  CELL_SIZE,
+  SHOW_COLLIDERS,
+  TANK_SIZE,
+} from './consts';
 import { Projectile } from './projectile';
 
 // Представление уровня
 export class LevelView {
   constructor(
-        private canvas: HTMLCanvasElement,
         private context: CanvasRenderingContext2D,
         private sprite: Sprite,
   ) {}
@@ -34,9 +38,19 @@ export class LevelView {
       ...player.sprite,
       playerPosition.x,
       playerPosition.y,
-      CELL_SIZE,
-      CELL_SIZE,
+      TANK_SIZE,
+      TANK_SIZE,
     );
+
+    if (SHOW_COLLIDERS) {
+      this.context.strokeStyle = 'white';
+      this.context.strokeRect(
+        playerPosition.x,
+        playerPosition.y,
+        TANK_SIZE,
+        TANK_SIZE,
+      );
+    }
   }
 
   renderLevel(currentLevel: Cell[][]) {
@@ -55,6 +69,14 @@ export class LevelView {
           CELL_SIZE,
           CELL_SIZE,
         );
+      }
+    }
+
+    // Отрисовка коллайдеров
+    if (SHOW_COLLIDERS && colliders) {
+      for (const [colliderStartX, colliderStartY, width, height] of colliders) {
+        this.context.strokeStyle = 'white';
+        this.context.strokeRect(colliderStartX, colliderStartY, width, height);
       }
     }
   }
