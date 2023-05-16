@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Field } from 'formik';
 
-export const Input = styled.input`
+export const Input = styled(Field)`
   font-family: Inter,serif;
   font-style: normal;
   font-weight: 500;
