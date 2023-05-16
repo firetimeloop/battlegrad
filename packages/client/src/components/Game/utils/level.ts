@@ -12,7 +12,7 @@ import {
   LEVEL_OBJECT_COLLIDER_MAP,
   COLLIDER_BORDERS,
   SHOW_COLLIDERS,
-  TANK_SIZE,
+  TANK_SIZE, CANVAS_WIDTH, CANVAS_HEIGHT,
 } from './consts';
 import { Position } from './types';
 import { LEVELS } from '../../../assets/levelsData';
@@ -313,6 +313,12 @@ export class Level {
   }
 
   getProjectiles() {
+    this.projectiles = this.projectiles.filter((projectile) => {
+      const { x, y } = projectile.position;
+      const outOfBoundsX = x > CANVAS_WIDTH || x < 0;
+      const outOfBoundsY = y > CANVAS_HEIGHT || y < 0;
+      return !outOfBoundsX && !outOfBoundsY;
+    });
     return this.projectiles;
   }
 }
