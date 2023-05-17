@@ -1,16 +1,13 @@
 import { Tank } from './tank';
 import { Projectile } from './projectile';
+import { CONTROL_KEYS, LastControlKey, MOVE_CONTROL_KEYS, SPECIAL_CONTROL_KEYS } from './game';
 import {
-  MOVE_CONTROL_KEYS,
-  SPECIAL_CONTROL_KEYS,
-  CONTROL_KEYS,
-  LastControlKey,
-} from './game';
-import {
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
   CELL_SIZE,
+  COLLIDER_BORDERS,
   LEVEL_OBJECT,
   LEVEL_OBJECT_COLLIDER_MAP,
-  COLLIDER_BORDERS,
   SHOW_COLLIDERS,
   TANK_SIZE,
 } from './consts';
@@ -261,6 +258,33 @@ export class Level {
   }
 
   getProjectiles() {
+    const collidableTiles = this.level.flat().filter((i) => i.spriteType !== LEVEL_OBJECT.EMPTY);
+
+    this.projectiles = this.projectiles.filter((projectile) => {
+      const { x, y } = projectile.position;
+      const outOfBoundsX = x > CANVAS_WIDTH || x < 0;
+      const outOfBoundsY = y > CANVAS_HEIGHT || y < 0;
+
+      const collideCell = collidableTiles.find((cell) => {
+        if (!cell.colliderBorders) {
+          return false;
+        }
+        const includeX = cell.x < x && (cell.x + CELL_SIZE) > x;
+        const includeY = cell.y < y && (cell.y + CELL_SIZE) > y;
+
+        return includeX && includeY;
+      });
+
+      if (collideCell) {
+        collideCell.spriteType = LEVEL_OBJECT.EMPTY;
+        collideCell.colliderBorders = null;
+
+        return false;
+      }
+
+      return !outOfBoundsX && !outOfBoundsY;
+    });
+
     return this.projectiles;
   }
 }
