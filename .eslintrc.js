@@ -70,6 +70,7 @@ module.exports = {
     'object-curly-newline': 'off',
     'react/jsx-closing-bracket-location': 'off',
     'operator-linebreak': 'off',
+    'prefer-rest-params': 'off',
   },
   settings: {
     'import/resolver': {

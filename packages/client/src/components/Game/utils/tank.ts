@@ -1,32 +1,13 @@
 import { PartialPosition, Position, Sprite } from './types';
 
-import { CELL_SIZE } from './consts';
+export abstract class Tank {
+  protected x = 0;
 
-import { MOVE_CONTROL_KEYS, CONTROL_KEYS } from './game';
-import { getNextPosition } from './getNextPosition';
+  protected y = 0;
 
-const {
-  DOWN,
-  UP,
-  LEFT,
-  RIGHT,
-} = MOVE_CONTROL_KEYS;
+  protected spriteCode = 0;
 
-const CONTROL_TO_SPRITE_CODE = {
-  [DOWN]: 4,
-  [UP]: 0,
-  [LEFT]: 2,
-  [RIGHT]: 6,
-};
-
-export class Tank {
-  private x = 0;
-
-  private y = 0;
-
-  private spriteCode = 0;
-
-  private isNextFrame = false;
+  protected isNextFrame = false;
 
   get position(): Position {
     return {
@@ -44,9 +25,7 @@ export class Tank {
     }
   }
 
-  get sprite(): Sprite {
-    return [(this.spriteCode + +this.isNextFrame) * CELL_SIZE, 0, CELL_SIZE, CELL_SIZE];
-  }
+  abstract get sprite(): Sprite;
 
   setSpriteCode(code: number) {
     this.spriteCode = code;
@@ -54,28 +33,5 @@ export class Tank {
 
   toggleIsNextFrame() {
     this.isNextFrame = !this.isNextFrame;
-  }
-
-  update(activeControlKeys: Set<CONTROL_KEYS>, withMove: boolean) {
-    let activeKey: MOVE_CONTROL_KEYS | null = null;
-
-    if (activeControlKeys.has(DOWN)) {
-      activeKey = DOWN;
-    } else if (activeControlKeys.has(UP)) {
-      activeKey = UP;
-    } else if (activeControlKeys.has(LEFT)) {
-      activeKey = LEFT;
-    } else if (activeControlKeys.has(RIGHT)) {
-      activeKey = RIGHT;
-    }
-
-    if (activeKey && withMove) {
-      this.position = getNextPosition(this.position, activeKey);
-      this.toggleIsNextFrame();
-    }
-
-    if (activeKey) {
-      this.setSpriteCode(CONTROL_TO_SPRITE_CODE[activeKey]);
-    }
   }
 }
