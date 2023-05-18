@@ -1,4 +1,4 @@
-import { Sprite } from './types';
+import { Sprite, Collider } from './types';
 
 export const CANVAS_WIDTH = 208;
 export const CANVAS_HEIGHT = 208;
@@ -43,7 +43,7 @@ export const LEVEL_OBJECT_SPRITE_CODE = {
   [STANDARD]: [19, 2],
 };
 
-export enum COLLIDER {
+export enum COLLIDER_TYPE {
   NONE,
   WHOLE,
   LEFT,
@@ -59,9 +59,9 @@ const {
   RIGHT,
   TOP,
   BOTTOM,
-} = COLLIDER;
+} = COLLIDER_TYPE;
 
-export const COLLIDER_BORDERS: Record<COLLIDER, [number, number, number, number] | null> = {
+export const COLLIDER_BORDERS: Record<COLLIDER_TYPE, Collider | null> = {
   [NONE]: null,
   [WHOLE]: [0, 0, CELL_SIZE, CELL_SIZE],
   [LEFT]: [0, 0, CELL_SIZE / 2, CELL_SIZE],

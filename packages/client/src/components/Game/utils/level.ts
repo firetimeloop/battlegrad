@@ -14,18 +14,17 @@ import {
   SHOW_COLLIDERS,
   TANK_SIZE,
 } from './consts';
-import { Position } from './types';
+import { Position, Collider } from './types';
 import { LEVELS } from '../../../assets/levelsData';
 import { getNextPosition } from './getNextPosition';
 
 // Для отрисовки коллайдеров
-// eslint-disable-next-line import/no-mutable-exports
-export let colliders: [number, number, number, number][] = [];
+export const colliders: Collider[] = [];
 
 export type Cell = {
     x: number;
     y: number;
-    spriteType: LEVEL_OBJECT;
+    spriteType?: LEVEL_OBJECT;
     colliderBorders: [number, number, number, number] | null;
 }
 
@@ -71,6 +70,27 @@ const getColliderBorderOnLevel = (
 ];
 
 const MOVE_CONTROL_KEYS_VALUES = Object.values<string>(MOVE_CONTROL_KEYS);
+
+function isCellWithoutSprite(cell: Cell): cell is CellWithoutSprite {
+  if (cell.colliderBorders) {
+    return true;
+  }
+  return false;
+}
+
+const allConditionsIsTrue = (conditions: boolean[]) => (
+  conditions.every((condition) => condition)
+);
+
+const isCollidingWithCorner = (
+  cornerCollidingConditions: boolean[],
+  otherCornerCollidingConditions: boolean[],
+) => {
+  const isCollidingWithCorner = allConditionsIsTrue(cornerCollidingConditions);
+  const isCollidingWithOtherCorner = allConditionsIsTrue(otherCornerCollidingConditions);
+  return isCollidingWithCorner || isCollidingWithOtherCorner;
+};
+
 // Модель
 export class Level {
   private player = new Tank();
@@ -97,7 +117,7 @@ export class Level {
   }
 
   update(activeControlKeys: Set<CONTROL_KEYS>, lastControlKey: LastControlKey) {
-    const isNotColiding = !this.canCollide(this.player, lastControlKey);
+    const isNotColiding = !this.isColliding(this.player, lastControlKey);
     this.player.update(activeControlKeys, isNotColiding);
     this.projectiles.forEach((projectile) => projectile.update());
     if (activeControlKeys.has(SPECIAL_CONTROL_KEYS.SPACE)) {
@@ -112,7 +132,7 @@ export class Level {
     }
   }
 
-  canCollide(tank: Tank, lastControlKey: LastControlKey) {
+  isColliding(tank: Tank, lastControlKey: LastControlKey) {
     const { lastKey } = lastControlKey;
     if (!lastKey) {
       return false;
@@ -124,71 +144,87 @@ export class Level {
       position,
       lastControlKey,
     )
-      .filter(({ colliderBorders }) => colliderBorders)
-      .map((cell) => getColliderBorderOnLevel(cell as CellWithoutSprite));
+      .filter(isCellWithoutSprite)
+      .map((cell) => getColliderBorderOnLevel(cell));
 
-    colliders = [];
+    colliders.length = 0;
     let isColliding = false;
 
     const { x: nextX, y: nextY } = getNextPosition(position, lastKey);
     if (MOVE_CONTROL_KEYS_VALUES.includes(lastKey)) {
       for (const collider of possibleCellColliders) {
         const [colliderStartX, colliderStartY, colliderEndX, colliderEndY] = collider;
+
+        // LessOrEqual - LOE
+        // GreaterOrEqual - GOE
+        const isLOENextXThanColliderEndX = nextX <= colliderEndX;
+        const isGOENextXThanColliderStartX = nextX >= colliderStartX;
+        const isGOENextYThanColliderStartY = nextY >= colliderStartY;
+        const isLOENextYThanColliderEndY = nextY <= colliderEndY;
+        const isGOENextYTankSizeThanColliderStartY = (nextY + TANK_SIZE) >= colliderStartY;
+        const isLOENextYTankSizeThanColliderEndY = (nextY + TANK_SIZE) <= colliderEndY;
+        const isGOENextXTankSizeThanColliderStartX = (nextX + TANK_SIZE) >= colliderStartX;
+        const isLOENextXTankSizeThanColliderEndX = (nextX + TANK_SIZE) <= colliderEndX;
+
         switch (lastKey) {
           case MOVE_CONTROL_KEYS.LEFT: {
-            const isCollidingWithTopRightCorner = (
-              nextX <= colliderEndX
-              && nextY >= colliderStartY
-              && nextY <= colliderEndY
+            isColliding = isCollidingWithCorner(
+              [
+                isLOENextXThanColliderEndX,
+                isGOENextYThanColliderStartY,
+                isLOENextYThanColliderEndY,
+              ],
+              [
+                isLOENextXThanColliderEndX,
+                isGOENextYTankSizeThanColliderStartY,
+                isLOENextYTankSizeThanColliderEndY,
+              ],
             );
-            const isCollidingWithBottomRightCorner = (
-              nextX <= colliderEndX
-              && (nextY + TANK_SIZE) >= colliderStartY
-              && (nextY + TANK_SIZE) <= colliderEndY
-            );
-            isColliding = isCollidingWithTopRightCorner || isCollidingWithBottomRightCorner;
             break;
           }
           case MOVE_CONTROL_KEYS.RIGHT: {
-            const isCollidingWithTopLeftCorner = (
-              nextX + TANK_SIZE >= colliderStartX
-              && nextY >= colliderStartY
-              && nextY <= colliderEndY
+            isColliding = isCollidingWithCorner(
+              [
+                isGOENextXTankSizeThanColliderStartX,
+                isGOENextYThanColliderStartY,
+                isLOENextYThanColliderEndY,
+              ],
+              [
+                isGOENextXTankSizeThanColliderStartX,
+                isGOENextYTankSizeThanColliderStartY,
+                isLOENextYTankSizeThanColliderEndY,
+              ],
             );
-            const isCollidingWithBottomLeftCorner = (
-              nextX + TANK_SIZE >= colliderStartX
-              && (nextY + TANK_SIZE) >= colliderStartY
-              && (nextY + TANK_SIZE) <= colliderEndY
-            );
-            isColliding = isCollidingWithTopLeftCorner || isCollidingWithBottomLeftCorner;
             break;
           }
           case MOVE_CONTROL_KEYS.DOWN: {
-            const isCollidingWithBottomLeftCorner = (
-              nextY + TANK_SIZE >= colliderStartY
-              && nextX >= colliderStartX
-              && nextX <= colliderEndX
+            isColliding = isCollidingWithCorner(
+              [
+                isGOENextYTankSizeThanColliderStartY,
+                isGOENextXThanColliderStartX,
+                isLOENextXThanColliderEndX,
+              ],
+              [
+                isGOENextYTankSizeThanColliderStartY,
+                isGOENextXTankSizeThanColliderStartX,
+                isLOENextXTankSizeThanColliderEndX,
+              ],
             );
-            const isCollidingWithBottomRightCorner = (
-              nextY + TANK_SIZE >= colliderStartY
-              && (nextX + TANK_SIZE) >= colliderStartX
-              && (nextX + TANK_SIZE) <= colliderEndX
-            );
-            isColliding = isCollidingWithBottomRightCorner || isCollidingWithBottomLeftCorner;
             break;
           }
           case MOVE_CONTROL_KEYS.UP: {
-            const isCollidingWithTopLeftCorner = (
-              nextY <= colliderEndY
-              && nextX >= colliderStartX
-              && nextX <= colliderEndX
+            isColliding = isCollidingWithCorner(
+              [
+                isLOENextYThanColliderEndY,
+                isGOENextXThanColliderStartX,
+                isLOENextXThanColliderEndX,
+              ],
+              [
+                isLOENextYThanColliderEndY,
+                isGOENextXTankSizeThanColliderStartX,
+                isLOENextXTankSizeThanColliderEndX,
+              ],
             );
-            const isCollidingWithTopRightCorner = (
-              nextY <= colliderEndY
-              && (nextX + TANK_SIZE) >= colliderStartX
-              && (nextX + TANK_SIZE) <= colliderEndX
-            );
-            isColliding = isCollidingWithTopLeftCorner || isCollidingWithTopRightCorner;
             break;
           }
           default: break;
