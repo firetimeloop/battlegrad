@@ -28,6 +28,7 @@ module.exports = {
     'no-param-reassign': 'off',
     // чтобы не ругался на enum
     'no-shadow': 'off',
+    'no-restricted-syntax': 'off',
     '@typescript-eslint/no-shadow': 'warn',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
