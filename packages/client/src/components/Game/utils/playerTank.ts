@@ -1,16 +1,16 @@
 import { Tank } from './tank';
 import { CELL_SIZE } from './consts';
-import { MOVE_CONTROL_KEYS, CONTROL_KEYS, moveControlKeysToTankMoveDirection } from './game';
+import { MOVE_CONTROL_KEYS, CONTROL_KEYS, TANK_MOVE_DIRECTION } from './game';
 import { getNextPosition } from './getNextPosition';
 import { Sprite } from './types';
 
 const { DOWN, UP, LEFT, RIGHT } = MOVE_CONTROL_KEYS;
 
-const CONTROL_TO_SPRITE_CODE = {
-  [DOWN]: 4,
-  [UP]: 0,
-  [LEFT]: 2,
-  [RIGHT]: 6,
+const DIRECTION_TO_SPRITE_CODE = {
+  [TANK_MOVE_DIRECTION.DOWN]: 4,
+  [TANK_MOVE_DIRECTION.UP]: 0,
+  [TANK_MOVE_DIRECTION.LEFT]: 2,
+  [TANK_MOVE_DIRECTION.RIGHT]: 6,
 };
 
 export class PlayerTank extends Tank {
@@ -33,22 +33,23 @@ export class PlayerTank extends Tank {
 
     if (activeControlKeys.has(DOWN)) {
       activeKey = DOWN;
+      this.currentDirection = TANK_MOVE_DIRECTION.DOWN;
     } else if (activeControlKeys.has(UP)) {
       activeKey = UP;
+      this.currentDirection = TANK_MOVE_DIRECTION.UP;
     } else if (activeControlKeys.has(LEFT)) {
       activeKey = LEFT;
+      this.currentDirection = TANK_MOVE_DIRECTION.LEFT;
     } else if (activeControlKeys.has(RIGHT)) {
       activeKey = RIGHT;
+      this.currentDirection = TANK_MOVE_DIRECTION.RIGHT;
     }
 
     if (activeKey && withMove) {
-      const tankMoveDirection = moveControlKeysToTankMoveDirection(activeKey);
-      this.position = getNextPosition(this.position, tankMoveDirection);
+      this.position = getNextPosition(this.position, this.currentDirection);
       this.toggleIsNextFrame();
     }
 
-    if (activeKey) {
-      this.setSpriteCode(CONTROL_TO_SPRITE_CODE[activeKey]);
-    }
+    this.setSpriteCode(DIRECTION_TO_SPRITE_CODE[this.currentDirection]);
   }
 }

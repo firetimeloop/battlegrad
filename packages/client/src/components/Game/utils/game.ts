@@ -20,31 +20,6 @@ export enum TANK_MOVE_DIRECTION {
   LEFT = 'LEFT',
 }
 
-export const moveControlKeysToTankMoveDirection = (
-  moveControlKey: MOVE_CONTROL_KEYS,
-): TANK_MOVE_DIRECTION => {
-  switch (moveControlKey) {
-    case MOVE_CONTROL_KEYS.UP: {
-      return TANK_MOVE_DIRECTION.UP;
-    }
-
-    case MOVE_CONTROL_KEYS.DOWN: {
-      return TANK_MOVE_DIRECTION.DOWN;
-    }
-
-    case MOVE_CONTROL_KEYS.LEFT: {
-      return TANK_MOVE_DIRECTION.LEFT;
-    }
-
-    case MOVE_CONTROL_KEYS.RIGHT: {
-      return TANK_MOVE_DIRECTION.RIGHT;
-    }
-
-    default:
-      return TANK_MOVE_DIRECTION.DOWN;
-  }
-};
-
 export type CONTROL_KEYS = MOVE_CONTROL_KEYS | SPECIAL_CONTROL_KEYS;
 
 const MOVE_CONTROL_KEYS_VALUES = Object.values(MOVE_CONTROL_KEYS).reduce(

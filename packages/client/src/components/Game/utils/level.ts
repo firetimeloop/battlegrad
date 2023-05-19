@@ -6,7 +6,6 @@ import {
   CONTROL_KEYS,
   LastControlKey,
   TANK_MOVE_DIRECTION,
-  moveControlKeysToTankMoveDirection,
 } from './game';
 import {
   CELL_SIZE,
@@ -23,16 +22,19 @@ import { EnemyTank } from './enemyTank';
 import { DefaultEnemyTank } from './defaultEnemyTank';
 import { throttle } from '../../../utils/throttle';
 import { Tank } from './tank';
+import { getRandomValue } from '../../../utils/random';
+
+export const isTimeToShotEnemyTank = () => getRandomValue() % 128 === 0;
 
 // Для отрисовки коллайдеров
 export const colliders: Collider[] = [];
 
 export type Cell = {
-    x: number;
-    y: number;
-    spriteType?: LEVEL_OBJECT;
-    colliderBorders: [number, number, number, number] | null;
-}
+  x: number;
+  y: number;
+  spriteType?: LEVEL_OBJECT;
+  colliderBorders: [number, number, number, number] | null;
+};
 
 type CellWithoutSprite = Omit<Cell, 'spriteType' | 'colliderBorders'> & {
   colliderBorders: [number, number, number, number];
@@ -40,28 +42,26 @@ type CellWithoutSprite = Omit<Cell, 'spriteType' | 'colliderBorders'> & {
 
 const PROJECTILE_VELOCITY = 5;
 
-const getVelocity = (lastControlKey: LastControlKey) => {
-  const { lastKey } = lastControlKey;
-
-  if (lastKey === MOVE_CONTROL_KEYS.UP) {
+const getVelocity = (tankMoveDirection: TANK_MOVE_DIRECTION) => {
+  if (tankMoveDirection === TANK_MOVE_DIRECTION.UP) {
     return {
       y: -PROJECTILE_VELOCITY,
       x: 0,
     };
   }
-  if (lastKey === MOVE_CONTROL_KEYS.DOWN) {
+  if (tankMoveDirection === TANK_MOVE_DIRECTION.DOWN) {
     return {
       y: PROJECTILE_VELOCITY,
       x: 0,
     };
   }
-  if (lastKey === MOVE_CONTROL_KEYS.LEFT) {
+  if (tankMoveDirection === TANK_MOVE_DIRECTION.LEFT) {
     return {
       x: -PROJECTILE_VELOCITY,
       y: 0,
     };
   }
-  if (lastKey === MOVE_CONTROL_KEYS.RIGHT) {
+  if (tankMoveDirection === TANK_MOVE_DIRECTION.RIGHT) {
     return {
       x: PROJECTILE_VELOCITY,
       y: 0,
@@ -92,16 +92,17 @@ function isCellWithoutSprite(cell: Cell): cell is CellWithoutSprite {
   return false;
 }
 
-const allConditionsIsTrue = (conditions: boolean[]) => (
-  conditions.every((condition) => condition)
-);
+const allConditionsIsTrue = (conditions: boolean[]) =>
+  conditions.every((condition) => condition);
 
 const isCollidingWithCorner = (
   cornerCollidingConditions: boolean[],
   otherCornerCollidingConditions: boolean[],
 ) => {
   const isCollidingWithCorner = allConditionsIsTrue(cornerCollidingConditions);
-  const isCollidingWithOtherCorner = allConditionsIsTrue(otherCornerCollidingConditions);
+  const isCollidingWithOtherCorner = allConditionsIsTrue(
+    otherCornerCollidingConditions,
+  );
   return isCollidingWithCorner || isCollidingWithOtherCorner;
 };
 
@@ -115,10 +116,6 @@ export class Level {
       x: 0,
       y: 0,
     },
-    // {
-    //   x: 13,
-    //   y: 13,
-    // },
   ];
 
   private player = new PlayerTank();
@@ -151,48 +148,41 @@ export class Level {
   }
 
   update(activeControlKeys: Set<CONTROL_KEYS>, lastControlKey: LastControlKey) {
-    if (this.isEnemySpawnAvailable) {
-      this.spawnEnemy();
-    }
-
     if (
       lastControlKey.lastKey &&
       MOVE_CONTROL_KEYS_VALUES.includes(lastControlKey.lastKey)
     ) {
-      const tankMoveDirection = moveControlKeysToTankMoveDirection(
-        lastControlKey.lastKey as MOVE_CONTROL_KEYS,
-      );
-
-      const isNotColiding = !this.isColliding(this.player, tankMoveDirection);
+      const isNotColiding = !this.isColliding(this.player);
       this.player.update(activeControlKeys, isNotColiding);
     }
 
     this.enemies.forEach((enemy) => {
-      const isEnemyNotColiding = !this.enemyCanCollide(enemy);
+      const isEnemyNotColiding = !this.isColliding(enemy);
 
       enemy.update(isEnemyNotColiding);
+
+      if (isTimeToShotEnemyTank()) {
+        this.enemyCannonShot(enemy);
+      }
     });
     this.projectiles.forEach((projectile) => projectile.update());
     if (activeControlKeys.has(SPECIAL_CONTROL_KEYS.SPACE)) {
-      const { x, y } = this.player.position;
-      const velocity = getVelocity(lastControlKey);
-
-      if (velocity) {
-        this.projectiles.push(
-          new Projectile(x + TANK_SIZE / 2, y + TANK_SIZE / 2, velocity),
-        );
-      }
+      this.cannonShot(this.player);
 
       activeControlKeys.delete(SPECIAL_CONTROL_KEYS.SPACE);
     }
+
+    if (this.isEnemySpawnAvailable) {
+      this.spawnEnemy();
+    }
   }
 
-  isColliding(tank: Tank, lastControlKey: LastControlKey) {
-    const { position } = tank;
+  isColliding(tank: Tank) {
+    const { position, currentDirection } = tank;
 
     const possibleCellColliders = this.getPossibleCollidingCells(
       position,
-      tankMoveDirection,
+      currentDirection,
     )
       .filter(isCellWithoutSprite)
       .map((cell) => getColliderBorderOnLevel(cell));
@@ -200,109 +190,85 @@ export class Level {
     colliders.length = 0;
     let isColliding = false;
 
-    const { x: nextX, y: nextY } = getNextPosition(position, lastKey);
-    if (MOVE_CONTROL_KEYS_VALUES.includes(lastKey)) {
-      for (const collider of possibleCellColliders) {
-        const [colliderStartX, colliderStartY, colliderEndX, colliderEndY] = collider;
+    const { x: nextX, y: nextY } = getNextPosition(position, currentDirection);
+    for (const collider of possibleCellColliders) {
+      const [colliderStartX, colliderStartY, colliderEndX, colliderEndY] =
+        collider;
 
-        // LessOrEqual - LOE
-        // GreaterOrEqual - GOE
-        const isLOENextXThanColliderEndX = nextX <= colliderEndX;
-        const isGOENextXThanColliderStartX = nextX >= colliderStartX;
-        const isGOENextYThanColliderStartY = nextY >= colliderStartY;
-        const isLOENextYThanColliderEndY = nextY <= colliderEndY;
-        const isGOENextYTankSizeThanColliderStartY = (nextY + TANK_SIZE) >= colliderStartY;
-        const isLOENextYTankSizeThanColliderEndY = (nextY + TANK_SIZE) <= colliderEndY;
-        const isGOENextXTankSizeThanColliderStartX = (nextX + TANK_SIZE) >= colliderStartX;
-        const isLOENextXTankSizeThanColliderEndX = (nextX + TANK_SIZE) <= colliderEndX;
+      // LessOrEqual - LOE
+      // GreaterOrEqual - GOE
+      const isLOENextXThanColliderEndX = nextX <= colliderEndX;
+      const isGOENextXThanColliderStartX = nextX >= colliderStartX;
+      const isGOENextYThanColliderStartY = nextY >= colliderStartY;
+      const isLOENextYThanColliderEndY = nextY <= colliderEndY;
+      const isGOENextYTankSizeThanColliderStartY =
+        nextY + TANK_SIZE >= colliderStartY;
+      const isLOENextYTankSizeThanColliderEndY =
+        nextY + TANK_SIZE <= colliderEndY;
+      const isGOENextXTankSizeThanColliderStartX =
+        nextX + TANK_SIZE >= colliderStartX;
+      const isLOENextXTankSizeThanColliderEndX =
+        nextX + TANK_SIZE <= colliderEndX;
 
-        switch (lastKey) {
-          case MOVE_CONTROL_KEYS.LEFT: {
-            isColliding = isCollidingWithCorner(
-              [
-                isLOENextXThanColliderEndX,
-                isGOENextYThanColliderStartY,
-                isLOENextYThanColliderEndY,
-              ],
-              [
-                isLOENextXThanColliderEndX,
-                isGOENextYTankSizeThanColliderStartY,
-                isLOENextYTankSizeThanColliderEndY,
-              ],
-            );
-            break;
-          }
-          case MOVE_CONTROL_KEYS.RIGHT: {
-            isColliding = isCollidingWithCorner(
-              [
-                isGOENextXTankSizeThanColliderStartX,
-                isGOENextYThanColliderStartY,
-                isLOENextYThanColliderEndY,
-              ],
-              [
-                isGOENextXTankSizeThanColliderStartX,
-                isGOENextYTankSizeThanColliderStartY,
-                isLOENextYTankSizeThanColliderEndY,
-              ],
-            );
-            break;
-          }
-          case MOVE_CONTROL_KEYS.DOWN: {
-            isColliding = isCollidingWithCorner(
-              [
-                isGOENextYTankSizeThanColliderStartY,
-                isGOENextXThanColliderStartX,
-                isLOENextXThanColliderEndX,
-              ],
-              [
-                isGOENextYTankSizeThanColliderStartY,
-                isGOENextXTankSizeThanColliderStartX,
-                isLOENextXTankSizeThanColliderEndX,
-              ],
-            );
-            break;
-          }
-          case MOVE_CONTROL_KEYS.UP: {
-            isColliding = isCollidingWithCorner(
-              [
-                isLOENextYThanColliderEndY,
-                isGOENextXThanColliderStartX,
-                isLOENextXThanColliderEndX,
-              ],
-              [
-                isLOENextYThanColliderEndY,
-                isGOENextXTankSizeThanColliderStartX,
-                isLOENextXTankSizeThanColliderEndX,
-              ],
-            );
-            break;
-          }
-          default: break;
+      switch (currentDirection) {
+        case TANK_MOVE_DIRECTION.LEFT: {
+          isColliding = isCollidingWithCorner(
+            [
+              isLOENextXThanColliderEndX,
+              isGOENextYThanColliderStartY,
+              isLOENextYThanColliderEndY,
+            ],
+            [
+              isLOENextXThanColliderEndX,
+              isGOENextYTankSizeThanColliderStartY,
+              isLOENextYTankSizeThanColliderEndY,
+            ],
+          );
+          break;
+        }
+        case TANK_MOVE_DIRECTION.RIGHT: {
+          isColliding = isCollidingWithCorner(
+            [
+              isGOENextXTankSizeThanColliderStartX,
+              isGOENextYThanColliderStartY,
+              isLOENextYThanColliderEndY,
+            ],
+            [
+              isGOENextXTankSizeThanColliderStartX,
+              isGOENextYTankSizeThanColliderStartY,
+              isLOENextYTankSizeThanColliderEndY,
+            ],
+          );
+          break;
         }
         case TANK_MOVE_DIRECTION.DOWN: {
-          const isCollidingWithBottomLeftCorner =
-            nextY + TANK_SIZE >= colliderStartY &&
-            nextX >= colliderStartX &&
-            nextX <= colliderEndX;
-          const isCollidingWithBottomRightCorner =
-            nextY + TANK_SIZE >= colliderStartY &&
-            nextX + TANK_SIZE >= colliderStartX &&
-            nextX + TANK_SIZE <= colliderEndX;
-          isColliding =
-            isCollidingWithBottomRightCorner || isCollidingWithBottomLeftCorner;
+          isColliding = isCollidingWithCorner(
+            [
+              isGOENextYTankSizeThanColliderStartY,
+              isGOENextXThanColliderStartX,
+              isLOENextXThanColliderEndX,
+            ],
+            [
+              isGOENextYTankSizeThanColliderStartY,
+              isGOENextXTankSizeThanColliderStartX,
+              isLOENextXTankSizeThanColliderEndX,
+            ],
+          );
           break;
         }
         case TANK_MOVE_DIRECTION.UP: {
-          const isCollidingWithTopLeftCorner =
-            nextY <= colliderEndY &&
-            nextX >= colliderStartX &&
-            nextX <= colliderEndX;
-          const isCollidingWithTopRightCorner =
-            nextY <= colliderEndY &&
-            nextX + TANK_SIZE >= colliderStartX &&
-            nextX + TANK_SIZE <= colliderEndX;
-          isColliding =
-            isCollidingWithTopLeftCorner || isCollidingWithTopRightCorner;
+          isColliding = isCollidingWithCorner(
+            [
+              isLOENextYThanColliderEndY,
+              isGOENextXThanColliderStartX,
+              isLOENextXThanColliderEndX,
+            ],
+            [
+              isLOENextYThanColliderEndY,
+              isGOENextXTankSizeThanColliderStartX,
+              isLOENextXTankSizeThanColliderEndX,
+            ],
+          );
           break;
         }
         default:
@@ -375,20 +341,28 @@ export class Level {
     return result;
   }
 
-  enemyCanCollide(enemy: EnemyTank) {
-    return this.canCollide(enemy, enemy.currentDirection);
-  }
-
   spawnEnemy = throttle(
     () => {
       const spawnPosition = this.spawnPoints[0];
-      const spawnTimestamp = new Date().valueOf();
 
-      this.enemies.push(new DefaultEnemyTank(spawnTimestamp, spawnPosition));
+      this.enemies.push(new DefaultEnemyTank(spawnPosition));
     },
-    3000,
+    5000,
     this,
   );
+
+  cannonShot(tank: Tank) {
+    const { x, y } = tank.position;
+    const velocity = getVelocity(tank.currentDirection);
+
+    if (velocity) {
+      this.projectiles.push(
+        new Projectile(x + TANK_SIZE / 2, y + TANK_SIZE / 2, velocity),
+      );
+    }
+  }
+
+  enemyCannonShot = throttle(this.cannonShot, 5000, this);
 
   getPlayer() {
     return this.player;

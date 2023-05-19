@@ -3,6 +3,7 @@ import { Tank } from './tank';
 import { getNextPosition } from './getNextPosition';
 import { Position } from './types';
 import { TANK_MOVE_DIRECTION } from './game';
+import { getRandomValue } from '../../../utils/random';
 
 const MapRandomNumberToEnemyTankMoveDirection = new Map<
   number,
@@ -14,9 +15,9 @@ MapRandomNumberToEnemyTankMoveDirection.set(0, TANK_MOVE_DIRECTION.UP)
   .set(2, TANK_MOVE_DIRECTION.RIGHT)
   .set(3, TANK_MOVE_DIRECTION.LEFT);
 
-const FIRST_BEHAVIOR_STAGE = 10;
-
-const SECOND_BEHAVIOR_STAGE = 10;
+function isTimeToChangeDirectionForEnemyTank() {
+  return getRandomValue() % 64 === 0;
+}
 
 function getRandomDirection() {
   const randomNumber = Math.floor(Math.random() * 4);
@@ -28,10 +29,7 @@ function getRandomDirection() {
 }
 
 export abstract class EnemyTank extends Tank {
-  protected __currentDirection = TANK_MOVE_DIRECTION.DOWN;
-
   constructor(
-    private respawnTimestamp: number,
     protected spawnPosition: Position,
     protected spriteLevel: number,
   ) {
@@ -44,12 +42,7 @@ export abstract class EnemyTank extends Tank {
   }
 
   update(canMove: boolean) {
-    const randomValue = Math.floor(Math.random() * 256);
-    console.log('randomValue: ', randomValue);
-    console.log('position.x: ', this.position.x);
-    console.log('position.y: ', this.position.y);
-
-    if (randomValue % 16 === 0) {
+    if (isTimeToChangeDirectionForEnemyTank()) {
       const newDirection = getRandomDirection();
       this.__currentDirection = newDirection;
     }

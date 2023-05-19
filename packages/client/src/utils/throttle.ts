@@ -1,15 +1,19 @@
-export function throttle(callback: any, wait: number, context: any) {
+export function throttle(
+  callback: (...args: any[]) => any,
+  wait: number,
+  context: any,
+): (...args: any[]) => any {
   let isCooldown = false;
 
   let lastArguments: any;
 
-  return () => {
+  return (...args: any[]) => {
     if (isCooldown) {
-      lastArguments = arguments;
+      lastArguments = args;
       return;
     }
 
-    callback.apply(context, arguments);
+    callback.apply(context, args);
 
     isCooldown = true;
 

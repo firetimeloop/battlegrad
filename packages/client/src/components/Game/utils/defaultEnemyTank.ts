@@ -13,8 +13,8 @@ const DIRECTION_TO_SPRITE_CODE = {
 };
 
 export class DefaultEnemyTank extends EnemyTank {
-  constructor(respawnTimestamp: number, spawnPosition: Position) {
-    super(respawnTimestamp, spawnPosition, DEFAULT_ENEMY_TANK_SPRITE_LEVEL);
+  constructor(spawnPosition: Position) {
+    super(spawnPosition, DEFAULT_ENEMY_TANK_SPRITE_LEVEL);
   }
 
   get sprite(): Sprite {
