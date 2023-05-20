@@ -71,16 +71,19 @@ export class LevelView {
     for (let i = 0; i < currentLevel.length; i += 1) {
       for (let j = 0; j < currentLevel[i].length; j += 1) {
         const { x, y, spriteType } = currentLevel[i][j];
-        const sprite = SPRITE_MAP[spriteType];
 
-        this.context.drawImage(
-          spriteImage,
-          ...sprite,
-          x,
-          y,
-          CELL_SIZE,
-          CELL_SIZE,
-        );
+        if (spriteType !== undefined) {
+          const sprite = SPRITE_MAP[spriteType];
+
+          this.context.drawImage(
+            spriteImage,
+            ...sprite,
+            x,
+            y,
+            CELL_SIZE,
+            CELL_SIZE,
+          );
+        }
       }
     }
 
