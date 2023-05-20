@@ -28,6 +28,8 @@ export class Tank {
 
   private isNextFrame = false;
 
+  private cooldown = 0;
+
   get position(): Position {
     return {
       x: this.x,
@@ -46,6 +48,14 @@ export class Tank {
 
   get sprite(): Sprite {
     return [(this.spriteCode + +this.isNextFrame) * CELL_SIZE, 0, CELL_SIZE, CELL_SIZE];
+  }
+
+  get canShoot(): boolean {
+    return this.cooldown === 0;
+  }
+
+  shoot(): void {
+    this.cooldown = 60;
   }
 
   setSpriteCode(code: number) {
@@ -76,6 +86,10 @@ export class Tank {
 
     if (activeKey) {
       this.setSpriteCode(CONTROL_TO_SPRITE_CODE[activeKey]);
+    }
+
+    if (this.cooldown) {
+      this.cooldown -= 1;
     }
   }
 }

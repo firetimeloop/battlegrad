@@ -1,20 +1,39 @@
-// Mock пуль, надо будет переделать на спрайтовые, когда взаимодействие с объектами будем делать
-// сейчас так, чтобы хоть что-то рисовалось при нажатии на Пробел
-import { Position, PartialPosition } from './types';
+import { PartialPosition, Position, Sprite } from './types';
+
+export enum Direction {
+  up = 'up',
+  right = 'right',
+  down = 'down',
+  left = 'left',
+}
 
 export class Projectile {
-  private _radius = 2;
-
-  private _color = '#fff';
-
   constructor(
         private x: number,
         private y: number,
+        private direction: Direction,
         private velocity: {
             x: number;
             y: number;
         },
   ) {}
+
+  get sprite(): Sprite {
+    switch (this.direction) {
+      case Direction.up: {
+        return [323, 102, 3, 4];
+      }
+      case Direction.right: {
+        return [346, 102, 4, 3];
+      }
+      case Direction.down: {
+        return [339, 102, 3, 4];
+      }
+      case Direction.left: default: {
+        return [330, 102, 4, 3];
+      }
+    }
+  }
 
   get position(): Position {
     return {
@@ -35,13 +54,5 @@ export class Projectile {
   update() {
     this.x += this.velocity.x;
     this.y += this.velocity.y;
-  }
-
-  get radius() {
-    return this._radius;
-  }
-
-  get color() {
-    return this._color;
   }
 }
