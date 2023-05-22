@@ -2,12 +2,7 @@ import { Sprite } from './sprite';
 import type { Level } from './level';
 import type { Tank } from './tank';
 import { Cell, colliders } from './level';
-import {
-  SPRITE_MAP,
-  CELL_SIZE,
-  SHOW_COLLIDERS,
-  TANK_SIZE,
-} from './consts';
+import { SPRITE_MAP, CELL_SIZE, SHOW_COLLIDERS, TANK_SIZE } from './consts';
 import { Projectile } from './projectile';
 
 type InitControlFunction = (code: string) => void;
@@ -15,11 +10,14 @@ type InitControlFunction = (code: string) => void;
 // Представление уровня
 export class LevelView {
   constructor(
-        private context: CanvasRenderingContext2D,
-        private sprite: Sprite,
+    private context: CanvasRenderingContext2D,
+    private sprite: Sprite,
   ) {}
 
-  async init(initKeyDownControls: InitControlFunction, initKeyUpControls: InitControlFunction) {
+  async init(
+    initKeyDownControls: InitControlFunction,
+    initKeyUpControls: InitControlFunction,
+  ) {
     document.addEventListener('keydown', (event) => {
       const { code } = event;
       initKeyDownControls(code);
@@ -37,9 +35,11 @@ export class LevelView {
     const player = level.getPlayer();
     const currentLevel = level.getLevel();
     const projectiles = level.getProjectiles();
+    const enemies = level.getEnemies();
     this.renderLevel(currentLevel);
     this.renderPlayer(player);
     this.renderProjectiles(projectiles);
+    this.renderEnemies(enemies);
   }
 
   renderPlayer(player: Tank) {
@@ -63,6 +63,22 @@ export class LevelView {
         TANK_SIZE,
       );
     }
+  }
+
+  renderEnemies(enemies: Tank[]) {
+    const spriteImage = this.sprite.getImage();
+    enemies.forEach((enemy) => {
+      const { position } = enemy;
+
+      this.context.drawImage(
+        spriteImage,
+        ...enemy.sprite,
+        position.x,
+        position.y,
+        TANK_SIZE,
+        TANK_SIZE,
+      );
+    });
   }
 
   renderLevel(currentLevel: Cell[][]) {

@@ -1,33 +1,32 @@
 import { Position } from './types';
-import { CONTROL_KEYS, MOVE_CONTROL_KEYS } from './game';
-import {
-  CANVAS_HEIGHT,
-  CANVAS_WIDTH,
-  CELL_SIZE,
-} from './consts';
+import { TANK_MOVE_DIRECTION } from './game';
+import { CANVAS_HEIGHT, CANVAS_WIDTH, CELL_SIZE } from './consts';
 
-export const getNextPosition = (position: Position, activeKey: CONTROL_KEYS) => {
+export const getNextPosition = (
+  position: Position,
+  tankMoveDirection: TANK_MOVE_DIRECTION,
+) => {
   const { x, y } = position;
   const nextPosition = {
     ...position,
   };
 
-  switch (activeKey) {
-    case MOVE_CONTROL_KEYS.DOWN: {
+  switch (tankMoveDirection) {
+    case TANK_MOVE_DIRECTION.DOWN: {
       if (y <= CANVAS_HEIGHT - CELL_SIZE) {
         nextPosition.y = y + 1;
       }
       break;
     }
-    case MOVE_CONTROL_KEYS.UP: {
+    case TANK_MOVE_DIRECTION.UP: {
       nextPosition.y = y - 1;
       break;
     }
-    case MOVE_CONTROL_KEYS.LEFT: {
+    case TANK_MOVE_DIRECTION.LEFT: {
       nextPosition.x = x - 1;
       break;
     }
-    case MOVE_CONTROL_KEYS.RIGHT: {
+    case TANK_MOVE_DIRECTION.RIGHT: {
       if (x <= CANVAS_WIDTH - CELL_SIZE) {
         nextPosition.x = x + 1;
       }

@@ -47,12 +47,7 @@ module.exports = {
     'react/jsx-filename-extension': [
       2,
       {
-        extensions: [
-          '.js',
-          '.jsx',
-          '.ts',
-          '.tsx',
-        ],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     ],
     'import/extensions': [
@@ -70,6 +65,9 @@ module.exports = {
     'object-curly-newline': 'off',
     'react/jsx-closing-bracket-location': 'off',
     'operator-linebreak': 'off',
+    'prefer-rest-params': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'function-paren-newline': 'off',
   },
   settings: {
     'import/resolver': {
