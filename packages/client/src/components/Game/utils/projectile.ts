@@ -7,6 +7,13 @@ export enum Direction {
   left = 'left',
 }
 
+const ProjectileSprite: Record<string, Sprite> = {
+  [Direction.up]: [323, 102, 3, 4],
+  [Direction.right]: [346, 102, 4, 3],
+  [Direction.down]: [339, 102, 3, 4],
+  [Direction.left]: [330, 102, 4, 3],
+};
+
 export class Projectile {
   constructor(
         private x: number,
@@ -19,20 +26,7 @@ export class Projectile {
   ) {}
 
   get sprite(): Sprite {
-    switch (this.direction) {
-      case Direction.up: {
-        return [323, 102, 3, 4];
-      }
-      case Direction.right: {
-        return [346, 102, 4, 3];
-      }
-      case Direction.down: {
-        return [339, 102, 3, 4];
-      }
-      case Direction.left: default: {
-        return [330, 102, 4, 3];
-      }
-    }
+    return ProjectileSprite[this.direction];
   }
 
   get position(): Position {

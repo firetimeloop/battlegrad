@@ -1,5 +1,9 @@
 import { Position, Sprite } from './types';
 
+const ExplosionSpriteStart: Sprite = [259, 130, 10, 10];
+const ExplosionSpriteMiddle: Sprite = [273, 129, 13, 13];
+const ExplosionSpriteEnd: Sprite = [288, 128, 16, 16];
+
 export class Explosion {
   public counter = 0;
 
@@ -13,12 +17,12 @@ export class Explosion {
 
   get sprite(): Sprite {
     if (this.counter > 20) {
-      return [259, 130, 10, 10];
+      return ExplosionSpriteStart;
     }
     if (this.counter > 10) {
-      return [273, 129, 13, 13];
+      return ExplosionSpriteMiddle;
     }
-    return [288, 128, 16, 16];
+    return ExplosionSpriteEnd;
   }
 
   get position(): Position {
