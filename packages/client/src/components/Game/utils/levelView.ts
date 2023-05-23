@@ -1,3 +1,4 @@
+import { Explosion } from '@components/Game/utils/explosion';
 import { Sprite } from './sprite';
 import type { Level } from './level';
 import type { Tank } from './tank';
@@ -36,10 +37,12 @@ export class LevelView {
     const currentLevel = level.getLevel();
     const projectiles = level.getProjectiles();
     const enemies = level.getEnemies();
+    const explosions = level.getExplosions();
     this.renderLevel(currentLevel);
     this.renderPlayer(player);
     this.renderProjectiles(projectiles);
     this.renderEnemies(enemies);
+    this.renderExplosions(explosions);
   }
 
   renderPlayer(player: Tank) {
@@ -114,13 +117,43 @@ export class LevelView {
 
   renderProjectiles(projectiles: Projectile[]) {
     projectiles.forEach((projectile) => {
-      const { x, y } = projectile.position;
-      const { radius } = projectile;
-      const { color } = projectile;
-      this.context.beginPath();
-      this.context.arc(x, y, radius, 0, Math.PI * 2);
-      this.context.fillStyle = color;
-      this.context.fill();
+      const { position, sprite } = projectile;
+      const { x, y } = position;
+
+      const spriteImage = this.sprite.getImage();
+
+      const width = sprite[2];
+      const height = sprite[3];
+
+      this.context.drawImage(
+        spriteImage,
+        ...sprite,
+        x,
+        y,
+        width,
+        height,
+      );
+    });
+  }
+
+  renderExplosions(explosions: Explosion[]) {
+    explosions.forEach((explosion) => {
+      const { position, sprite } = explosion;
+      const { x, y } = position;
+
+      const spriteImage = this.sprite.getImage();
+
+      const width = sprite[2];
+      const height = sprite[3];
+
+      this.context.drawImage(
+        spriteImage,
+        ...sprite,
+        x - width / 2,
+        y - height / 2,
+        width,
+        height,
+      );
     });
   }
 }

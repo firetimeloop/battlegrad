@@ -1,5 +1,5 @@
 import { PartialPosition, Position, Sprite } from './types';
-import { TANK_MOVE_DIRECTION } from './game';
+import { MOVE_DIRECTION } from './game';
 
 export abstract class Tank {
   protected x = 0;
@@ -10,13 +10,13 @@ export abstract class Tank {
 
   protected isNextFrame = false;
 
-  protected __currentDirection: TANK_MOVE_DIRECTION = TANK_MOVE_DIRECTION.UP;
+  protected __currentDirection: MOVE_DIRECTION = MOVE_DIRECTION.UP;
 
-  get currentDirection(): TANK_MOVE_DIRECTION {
+  get currentDirection(): MOVE_DIRECTION {
     return this.__currentDirection;
   }
 
-  set currentDirection(tankMoveDirection: TANK_MOVE_DIRECTION) {
+  set currentDirection(tankMoveDirection: MOVE_DIRECTION) {
     this.__currentDirection = tankMoveDirection;
   }
 

@@ -13,7 +13,7 @@ export enum SPECIAL_CONTROL_KEYS {
   ENTER = 'Enter',
 }
 
-export enum TANK_MOVE_DIRECTION {
+export enum MOVE_DIRECTION {
   UP = 'UP',
   DOWN = 'DOWN',
   RIGHT = 'RIGHT',

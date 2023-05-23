@@ -1,27 +1,30 @@
+import { Explosion } from '@components/Game/utils/explosion';
 import { PlayerTank } from './playerTank';
 import { Projectile } from './projectile';
 import {
-  MOVE_CONTROL_KEYS,
-  SPECIAL_CONTROL_KEYS,
   CONTROL_KEYS,
   LastControlKey,
-  TANK_MOVE_DIRECTION,
+  MOVE_CONTROL_KEYS,
+  MOVE_DIRECTION,
+  SPECIAL_CONTROL_KEYS,
 } from './game';
+import { Tank } from './tank';
 import {
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
   CELL_SIZE,
+  COLLIDER_BORDERS,
   LEVEL_OBJECT,
   LEVEL_OBJECT_COLLIDER_MAP,
-  COLLIDER_BORDERS,
   SHOW_COLLIDERS,
   TANK_SIZE,
 } from './consts';
-import { Position, Collider } from './types';
+import { Collider, Position } from './types';
 import { LEVELS } from '../../../assets/levelsData';
 import { getNextPosition } from './getNextPosition';
 import { EnemyTank } from './enemyTank';
 import { DefaultEnemyTank } from './defaultEnemyTank';
 import { throttle } from '../../../utils/throttle';
-import { Tank } from './tank';
 import { getRandomValue } from '../../../utils/random';
 
 export const isTimeToShotEnemyTank = () => getRandomValue() % 128 === 0;
@@ -40,28 +43,28 @@ type CellWithoutSprite = Omit<Cell, 'spriteType' | 'colliderBorders'> & {
   colliderBorders: [number, number, number, number];
 };
 
-const PROJECTILE_VELOCITY = 5;
+const PROJECTILE_VELOCITY = 3;
 
-const getVelocity = (tankMoveDirection: TANK_MOVE_DIRECTION) => {
-  if (tankMoveDirection === TANK_MOVE_DIRECTION.UP) {
+const getVelocity = (tankMoveDirection: MOVE_DIRECTION) => {
+  if (tankMoveDirection === MOVE_DIRECTION.UP) {
     return {
       y: -PROJECTILE_VELOCITY,
       x: 0,
     };
   }
-  if (tankMoveDirection === TANK_MOVE_DIRECTION.DOWN) {
+  if (tankMoveDirection === MOVE_DIRECTION.DOWN) {
     return {
       y: PROJECTILE_VELOCITY,
       x: 0,
     };
   }
-  if (tankMoveDirection === TANK_MOVE_DIRECTION.LEFT) {
+  if (tankMoveDirection === MOVE_DIRECTION.LEFT) {
     return {
       x: -PROJECTILE_VELOCITY,
       y: 0,
     };
   }
-  if (tankMoveDirection === TANK_MOVE_DIRECTION.RIGHT) {
+  if (tankMoveDirection === MOVE_DIRECTION.RIGHT) {
     return {
       x: PROJECTILE_VELOCITY,
       y: 0,
@@ -106,6 +109,14 @@ const isCollidingWithCorner = (
   return isCollidingWithCorner || isCollidingWithOtherCorner;
 };
 
+const isCellBreakable = (celltype: LEVEL_OBJECT) => [
+  LEVEL_OBJECT.WALL,
+  LEVEL_OBJECT.BOTTOM_WALL,
+  LEVEL_OBJECT.LEFT_WALL,
+  LEVEL_OBJECT.RIGHT_WALL,
+  LEVEL_OBJECT.TOP_WALL,
+].includes(celltype);
+
 // Модель
 export class Level {
   private enemies: EnemyTank[] = [];
@@ -121,6 +132,8 @@ export class Level {
   private player = new PlayerTank();
 
   private projectiles: Projectile[] = [];
+
+  private explosions: Explosion[] = [];
 
   private level: Cell[][] = [];
 
@@ -166,6 +179,7 @@ export class Level {
       }
     });
     this.projectiles.forEach((projectile) => projectile.update());
+    this.explosions.forEach((explosion) => explosion.update());
     if (activeControlKeys.has(SPECIAL_CONTROL_KEYS.SPACE)) {
       this.cannonShot(this.player);
 
@@ -211,7 +225,7 @@ export class Level {
         nextX + TANK_SIZE <= colliderEndX;
 
       switch (currentDirection) {
-        case TANK_MOVE_DIRECTION.LEFT: {
+        case MOVE_DIRECTION.LEFT: {
           isColliding = isCollidingWithCorner(
             [
               isLOENextXThanColliderEndX,
@@ -226,7 +240,7 @@ export class Level {
           );
           break;
         }
-        case TANK_MOVE_DIRECTION.RIGHT: {
+        case MOVE_DIRECTION.RIGHT: {
           isColliding = isCollidingWithCorner(
             [
               isGOENextXTankSizeThanColliderStartX,
@@ -241,7 +255,7 @@ export class Level {
           );
           break;
         }
-        case TANK_MOVE_DIRECTION.DOWN: {
+        case MOVE_DIRECTION.DOWN: {
           isColliding = isCollidingWithCorner(
             [
               isGOENextYTankSizeThanColliderStartY,
@@ -256,7 +270,7 @@ export class Level {
           );
           break;
         }
-        case TANK_MOVE_DIRECTION.UP: {
+        case MOVE_DIRECTION.UP: {
           isColliding = isCollidingWithCorner(
             [
               isLOENextYThanColliderEndY,
@@ -290,13 +304,13 @@ export class Level {
 
   getPossibleCollidingCells(
     position: Position,
-    tankMoveDirection: TANK_MOVE_DIRECTION,
+    tankMoveDirection: MOVE_DIRECTION,
   ) {
     const result = [];
     const col = Math.floor(position.x / CELL_SIZE);
     const row = Math.floor(position.y / CELL_SIZE);
 
-    if (tankMoveDirection === TANK_MOVE_DIRECTION.UP && row !== 0) {
+    if (tankMoveDirection === MOVE_DIRECTION.UP && row !== 0) {
       result.push(this.level[row - 1][col]);
       // Из-за верхних стен
       result.push(this.level[row][col]);
@@ -308,7 +322,7 @@ export class Level {
         result.push(this.level[row][col + 1]);
       }
     } else if (
-      tankMoveDirection === TANK_MOVE_DIRECTION.DOWN &&
+      tankMoveDirection === MOVE_DIRECTION.DOWN &&
       row !== this.rowSize - 1
     ) {
       result.push(this.level[row + 1][col]);
@@ -317,7 +331,7 @@ export class Level {
       if (col !== this.colSize - 1 && position.x % CELL_SIZE !== 0) {
         result.push(this.level[row + 1][col + 1]);
       }
-    } else if (tankMoveDirection === TANK_MOVE_DIRECTION.LEFT && col !== 0) {
+    } else if (tankMoveDirection === MOVE_DIRECTION.LEFT && col !== 0) {
       result.push(this.level[row][col - 1]);
       // Из-за левых стен
       result.push(this.level[row][col]);
@@ -327,7 +341,7 @@ export class Level {
         result.push(this.level[row + 1][col - 1]);
       }
     } else if (
-      tankMoveDirection === TANK_MOVE_DIRECTION.RIGHT &&
+      tankMoveDirection === MOVE_DIRECTION.RIGHT &&
       col !== this.colSize - 1
     ) {
       result.push(this.level[row][col + 1]);
@@ -354,11 +368,32 @@ export class Level {
   cannonShot(tank: Tank) {
     const { x, y } = tank.position;
     const velocity = getVelocity(tank.currentDirection);
-
     if (velocity) {
-      this.projectiles.push(
-        new Projectile(x + TANK_SIZE / 2, y + TANK_SIZE / 2, velocity),
-      );
+      const offsetX = () => {
+        if (tank.currentDirection === MOVE_DIRECTION.RIGHT) {
+          return TANK_SIZE;
+        }
+        if (tank.currentDirection === MOVE_DIRECTION.LEFT) {
+          return -4;
+        }
+        return TANK_SIZE / 2 - 2;
+      };
+      const offsetY = () => {
+        if (tank.currentDirection === MOVE_DIRECTION.DOWN) {
+          return TANK_SIZE;
+        }
+        if (tank.currentDirection === MOVE_DIRECTION.UP) {
+          return -4;
+        }
+        return TANK_SIZE / 2 - 1;
+      };
+
+      this.projectiles.push(new Projectile(
+        x + offsetX(),
+        y + offsetY(),
+        tank.currentDirection,
+        velocity,
+      ));
     }
   }
 
@@ -372,7 +407,49 @@ export class Level {
     return this.enemies;
   }
 
+  getExplosions() {
+    this.explosions = this.explosions.filter((i) => i.counter > 0);
+    return this.explosions;
+  }
+
   getProjectiles() {
+    const collidableTiles = this.level.flat().filter((i) => i.spriteType !== LEVEL_OBJECT.EMPTY);
+
+    this.projectiles = this.projectiles.filter((projectile) => {
+      const { x, y } = projectile.position;
+      const outOfBoundsX = x > CANVAS_WIDTH || x < 0;
+      const outOfBoundsY = y > CANVAS_HEIGHT || y < 0;
+
+      const collideCell = collidableTiles.find((cell) => {
+        if (!cell.colliderBorders || !cell.spriteType) {
+          return false;
+        }
+        const [colliderXStart, colliderYStart, colliderXEnd, colliderYEnd] = cell.colliderBorders;
+
+        const cellXStart = cell.x + colliderXStart;
+        const cellXEnd = cellXStart + colliderXEnd;
+        const cellYStart = cell.y + colliderYStart;
+        const cellYEnd = cellYStart + colliderYEnd;
+
+        const includeX = cellXStart < (x + 2) && cellXEnd > (x - 2);
+        const includeY = cellYStart < (y + 2) && cellYEnd > (y - 2);
+
+        return includeX && includeY;
+      });
+
+      if (collideCell && collideCell.spriteType) {
+        if (isCellBreakable(collideCell.spriteType)) {
+          collideCell.spriteType = LEVEL_OBJECT.EMPTY;
+          collideCell.colliderBorders = null;
+          this.explosions.push(new Explosion(x, y, 30));
+        }
+
+        return false;
+      }
+
+      return !outOfBoundsX && !outOfBoundsY;
+    });
+
     return this.projectiles;
   }
 }
