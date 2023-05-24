@@ -22,7 +22,7 @@ export function initGame(canvas: HTMLCanvasElement | null): Game | undefined {
   if (!context) {
     return;
   }
-
+  context.imageSmoothingEnabled = false;
   const game = new Game(
     new Level(),
     new LevelView(

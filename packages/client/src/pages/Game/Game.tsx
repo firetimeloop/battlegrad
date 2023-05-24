@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
+import { GameLogo } from '@components/Game/styles';
 import StartGameModal from './components/StartGameModal';
 import PauseModal from './components/PauseModal';
 
@@ -52,6 +53,7 @@ function Game() {
         selectedMode={selectedMode}
       />
       <PauseModal isVisible={isPauseModalVisible} />
+      <GameLogo />
     </>
   );
 }

@@ -4,10 +4,11 @@ import { ModalWrapper, ModalContent } from './styles';
 
 type ModalProps = PropsWithChildren<{
   isVisible: boolean;
+  className?: string;
   closeModal?: () => void;
 }>;
 
-function Modal({ isVisible, children, closeModal }: ModalProps) {
+function Modal({ isVisible, children, closeModal, className }: ModalProps) {
   if (!isVisible) {
     return null;
   }
@@ -17,7 +18,7 @@ function Modal({ isVisible, children, closeModal }: ModalProps) {
   };
 
   return (
-    <ModalWrapper onClick={onCloseModalHandler}>
+    <ModalWrapper className={className} onClick={onCloseModalHandler}>
       <ModalContent>{children}</ModalContent>
     </ModalWrapper>
   );
