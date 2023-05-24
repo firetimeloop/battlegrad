@@ -1,3 +1,4 @@
+import { TankType } from '@components/Game/utils/projectile';
 import { PartialPosition, Position, Sprite } from './types';
 import { MOVE_DIRECTION } from './game';
 
@@ -7,6 +8,8 @@ export abstract class Tank {
   protected y = 0;
 
   protected spriteCode = 0;
+
+  protected type = TankType.player;
 
   protected isNextFrame = false;
 
@@ -36,10 +39,18 @@ export abstract class Tank {
     }
   }
 
+  get getType() {
+    return this.type;
+  }
+
   abstract get sprite(): Sprite;
 
   setSpriteCode(code: number) {
     this.spriteCode = code;
+  }
+
+  setType(type: TankType) {
+    this.type = type;
   }
 
   toggleIsNextFrame() {
