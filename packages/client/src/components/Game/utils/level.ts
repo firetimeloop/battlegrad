@@ -1,6 +1,6 @@
 import { Explosion } from '@components/Game/utils/explosion';
 import { PlayerTank } from './playerTank';
-import { Projectile } from './projectile';
+import { Projectile, TankType } from './projectile'
 import {
   CONTROL_KEYS,
   LastControlKey,
@@ -391,6 +391,7 @@ export class Level {
       this.projectiles.push(new Projectile(
         x + offsetX(),
         y + offsetY(),
+        tank.getType,
         tank.currentDirection,
         velocity,
       ));
@@ -421,6 +422,24 @@ export class Level {
       const { x, y } = projectile.position;
       const outOfBoundsX = x > CANVAS_WIDTH || x < 0;
       const outOfBoundsY = y > CANVAS_HEIGHT || y < 0;
+
+      if (projectile.type === TankType.player) {
+        const collideEnemyIndex = this.enemies.findIndex((tank) => {
+          const { x: tankX, y: tankY } = tank.position;
+          const XEnd = tankX + TANK_SIZE;
+          const YEnd = tankY + TANK_SIZE;
+
+          const includeX = tankX < (x + 2) && XEnd > (x - 2);
+          const includeY = tankY < (y + 2) && YEnd > (y - 2);
+
+          return includeX && includeY;
+        });
+
+        if (collideEnemyIndex !== -1) {
+          this.explosions.push(new Explosion(x, y, 30));
+          this.enemies = this.enemies.filter((item, index) => index !== collideEnemyIndex);
+        }
+      }
 
       const collideCell = collidableTiles.find((cell) => {
         if (!cell.colliderBorders || !cell.spriteType) {
