@@ -12,6 +12,7 @@ export const GameScreen = styled.div`
   gap: 40px;
 
   h1 {
+    font-size: 48px;
     color: ${({ theme }) => theme.color.white};
   }
   
