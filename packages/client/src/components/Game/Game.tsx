@@ -13,6 +13,10 @@ function Game() {
   const { player, enemiesDefeated, status } = useAppSelector((store) => store.game);
 
   useEffect(() => {
+    dispatch(resetGame());
+  }, [dispatch]);
+
+  useEffect(() => {
     const game = initGame(canvasRef.current);
 
     return () => {
@@ -64,17 +68,22 @@ function Game() {
   return (
     <GameWrapper>
       <Content />
+      {status === GameStatus.normal && (
       <GameStats>
         <h2>
           Жизни:
-          <span>
-            {` ${'✖ '.repeat(3 - player.healthCount) + '❤ '.repeat(player.healthCount)}`}
+          <span style={{ color: 'black' }}>
+            {` ${'✖ '.repeat(3 - player.healthCount)}`}
+          </span>
+          <span style={{ color: 'red' }}>
+            {` ${'❤ '.repeat(player.healthCount)}`}
           </span>
         </h2>
         <h3>
           {`Уничтожено противников: ${enemiesDefeated} из 20`}
         </h3>
       </GameStats>
+      )}
     </GameWrapper>
   );
 }

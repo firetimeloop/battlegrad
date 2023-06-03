@@ -37,9 +37,8 @@ export const GameStats = styled.div`
   background: rgb(0 0 0 / 40%);
   padding: 10px;
   border-radius: 10px;
-  
 
   span {
-    color: ${({ theme }) => theme.color.background.orange};
+    font-size: 42px;
   }
 `;
