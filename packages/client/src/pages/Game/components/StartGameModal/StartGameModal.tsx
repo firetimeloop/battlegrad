@@ -2,49 +2,37 @@ import Modal from '@components/Modal';
 import Button from '@components/Button';
 import ControlBlock from '@components/ControlBlock';
 
+import { GameStatus, PlayersMode, setGameStatus, setPlayersMode } from '@components/Game/slice';
 import { SelectModeBlock, SelectPage } from './styles';
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 
-type ModalProps = {
-  isVisible: boolean;
-  selectedMode?: number;
-  // eslint-disable-next-line no-unused-vars
-  onSelectMode: (selectedMode: number) => void;
-  onCloseModal: () => void;
-};
-
-function StartGameModal({
-  isVisible,
-  selectedMode,
-  onSelectMode,
-  onCloseModal,
-}: ModalProps) {
-  const selectSingleModeHandler = () => {
-    onSelectMode(1);
-  };
-
-  const selectDoubleModeHandler = () => {
-    onSelectMode(2);
-  };
-
+function StartGameModal() {
+  const { playersMode, status } = useAppSelector((store) => store.game);
+  const dispatch = useAppDispatch();
   return (
-    <Modal isVisible={isVisible}>
-      {!selectedMode && (
-        <SelectModeBlock>
-          <Button onClick={selectSingleModeHandler}>1 игрок</Button>
-          <Button
-            data-test-id="my-btn-2"
-            onClick={selectDoubleModeHandler}
-            disabled>
-            2 игрока
-          </Button>
-        </SelectModeBlock>
-      )}
-      {selectedMode && (
-        <SelectPage>
-          <ControlBlock />
-          <Button onClick={onCloseModal}>Начать</Button>
-        </SelectPage>
-      )}
+    <Modal isVisible={status === GameStatus.showControls}>
+      {playersMode !== null
+        ? (
+          <SelectPage>
+            <ControlBlock />
+            <Button onClick={() => dispatch(setGameStatus(GameStatus.normal))}>
+              Начать
+            </Button>
+          </SelectPage>
+        )
+        : (
+          <SelectModeBlock>
+            <Button onClick={() => dispatch(setPlayersMode(PlayersMode.single))}>
+              1 игрок
+            </Button>
+            <Button
+              data-test-id="my-btn-2"
+              onClick={() => dispatch(setPlayersMode(PlayersMode.multiplayer))}
+              disabled>
+              2 игрока
+            </Button>
+          </SelectModeBlock>
+        )}
     </Modal>
   );
 }

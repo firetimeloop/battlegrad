@@ -8,20 +8,11 @@ import PauseModal from './components/PauseModal';
 import GameComponent from '../../components/Game';
 
 function Game() {
-  const [selectedMode, setSelectedMode] = useState<number | undefined>(
-    undefined,
-  );
-  const [isStartGameModalVisible, setStartGameModalVisible] =
-    useState<boolean>(true);
   const [isPauseModalVisible, setPauseModalVisible] = useState<boolean>(false);
 
   const togglePauseMenu = useCallback(() => {
-    if (isStartGameModalVisible) {
-      return;
-    }
-
     setPauseModalVisible(!isPauseModalVisible);
-  }, [isStartGameModalVisible, isPauseModalVisible]);
+  }, [isPauseModalVisible]);
 
   const openPauseMenu = useCallback(
     (event: KeyboardEvent) => {
@@ -40,19 +31,10 @@ function Game() {
     };
   }, [openPauseMenu]);
 
-  const closeStartGameModalHandler = () => {
-    setStartGameModalVisible(false);
-  };
-
   return (
     <>
-      {!isStartGameModalVisible && <GameComponent />}
-      <StartGameModal
-        isVisible={isStartGameModalVisible}
-        onCloseModal={closeStartGameModalHandler}
-        onSelectMode={setSelectedMode}
-        selectedMode={selectedMode}
-      />
+      <GameComponent />
+      <StartGameModal />
       <PauseModal isVisible={isPauseModalVisible} />
       <GameLogo>
         <BattleGradImage />

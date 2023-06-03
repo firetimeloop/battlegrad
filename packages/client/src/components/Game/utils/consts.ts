@@ -8,7 +8,7 @@ export const CELL_SIZE = 16;
 export const TANK_SIZE = CELL_SIZE - 2;
 
 // Включаем и отключаем показ коллайдеров
-export const SHOW_COLLIDERS = true;
+export const SHOW_COLLIDERS = false;
 
 export enum LEVEL_OBJECT {
     EMPTY,

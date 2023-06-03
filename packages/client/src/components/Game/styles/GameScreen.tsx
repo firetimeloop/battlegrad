@@ -8,6 +8,13 @@ export const GameScreen = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 150px;
+  flex-direction: column;
+  gap: 40px;
+
+  h1 {
+    color: ${({ theme }) => theme.color.white};
+  }
+  
 
   canvas {
     transform: scale(250%);
