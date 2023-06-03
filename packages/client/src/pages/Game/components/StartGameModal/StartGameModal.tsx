@@ -27,7 +27,7 @@ function StartGameModal({
   };
 
   return (
-    <Modal className="tank-bg" isVisible={isVisible}>
+    <Modal isVisible={isVisible}>
       {!selectedMode && (
         <SelectModeBlock>
           <Button onClick={selectSingleModeHandler}>1 игрок</Button>

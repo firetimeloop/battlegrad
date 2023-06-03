@@ -6,7 +6,6 @@ export const LoginContainer = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background: ${({ theme }) => theme.color.background.lightBlue};
 `;
 
 export const FormContainer = styled.form`

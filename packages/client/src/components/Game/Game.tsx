@@ -15,7 +15,7 @@ function Game() {
   }, []);
 
   return (
-    <GameWrapper className="tank-bg">
+    <GameWrapper>
       <GameScreen>
         <canvas ref={canvasRef} />
       </GameScreen>

@@ -37,7 +37,7 @@ body {
     }
 }
 
-.tank-bg {
+#root {
     background-image: url('tank-bg.png');
     background-position: 0 0;
     background-repeat: repeat;

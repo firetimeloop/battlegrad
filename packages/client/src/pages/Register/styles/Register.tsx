@@ -1,9 +1,6 @@
 import styled from 'styled-components';
-import { FormContainer, LoginBlock, LoginContainer, SubmitButton } from '@pages/Login/styles';
+import { FormContainer, LoginBlock, SubmitButton } from '@pages/Login/styles';
 
-export const RegisterContainer = styled(LoginContainer)`
-  background: ${({ theme }) => theme.color.background.black};
-`;
 export const RegisterBlock = styled.div`
   display: flex;
   align-items: stretch;

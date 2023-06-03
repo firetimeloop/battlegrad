@@ -102,11 +102,11 @@ const isCollidingWithCorner = (
   cornerCollidingConditions: boolean[],
   otherCornerCollidingConditions: boolean[],
 ) => {
-  const isCollidingWithCorner = allConditionsIsTrue(cornerCollidingConditions);
+  const isCollidingCorner = allConditionsIsTrue(cornerCollidingConditions);
   const isCollidingWithOtherCorner = allConditionsIsTrue(
     otherCornerCollidingConditions,
   );
-  return isCollidingWithCorner || isCollidingWithOtherCorner;
+  return isCollidingCorner || isCollidingWithOtherCorner;
 };
 
 const isCellBreakable = (celltype: LEVEL_OBJECT) => [
@@ -181,7 +181,7 @@ export class Level {
     this.projectiles.forEach((projectile) => projectile.update());
     this.explosions.forEach((explosion) => explosion.update());
     if (activeControlKeys.has(SPECIAL_CONTROL_KEYS.SPACE)) {
-      this.cannonShot(this.player);
+      this.playerCannonShot(this.player);
 
       activeControlKeys.delete(SPECIAL_CONTROL_KEYS.SPACE);
     }
@@ -399,6 +399,8 @@ export class Level {
 
   enemyCannonShot = throttle(this.cannonShot, 5000, this);
 
+  playerCannonShot = throttle(this.cannonShot, 2000, this);
+
   getPlayer() {
     return this.player;
   }
@@ -438,6 +440,12 @@ export class Level {
       });
 
       if (collideCell && collideCell.spriteType) {
+        if (collideCell.spriteType === LEVEL_OBJECT.STANDARD) {
+          // eslint-disable-next-line no-alert
+          alert('Game Over!');
+          window.location.reload();
+        }
+
         if (isCellBreakable(collideCell.spriteType)) {
           collideCell.spriteType = LEVEL_OBJECT.EMPTY;
           collideCell.colliderBorders = null;

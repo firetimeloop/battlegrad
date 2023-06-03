@@ -1,15 +1,16 @@
-import { PropsWithChildren } from 'react';
+import { CSSProperties, PropsWithChildren } from 'react';
 
 import { ButtonWrapper } from './styles';
 
 type ButtonProps = PropsWithChildren<{
   disabled?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
+  style?: CSSProperties;
 }>;
 
-function Button({ children, disabled, onClick }: ButtonProps) {
+function Button({ children, disabled, onClick, style }: ButtonProps) {
   return (
-    <ButtonWrapper disabled={disabled} onClick={onClick}>
+    <ButtonWrapper style={style} disabled={disabled} onClick={onClick}>
       {children}
     </ButtonWrapper>
   );
