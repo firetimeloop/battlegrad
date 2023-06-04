@@ -5,7 +5,7 @@ import { PrivateLoggedRoute } from './privateRoute/PrivateLoggedRoute';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Home from '../../pages/Home';
 import Login from '../../pages/Login';
-import Signup from '../../pages/Signup';
+import Register from '../../pages/Register';
 import Profile from '../../pages/Profile';
 import Game from '../../pages/Game';
 import GameOver from '../../pages/GameOver';
@@ -34,7 +34,7 @@ export function Router() {
         <Route path="/login" element={<Login />} />
       </Route>
       <Route path="/signup" element={<PrivateLoggedRoute loggedIn={loggedIn} />}>
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<Register />} />
       </Route>
 
       <Route index element={<Home />} />

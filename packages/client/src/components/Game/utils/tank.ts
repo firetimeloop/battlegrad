@@ -1,31 +1,24 @@
 import { PartialPosition, Position, Sprite } from './types';
+import { MOVE_DIRECTION } from './game';
 
-import { CELL_SIZE, CANVAS_HEIGHT, CANVAS_WIDTH } from './consts';
+export abstract class Tank {
+  protected x = 0;
 
-import { MOVE_CONTROL_KEYS, CONTROL_KEYS } from './game';
+  protected y = 0;
 
-const {
-  DOWN,
-  UP,
-  LEFT,
-  RIGHT,
-} = MOVE_CONTROL_KEYS;
+  protected spriteCode = 0;
 
-const CONTROL_TO_SPRITE_CODE = {
-  [DOWN]: 4,
-  [UP]: 0,
-  [LEFT]: 2,
-  [RIGHT]: 6,
-};
+  protected isNextFrame = false;
 
-export class Tank {
-  private x = 100;
+  protected __currentDirection: MOVE_DIRECTION = MOVE_DIRECTION.UP;
 
-  private y = 100;
+  get currentDirection(): MOVE_DIRECTION {
+    return this.__currentDirection;
+  }
 
-  private spriteCode = 0;
-
-  private isNextFrame = false;
+  set currentDirection(tankMoveDirection: MOVE_DIRECTION) {
+    this.__currentDirection = tankMoveDirection;
+  }
 
   get position(): Position {
     return {
@@ -35,48 +28,15 @@ export class Tank {
   }
 
   set position({ x, y }: PartialPosition) {
-    if (x) {
+    if (x !== undefined && x >= 0) {
       this.x = x;
     }
-    if (y) {
+    if (y !== undefined && y >= 0) {
       this.y = y;
     }
   }
 
-  get sprite(): Sprite {
-    return [(this.spriteCode + +this.isNextFrame) * CELL_SIZE, 0, CELL_SIZE, CELL_SIZE];
-  }
-
-  get positionMove() {
-    const { x: playerX, y: playerY } = this.position;
-
-    return {
-      [DOWN]: () => {
-        if (this.position.y <= CANVAS_HEIGHT - CELL_SIZE) {
-          this.position = {
-            y: playerY + 1,
-          };
-        }
-      },
-      [UP]: () => {
-        this.position = {
-          y: playerY - 1,
-        };
-      },
-      [LEFT]: () => {
-        this.position = {
-          x: playerX - 1,
-        };
-      },
-      [RIGHT]: () => {
-        if (this.position.x <= CANVAS_WIDTH - CELL_SIZE) {
-          this.position = {
-            x: playerX + 1,
-          };
-        }
-      },
-    };
-  }
+  abstract get sprite(): Sprite;
 
   setSpriteCode(code: number) {
     this.spriteCode = code;
@@ -84,25 +44,5 @@ export class Tank {
 
   toggleIsNextFrame() {
     this.isNextFrame = !this.isNextFrame;
-  }
-
-  update(activeControlKeys: Set<CONTROL_KEYS>) {
-    let activeKey: MOVE_CONTROL_KEYS | null = null;
-
-    if (activeControlKeys.has(DOWN)) {
-      activeKey = DOWN;
-    } else if (activeControlKeys.has(UP)) {
-      activeKey = UP;
-    } else if (activeControlKeys.has(LEFT)) {
-      activeKey = LEFT;
-    } else if (activeControlKeys.has(RIGHT)) {
-      activeKey = RIGHT;
-    }
-
-    if (activeKey) {
-      this.positionMove[activeKey]();
-      this.setSpriteCode(CONTROL_TO_SPRITE_CODE[activeKey]);
-      this.toggleIsNextFrame();
-    }
   }
 }

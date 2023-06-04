@@ -1,20 +1,27 @@
-// Mock пуль, надо будет переделать на спрайтовые, когда взаимодействие с объектами будем делать
-// сейчас так, чтобы хоть что-то рисовалось при нажатии на Пробел
-import { Position, PartialPosition } from './types';
+import { MOVE_DIRECTION } from '@components/Game/utils/game';
+import { PartialPosition, Position, Sprite } from './types';
+
+const ProjectileSprite: Record<MOVE_DIRECTION, Sprite> = {
+  [MOVE_DIRECTION.UP]: [323, 102, 3, 4],
+  [MOVE_DIRECTION.RIGHT]: [346, 102, 4, 3],
+  [MOVE_DIRECTION.DOWN]: [339, 102, 3, 4],
+  [MOVE_DIRECTION.LEFT]: [330, 102, 4, 3],
+};
 
 export class Projectile {
-  private _radius = 2;
-
-  private _color = '#fff';
-
   constructor(
         private x: number,
         private y: number,
+        private direction: MOVE_DIRECTION,
         private velocity: {
             x: number;
             y: number;
         },
   ) {}
+
+  get sprite(): Sprite {
+    return ProjectileSprite[this.direction];
+  }
 
   get position(): Position {
     return {
@@ -35,13 +42,5 @@ export class Projectile {
   update() {
     this.x += this.velocity.x;
     this.y += this.velocity.y;
-  }
-
-  get radius() {
-    return this._radius;
-  }
-
-  get color() {
-    return this._color;
   }
 }

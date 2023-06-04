@@ -2,15 +2,20 @@ import { Link } from 'react-router-dom';
 import { ErrorMessage, Formik } from 'formik';
 import { useTheme } from 'styled-components';
 import { toFormikValidate } from 'zod-formik-adapter';
+import { LogIn } from '@components/Auth/slice';
 import {
-  BtnText, FormContainer, LoaderBtnContainer, LoginBlock, LoginContainer, SubmitButton,
+  BtnText,
+  FormContainer,
+  LoaderBtnContainer,
+  LoginBlock,
+  LoginContainer,
+  SubmitButton,
 } from './styles';
 import { H1, Input } from '../../styles';
 import { LoginValidationModel } from '../../interface';
-import MiniLoader from '../../components/Loader';
+import Loader from '../../components/Loader';
 import { LoaderSizeEnum } from '../../enum';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { LogIn } from '../../components/Auth/slice';
 
 function Login() {
   const theme = useTheme();
@@ -30,41 +35,31 @@ function Login() {
         >
           {({
             handleSubmit,
-            handleChange,
-            values,
-            handleBlur,
           }) => (
             <FormContainer onSubmit={handleSubmit}>
               <Input
                 placeholder="Логин"
                 name="login"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.login}
+                type="text"
               />
               <ErrorMessage name="login" />
               <Input
                 type="password"
                 placeholder="Пароль"
                 name="password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
               />
-
               <ErrorMessage name="password" />
               <Link to="/signup">У вас нет аккаунта? Регистрация</Link>
               <SubmitButton type="submit" disabled={isFetching}>
                 <BtnText style={{ opacity: isFetching ? '0' : '1' }}>
-                  Авторизация
+                  Войти
                 </BtnText>
                 {isFetching && (
                   <LoaderBtnContainer>
-                    <MiniLoader color={theme.color.white} size={LoaderSizeEnum.small} />
+                    <Loader color={theme.color.white} size={LoaderSizeEnum.small} />
                   </LoaderBtnContainer>
                 )}
               </SubmitButton>
-
             </FormContainer>
           )}
         </Formik>

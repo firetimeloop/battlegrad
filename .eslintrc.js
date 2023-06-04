@@ -28,6 +28,7 @@ module.exports = {
     'no-param-reassign': 'off',
     // чтобы не ругался на enum
     'no-shadow': 'off',
+    'no-restricted-syntax': 'off',
     '@typescript-eslint/no-shadow': 'warn',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
@@ -46,12 +47,7 @@ module.exports = {
     'react/jsx-filename-extension': [
       2,
       {
-        extensions: [
-          '.js',
-          '.jsx',
-          '.ts',
-          '.tsx',
-        ],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     ],
     'import/extensions': [
@@ -69,6 +65,9 @@ module.exports = {
     'object-curly-newline': 'off',
     'react/jsx-closing-bracket-location': 'off',
     'operator-linebreak': 'off',
+    'prefer-rest-params': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'function-paren-newline': 'off',
   },
   settings: {
     'import/resolver': {
