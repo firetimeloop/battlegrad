@@ -1,3 +1,4 @@
+import { TankType } from '@components/Game/utils/projectile';
 import { Tank } from './tank';
 
 import { getNextPosition } from './getNextPosition';
@@ -29,6 +30,8 @@ function getRandomDirection() {
 }
 
 export abstract class EnemyTank extends Tank {
+  protected type = TankType.enemy;
+
   constructor(
     protected spawnPosition: Position,
     protected spriteLevel: number,

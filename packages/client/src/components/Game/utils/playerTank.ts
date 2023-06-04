@@ -1,3 +1,4 @@
+import { TankType } from '@components/Game/utils/projectile';
 import { Tank } from './tank';
 import { CELL_SIZE } from './consts';
 import { MOVE_CONTROL_KEYS, CONTROL_KEYS, MOVE_DIRECTION } from './game';
@@ -14,6 +15,8 @@ const DIRECTION_TO_SPRITE_CODE = {
 };
 
 export class PlayerTank extends Tank {
+  protected type = TankType.player;
+
   get sprite(): Sprite {
     return [
       (this.spriteCode + +this.isNextFrame) * CELL_SIZE,

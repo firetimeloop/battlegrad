@@ -1,8 +1,7 @@
-import { EnemyTank } from './enemyTank'
-import { Position, Sprite } from './types'
-import { CELL_SIZE } from './consts'
-import { MOVE_DIRECTION } from './game'
-import { TankType } from '@components/Game/utils/projectile'
+import { EnemyTank } from './enemyTank';
+import { Position, Sprite } from './types';
+import { CELL_SIZE } from './consts';
+import { MOVE_DIRECTION } from './game';
 
 const DEFAULT_ENEMY_TANK_SPRITE_LEVEL = 0;
 
@@ -31,6 +30,5 @@ export class DefaultEnemyTank extends EnemyTank {
     super.update(canMove);
 
     this.setSpriteCode(DIRECTION_TO_SPRITE_CODE[this.currentDirection]);
-    this.setType(TankType.enemy)
   }
 }

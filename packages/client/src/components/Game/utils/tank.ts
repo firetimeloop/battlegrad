@@ -3,13 +3,13 @@ import { PartialPosition, Position, Sprite } from './types';
 import { MOVE_DIRECTION } from './game';
 
 export abstract class Tank {
+  protected type = TankType.enemy;
+
   protected x = 0;
 
   protected y = 0;
 
   protected spriteCode = 0;
-
-  protected type = TankType.player;
 
   protected isNextFrame = false;
 
@@ -21,6 +21,10 @@ export abstract class Tank {
 
   set currentDirection(tankMoveDirection: MOVE_DIRECTION) {
     this.__currentDirection = tankMoveDirection;
+  }
+
+  get getType(): TankType {
+    return this.type;
   }
 
   get position(): Position {
@@ -39,18 +43,10 @@ export abstract class Tank {
     }
   }
 
-  get getType() {
-    return this.type;
-  }
-
   abstract get sprite(): Sprite;
 
   setSpriteCode(code: number) {
     this.spriteCode = code;
-  }
-
-  setType(type: TankType) {
-    this.type = type;
   }
 
   toggleIsNextFrame() {
