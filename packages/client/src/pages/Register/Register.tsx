@@ -6,12 +6,11 @@ import { CreateUser } from '@components/Auth/slice';
 import {
   RegisterBlock,
   RegisterBlockContent,
-  RegisterContainer,
   RegisterForm,
   RegisterImage,
 } from '@pages/Register/styles';
 import React from 'react';
-import { BtnText, LoaderBtnContainer, SubmitButton } from '../Login/styles';
+import { BtnText, LoaderBtnContainer, LoginContainer, SubmitButton } from '../Login/styles';
 import { H1, Input } from '../../styles';
 import Loader from '../../components/Loader';
 import { LoaderSizeEnum } from '../../enum';
@@ -34,7 +33,7 @@ function Register() {
   const { isFetching } = useAppSelector((state) => state.auth);
 
   return (
-    <RegisterContainer>
+    <LoginContainer>
       <RegisterBlock>
         <RegisterImage />
         <RegisterBlockContent>
@@ -111,7 +110,7 @@ function Register() {
         </RegisterBlockContent>
       </RegisterBlock>
 
-    </RegisterContainer>
+    </LoginContainer>
   );
 }
 

@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { PrivateLoggedRoute } from './privateRoute/PrivateLoggedRoute';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import Home from '../../pages/Home';
 import Login from '../../pages/Login';
 import Register from '../../pages/Register';
 import Profile from '../../pages/Profile';
@@ -37,10 +36,8 @@ export function Router() {
         <Route path="/signup" element={<Register />} />
       </Route>
 
-      <Route index element={<Home />} />
-
       <Route path="/game" element={<PrivateRoute loggedIn={loggedIn} />}>
-        <Route path="/game" element={<Game />} />
+        <Route index path="/game" element={<Game />} />
       </Route>
 
       <Route path="/profile" element={<PrivateRoute loggedIn={loggedIn} />}>
