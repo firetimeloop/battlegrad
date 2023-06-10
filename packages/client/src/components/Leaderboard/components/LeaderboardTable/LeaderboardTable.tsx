@@ -20,6 +20,7 @@ function LeaderboardTable({ leaders }: TLeaderboardTableProps) {
 
   return (
     <Table>
+      <caption>TOP-10</caption>
       <tr>
         <th>№</th>
         <th>Аватар</th>

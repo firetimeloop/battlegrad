@@ -37,7 +37,7 @@ function Game() {
   }, [dispatch, player.healthCount]);
 
   useEffect(() => {
-    if (enemiesDefeated > 0) {
+    if (enemiesDefeated > 19) {
       dispatch(setGameStatus(GameStatus.win));
 
       if (isSendLeaderAvailable) {

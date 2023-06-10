@@ -11,6 +11,14 @@ export const Table = styled.table`
   font-size: 20px;
   line-height: 20px;
 
+  caption {
+    font-size: 26px;
+    background-color: ${({ theme }) => theme.color.background.lightBlue};
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 30px;
+  }
+
   tr {
     & > td {
       padding: 10px 50px;
