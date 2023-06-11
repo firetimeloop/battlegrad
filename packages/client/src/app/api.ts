@@ -11,6 +11,9 @@ axiosYandexApi.interceptors.response.use(
   (error) => errorHandler(error),
 );
 
+const REDIRECT_URI = 'http://localhost:3000';
+
 export {
   axiosYandexApi,
+  REDIRECT_URI,
 };

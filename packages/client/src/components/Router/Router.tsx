@@ -60,7 +60,11 @@ export function Router() {
         path="/"
         element={loggedIn
           ? <Navigate to="/game" replace />
-          : <Navigate to="/login" replace />}
+          : (
+            <Navigate
+              to={{ pathname: '/login', search: window.location.search }}
+              replace />
+          )}
       />
 
       <Route path="/error-500" element={<Error500 />} />
