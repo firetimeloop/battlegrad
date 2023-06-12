@@ -1,8 +1,8 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import authReducer from '../components/Auth/slice';
-import alertReducer from '../components/Alert/slice';
-import gameReducer from '../components/Game/slice';
-import leaderboardReducer from '../components/Leaderboard/slice';
+import authReducer from '@components/Auth/slice';
+import alertReducer from '@components/Alert/slice';
+import gameReducer from '@components/Game/slice';
+import leaderboardReducer from '@components/Leaderboard/slice';
 
 export const store = configureStore({
   reducer: {

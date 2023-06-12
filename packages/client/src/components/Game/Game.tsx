@@ -6,17 +6,14 @@ import Button from '@components/Button';
 import { GameScreen, GameStats, GameWrapper } from './styles';
 import { initGame } from './utils/initGame';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectGameState, selectLeaderboardState } from '../../app/selectors';
 import { H1 } from '../../styles';
 
 function Game() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dispatch = useAppDispatch();
-  const { player, enemiesDefeated, status } = useAppSelector(
-    (store) => store.game,
-  );
-  const { isSendLeaderAvailable } = useAppSelector(
-    (store) => store.leaderboard,
-  );
+  const { player, enemiesDefeated, status } = useAppSelector(selectGameState);
+  const { isSendLeaderAvailable } = useAppSelector(selectLeaderboardState);
 
   useEffect(() => {
     dispatch(resetGame());
