@@ -8,11 +8,28 @@ type TAvatarProps = PropsWithChildren<{
 }>;
 
 function Avatar({ avatarUrl, size }: TAvatarProps) {
-  let avatarSrc = '../../../public/tank-bg.png';
+  const isAvatarAvailable = avatarUrl && avatarUrl?.length > 0;
+  const defaultAvatarSrc = '../../../public/tank-bg.png';
+  const defaultAvatarForHighResolution =
+    '../../../public/tank-bg-2048×2048.png';
 
-  if (avatarUrl && avatarUrl?.length > 0) {
-    avatarSrc = `https://ya-praktikum.tech/api/v2/resources${avatarUrl}`;
+  if (!isAvatarAvailable) {
+    return (
+      <picture>
+        <source
+          media="(min-width: 1920px)"
+          srcSet={defaultAvatarForHighResolution}
+        />
+        <AvatarImg
+          src={defaultAvatarSrc}
+          alt="Аватар"
+          size={size}
+        />
+      </picture>
+    );
   }
+
+  const avatarSrc = `https://ya-praktikum.tech/api/v2/resources${avatarUrl}`;
 
   return <AvatarImg src={avatarSrc} alt="Аватар" size={size} />;
 }

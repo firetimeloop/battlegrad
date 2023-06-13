@@ -67,13 +67,7 @@ export function Router() {
 
       <Route
         path="/"
-        element={
-          loggedIn ? (
-            <Navigate to="/game" replace />
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
+        element={<Navigate to={loggedIn ? '/game' : '/login'} replace />}
       />
 
       <Route path="/error-500" element={<Error500 />} />

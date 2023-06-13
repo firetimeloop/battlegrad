@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import Avatar from '@components/Avatar';
 import { Table } from './styles';
 import { TLeaderData } from '../../../../interface/Leaderboard';
@@ -11,11 +12,13 @@ type NumberedLeader = TLeaderData & {
 };
 
 function LeaderboardTable({ leaders }: TLeaderboardTableProps) {
-  const numberedList: Array<NumberedLeader> = leaders.map<NumberedLeader>(
-    (leader, index) => ({
-      ...leader,
-      number: index + 1,
-    }),
+  const numberedList = useMemo(
+    () =>
+      leaders.map<NumberedLeader>((leader, index) => ({
+        ...leader,
+        number: index + 1,
+      })),
+    [leaders],
   );
 
   return (
