@@ -116,3 +116,10 @@ export const RowGap10 = styled.div`
   align-items: center;
   gap: 10px;
 `;
+
+export const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  margin: 5px 0;
+  background: ${({ theme }) => theme.color.text.secondary};
+`;

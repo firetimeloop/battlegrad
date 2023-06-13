@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BorderedFormBlock, RowGap10 } from '../../../styles';
 
 export const AvatarContainer = styled.div`
   display: flex;
@@ -7,6 +8,7 @@ export const AvatarContainer = styled.div`
   border-radius: 50%;
   overflow: hidden;
   position: relative;
+  margin-top: 15px;
 `;
 export const Avatar = styled.img`
   width: 130px;
@@ -33,6 +35,29 @@ export const AvatarInput = styled.input`
   padding: 0;
 `;
 
-export const AvatarSaveButton = styled.button`
-  padding: 0;
+export const ProfileBlock = styled(BorderedFormBlock)`
+  gap: 0;
+
+  input {
+    height: 30px;
+  }
+
+  form {
+    margin-top: 15px;
+    gap: 10px;
+
+    input {
+      padding: 15px;
+    }
+  }
+
+  button {
+    margin: 15px 0 10px;
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 8px;
+  }
+  ${RowGap10} {
+    margin-top: 15px;
+  }
 `;

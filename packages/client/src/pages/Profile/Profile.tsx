@@ -7,13 +7,13 @@ import {
   Avatar,
   AvatarContainer,
   AvatarInput,
-  AvatarSaveButton,
   EmptyAvatar,
+  ProfileBlock,
 } from '@pages/Profile/styles';
 import {
-  BorderedFormBlock,
   BtnText,
   Button,
+  Divider,
   FormContainer,
   FullScreenCenteredContainer,
   H1,
@@ -86,7 +86,7 @@ function Profile() {
 
   return (
     <FullScreenCenteredContainer>
-      <BorderedFormBlock style={{ gap: 5 }}>
+      <ProfileBlock>
         <H1>Профиль</H1>
 
         <AvatarContainer>
@@ -112,7 +112,7 @@ function Profile() {
                 <Button type="button" disabled={isFetching} onClick={cancel}>
                   Отмена
                 </Button>
-                <AvatarSaveButton
+                <SubmitButton
                   onClick={() => {
                     if (newAvatar) {
                       const form = new FormData();
@@ -122,7 +122,7 @@ function Profile() {
                   }}
                   disabled={!newAvatar}>
                   Сохранить
-                </AvatarSaveButton>
+                </SubmitButton>
               </RowGap10>
             </>
           )
@@ -132,6 +132,8 @@ function Profile() {
               Изменить аватар
             </Button>
           )}
+
+        <Divider />
 
         {mode === ProfileMode.profileChange ? (
           <Formik
@@ -144,7 +146,7 @@ function Profile() {
             {({
               handleSubmit,
             }) => (
-              <FormContainer style={{ gap: 5 }} onSubmit={handleSubmit}>
+              <FormContainer onSubmit={handleSubmit}>
                 <Input
                   placeholder="Имя"
                   name="first_name"
@@ -204,27 +206,27 @@ function Profile() {
           : (
             <>
               <RowGap10>
-                <h4>Имя:</h4>
+                <h3>Имя:</h3>
                 <p>{userLocal.first_name}</p>
               </RowGap10>
               <RowGap10>
-                <h4>Фамилия:</h4>
+                <h3>Фамилия:</h3>
                 <p>{userLocal.second_name}</p>
               </RowGap10>
               <RowGap10>
-                <h4>Отображаемое имя:</h4>
+                <h3>Отображаемое имя:</h3>
                 <p>{userLocal.display_name}</p>
               </RowGap10>
               <RowGap10>
-                <h4>Логин:</h4>
+                <h3>Логин:</h3>
                 <p>{userLocal.login}</p>
               </RowGap10>
               <RowGap10>
-                <h4>E-mail:</h4>
+                <h3>E-mail:</h3>
                 <p>{userLocal.email}</p>
               </RowGap10>
               <RowGap10>
-                <h4>Телефон:</h4>
+                <h3>Телефон:</h3>
                 <p>{userLocal.phone}</p>
               </RowGap10>
               <Button type="button" onClick={() => setMode(ProfileMode.profileChange)}>
@@ -232,6 +234,8 @@ function Profile() {
               </Button>
             </>
           )}
+
+        <Divider />
         {mode === ProfileMode.passwordChange ? (
           <Formik
             initialValues={ChangePasswordInit}
@@ -246,19 +250,19 @@ function Profile() {
             }) => (
               <FormContainer onSubmit={handleSubmit}>
                 <Input
-                  type="oldPassword"
+                  type="password"
                   placeholder="Старый пароль"
                   name="oldPassword"
               />
                 <ErrorMessage name="oldPassword" />
                 <Input
-                  type="newPassword"
+                  type="password"
                   placeholder="Новый пароль"
                   name="newPassword"
               />
                 <ErrorMessage name="newPassword" />
                 <Input
-                  type="newPasswordRepeat"
+                  type="password"
                   placeholder="Повторите новый пароль"
                   name="newPasswordRepeat"
                   validate={(value: string) => validateConfirmPassword(values.newPassword, value)}
@@ -284,7 +288,7 @@ function Profile() {
           </Formik>
         ) : <Button onClick={() => setMode(ProfileMode.passwordChange)}>Изменить пароль</Button>}
 
-      </BorderedFormBlock>
+      </ProfileBlock>
     </FullScreenCenteredContainer>
   );
 }
