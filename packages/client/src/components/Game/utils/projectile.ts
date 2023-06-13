@@ -36,10 +36,6 @@ export class Projectile {
     };
   }
 
-  get type(): TankType {
-    return this.initiator;
-  }
-
   set position({ x, y }: PartialPosition) {
     if (x) {
       this.x = x;
@@ -47,6 +43,10 @@ export class Projectile {
     if (y) {
       this.y = y;
     }
+  }
+
+  get type(): TankType {
+    return this.initiator;
   }
 
   update() {
