@@ -29,15 +29,15 @@ export class Projectile {
     return ProjectileSprite[this.direction];
   }
 
+  get type(): TankType {
+    return this.initiator;
+  }
+
   get position(): Position {
     return {
       x: this.x,
       y: this.y,
     };
-  }
-
-  get type(): TankType {
-    return this.initiator;
   }
 
   set position({ x, y }: PartialPosition) {
