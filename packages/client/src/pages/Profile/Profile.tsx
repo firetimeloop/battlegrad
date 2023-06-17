@@ -10,6 +10,7 @@ import {
   EmptyAvatar,
   ProfileBlock,
 } from '@pages/Profile/styles';
+import Loader from '@components/Loader';
 import {
   BtnText,
   Button,
@@ -22,7 +23,6 @@ import {
   RowGap10,
   SubmitButton,
 } from '../../styles';
-import Loader from '../../components/Loader';
 import { LoaderSizeEnum } from '../../enum';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { validateConfirmPassword } from '../../utils/password';
@@ -34,6 +34,7 @@ import {
   ProfileChangeValidationModel,
 } from '../../interface/Profile';
 import { yandexBaseUrl } from '../../app/api';
+import { selectAuthState } from '../../app/selectors';
 
 enum ProfileMode {
   normal,
@@ -45,7 +46,7 @@ enum ProfileMode {
 function Profile() {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  const { isFetching, user } = useAppSelector((state) => state.auth);
+  const { isFetching, user } = useAppSelector(selectAuthState);
   const [mode, setMode] = useState(ProfileMode.normal);
   const [newAvatar, setNewAvatar] = useState<File | null>(null);
   const [userLocal, setUserLocal] = useState<IProfileChange>(ProfileChangeInit);
