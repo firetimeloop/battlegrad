@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { store } from '../app/store';
-import { setAlert } from '../components/Alert/slice';
+// import { store } from '../app/store';
+// import { setAlert } from '../components/Alert/slice';
 
 const skipRequests = [
   { url: '/auth/user', method: 'get' },
@@ -21,7 +21,8 @@ export const errorHandler = (error: AxiosError<{reason?: string}>) => {
   });
 
   if (notSkipped && error.response?.data?.reason) {
-    store.dispatch(setAlert(error.response?.data?.reason));
+    // Цикличная зависимость, ломала SSR, пока отключил
+    // store.dispatch(setAlert(error.response?.data?.reason));
   }
 
   return Promise.reject(error);
