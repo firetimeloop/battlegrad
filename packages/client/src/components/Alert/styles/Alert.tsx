@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const AlertContainer = styled.div<{visible: boolean}>`
+export const AlertContainer = styled.div<{visible: boolean | undefined}>`
   display: ${({ visible }) => (visible ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
