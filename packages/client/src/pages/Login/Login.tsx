@@ -4,14 +4,15 @@ import { useTheme } from 'styled-components';
 import { toFormikValidate } from 'zod-formik-adapter';
 import { LogIn } from '@components/Auth/slice';
 import {
+  BorderedFormBlock,
   BtnText,
   FormContainer,
+  FullScreenCenteredContainer,
+  H1,
+  Input,
   LoaderBtnContainer,
-  LoginBlock,
-  LoginContainer,
   SubmitButton,
-} from './styles';
-import { H1, Input } from '../../styles';
+} from '../../styles';
 import { LoginValidationModel } from '../../interface';
 import Loader from '../../components/Loader';
 import { LoaderSizeEnum } from '../../enum';
@@ -23,8 +24,8 @@ function Login() {
   const { isFetching } = useAppSelector((state) => state.auth);
 
   return (
-    <LoginContainer>
-      <LoginBlock>
+    <FullScreenCenteredContainer>
+      <BorderedFormBlock>
         <H1>Вход</H1>
         <Formik
           initialValues={{ login: '', password: '' }}
@@ -63,8 +64,8 @@ function Login() {
             </FormContainer>
           )}
         </Formik>
-      </LoginBlock>
-    </LoginContainer>
+      </BorderedFormBlock>
+    </FullScreenCenteredContainer>
   );
 }
 

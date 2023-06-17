@@ -69,6 +69,7 @@ module.exports = {
     'implicit-arrow-linebreak': 'off',
     'function-paren-newline': 'off',
     'import/no-named-default': 'off',
+    camelcase: 'off',
   },
   settings: {
     'import/resolver': {

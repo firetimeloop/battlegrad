@@ -1,8 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
 import { errorHandler, successHandler } from '../utils/requestHandlers';
 
+const yandexBaseUrl = 'https://ya-praktikum.tech/api/v2';
+
 const axiosYandexApi: AxiosInstance = axios.create({
-  baseURL: 'https://ya-praktikum.tech/api/v2',
+  baseURL: yandexBaseUrl,
   withCredentials: true,
 });
 
@@ -12,5 +14,6 @@ axiosYandexApi.interceptors.response.use(
 );
 
 export {
+  yandexBaseUrl,
   axiosYandexApi,
 };

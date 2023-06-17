@@ -7,3 +7,7 @@ export function selectGameState(state: RootState) {
 export function selectLeaderboardState(state: RootState) {
   return state.leaderboard;
 }
+
+export function selectAuthState(state: RootState) {
+  return state.auth;
+}

@@ -29,6 +29,10 @@ export class Projectile {
     return ProjectileSprite[this.direction];
   }
 
+  get type(): TankType {
+    return this.initiator;
+  }
+
   get position(): Position {
     return {
       x: this.x,
@@ -43,10 +47,6 @@ export class Projectile {
     if (y) {
       this.y = y;
     }
-  }
-
-  get type(): TankType {
-    return this.initiator;
   }
 
   update() {
