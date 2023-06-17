@@ -63,6 +63,7 @@ module.exports = {
     'prefer-rest-params': 'off',
     'implicit-arrow-linebreak': 'off',
     'function-paren-newline': 'off',
+    'import/no-named-default': 'off',
   },
   settings: {
     'import/resolver': {

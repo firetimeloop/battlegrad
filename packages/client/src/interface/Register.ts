@@ -1,9 +1,6 @@
 import { z } from 'zod';
 import { MIN_LOGIN, MIN_PASSWORD } from './Login';
-
-export interface IErrorResponse {
-  reason: string
-}
+import type { IErrorResponse } from './index';
 
 export interface IRegisterSuccessResponse {
   id: string
