@@ -9,9 +9,9 @@ type TAvatarProps = PropsWithChildren<{
 
 function Avatar({ avatarUrl, size }: TAvatarProps) {
   const isAvatarAvailable = avatarUrl && avatarUrl?.length > 0;
-  const defaultAvatarSrc = '../../../public/tank-bg.png';
+  const defaultAvatarSrc = '/tank-bg.png';
   const defaultAvatarForHighResolution =
-    '../../../public/tank-bg-2048×2048.png';
+    '/tank-bg-2048×2048.png';
 
   if (!isAvatarAvailable) {
     return (

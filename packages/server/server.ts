@@ -1,10 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import express from 'express';
+import dotenv from 'dotenv';
 import type { ViteDevServer } from 'vite';
-
 import { renderReduxStoreObject } from './src/render-redux-store';
 import { renderStyles } from './src/render-styles';
+
+dotenv.config();
+
+// Тут оно в require компилируется и поэтому такой порядок
+// eslint-disable-next-line import/first
+import { createClientAndConnect } from './db';
 
 const INITIAL__REDUX_STATE = {};
 
@@ -14,6 +20,8 @@ export async function createServer(
   isProd = process.env.NODE_ENV === 'production',
 ) {
   const resolve = (p: string) => path.resolve(__dirname, p);
+
+  createClientAndConnect();
 
   const indexProd = isProd
     ? fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
