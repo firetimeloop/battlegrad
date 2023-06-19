@@ -155,7 +155,6 @@ export const slice = createSlice({
 
 export const {
   setIsFetching,
-
 } = slice.actions;
 
 export default slice.reducer;

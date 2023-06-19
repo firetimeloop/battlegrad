@@ -11,6 +11,7 @@ export const store = configureStore({
     game: gameReducer,
     leaderboard: leaderboardReducer,
   },
+  preloadedState: {},
 });
 
 export type AppDispatch = typeof store.dispatch;

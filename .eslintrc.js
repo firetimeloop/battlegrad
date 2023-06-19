@@ -38,12 +38,7 @@ module.exports = {
     'no-empty-function': 'off',
     '@typescript-eslint/no-empty-function': 'error',
     'no-underscore-dangle': 'off',
-    'import/no-extraneous-dependencies': [
-      'error',
-      {
-        devDependencies: true,
-      },
-    ],
+    'import/no-extraneous-dependencies': 'off',
     'react/jsx-filename-extension': [
       2,
       {
