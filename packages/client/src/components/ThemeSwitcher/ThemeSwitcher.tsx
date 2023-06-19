@@ -3,8 +3,8 @@ import { ToggleSwitch } from './styles';
 function ThemeSwitcher() {
   return (
     <ToggleSwitch>
-      <label>
-        <input type="checkbox" />
+      <label htmlFor="theme">
+        <input type="checkbox" id="theme" />
         <span className="slider" />
       </label>
     </ToggleSwitch>
