@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 
 export const ModalWrapper = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(0 0 0 / 40%);
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;

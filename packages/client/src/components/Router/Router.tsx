@@ -1,9 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import React, { useEffect } from 'react';
+import { GetCurrentUserWinsNumber } from '@components/Leaderboard/slice';
 import { PrivateLoggedRoute } from './privateRoute/PrivateLoggedRoute';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import Home from '../../pages/Home';
 import Login from '../../pages/Login';
 import Register from '../../pages/Register';
 import Profile from '../../pages/Profile';
@@ -28,19 +28,25 @@ export function Router() {
     };
   }, [dispatch, needFetchUser]);
 
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(GetCurrentUserWinsNumber());
+    }
+  }, [dispatch, user?.id]);
+
   return (
     <Routes>
       <Route path="/login" element={<PrivateLoggedRoute loggedIn={loggedIn} />}>
         <Route path="/login" element={<Login />} />
       </Route>
-      <Route path="/signup" element={<PrivateLoggedRoute loggedIn={loggedIn} />}>
+      <Route
+        path="/signup"
+        element={<PrivateLoggedRoute loggedIn={loggedIn} />}>
         <Route path="/signup" element={<Register />} />
       </Route>
 
-      <Route index element={<Home />} />
-
       <Route path="/game" element={<PrivateRoute loggedIn={loggedIn} />}>
-        <Route path="/game" element={<Game />} />
+        <Route index path="/game" element={<Game />} />
       </Route>
 
       <Route path="/profile" element={<PrivateRoute loggedIn={loggedIn} />}>
@@ -61,9 +67,7 @@ export function Router() {
 
       <Route
         path="/"
-        element={loggedIn
-          ? <Navigate to="/game" replace />
-          : <Navigate to="/login" replace />}
+        element={<Navigate to={loggedIn ? '/game' : '/login'} replace />}
       />
 
       <Route path="/error-500" element={<Error500 />} />

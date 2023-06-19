@@ -1,7 +1,10 @@
+import { TankType } from '@components/Game/utils/projectile';
 import { PartialPosition, Position, Sprite } from './types';
 import { MOVE_DIRECTION } from './game';
 
 export abstract class Tank {
+  protected type = TankType.enemy;
+
   protected x = 0;
 
   protected y = 0;
@@ -18,6 +21,10 @@ export abstract class Tank {
 
   set currentDirection(tankMoveDirection: MOVE_DIRECTION) {
     this.__currentDirection = tankMoveDirection;
+  }
+
+  get getType(): TankType {
+    return this.type;
   }
 
   get position(): Position {

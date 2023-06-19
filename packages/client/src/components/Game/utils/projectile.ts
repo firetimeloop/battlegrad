@@ -8,10 +8,16 @@ const ProjectileSprite: Record<MOVE_DIRECTION, Sprite> = {
   [MOVE_DIRECTION.LEFT]: [330, 102, 4, 3],
 };
 
+export enum TankType {
+  player = 'player',
+  enemy = 'enemy',
+}
+
 export class Projectile {
   constructor(
         private x: number,
         private y: number,
+        private initiator: TankType,
         private direction: MOVE_DIRECTION,
         private velocity: {
             x: number;
@@ -21,6 +27,10 @@ export class Projectile {
 
   get sprite(): Sprite {
     return ProjectileSprite[this.direction];
+  }
+
+  get type(): TankType {
+    return this.initiator;
   }
 
   get position(): Position {

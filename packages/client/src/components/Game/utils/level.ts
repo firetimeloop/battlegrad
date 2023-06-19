@@ -1,6 +1,12 @@
 import { Explosion } from '@components/Game/utils/explosion';
+import {
+  decreaseHealthCount,
+  defeatEnemy,
+  GameStatus,
+  setGameStatus,
+} from '@components/Game/slice';
 import { PlayerTank } from './playerTank';
-import { Projectile } from './projectile';
+import { Projectile, TankType } from './projectile';
 import {
   CONTROL_KEYS,
   LastControlKey,
@@ -26,6 +32,7 @@ import { EnemyTank } from './enemyTank';
 import { DefaultEnemyTank } from './defaultEnemyTank';
 import { throttle } from '../../../utils/throttle';
 import { getRandomValue } from '../../../utils/random';
+import { store } from '../../../app/store';
 
 export const isTimeToShotEnemyTank = () => getRandomValue() % 128 === 0;
 
@@ -102,11 +109,11 @@ const isCollidingWithCorner = (
   cornerCollidingConditions: boolean[],
   otherCornerCollidingConditions: boolean[],
 ) => {
-  const isCollidingWithCorner = allConditionsIsTrue(cornerCollidingConditions);
+  const isCollidingCorner = allConditionsIsTrue(cornerCollidingConditions);
   const isCollidingWithOtherCorner = allConditionsIsTrue(
     otherCornerCollidingConditions,
   );
-  return isCollidingWithCorner || isCollidingWithOtherCorner;
+  return isCollidingCorner || isCollidingWithOtherCorner;
 };
 
 const isCellBreakable = (celltype: LEVEL_OBJECT) => [
@@ -115,6 +122,7 @@ const isCellBreakable = (celltype: LEVEL_OBJECT) => [
   LEVEL_OBJECT.LEFT_WALL,
   LEVEL_OBJECT.RIGHT_WALL,
   LEVEL_OBJECT.TOP_WALL,
+  LEVEL_OBJECT.STANDARD,
 ].includes(celltype);
 
 // Модель
@@ -181,7 +189,7 @@ export class Level {
     this.projectiles.forEach((projectile) => projectile.update());
     this.explosions.forEach((explosion) => explosion.update());
     if (activeControlKeys.has(SPECIAL_CONTROL_KEYS.SPACE)) {
-      this.cannonShot(this.player);
+      this.playerCannonShot(this.player);
 
       activeControlKeys.delete(SPECIAL_CONTROL_KEYS.SPACE);
     }
@@ -391,6 +399,7 @@ export class Level {
       this.projectiles.push(new Projectile(
         x + offsetX(),
         y + offsetY(),
+        tank.getType,
         tank.currentDirection,
         velocity,
       ));
@@ -398,6 +407,8 @@ export class Level {
   }
 
   enemyCannonShot = throttle(this.cannonShot, 5000, this);
+
+  playerCannonShot = throttle(this.cannonShot, 2000, this);
 
   getPlayer() {
     return this.player;
@@ -420,6 +431,41 @@ export class Level {
       const outOfBoundsX = x > CANVAS_WIDTH || x < 0;
       const outOfBoundsY = y > CANVAS_HEIGHT || y < 0;
 
+      if (projectile.type === TankType.enemy) {
+        const { x: tankX, y: tankY } = this.player.position;
+        const XEnd = tankX + TANK_SIZE;
+        const YEnd = tankY + TANK_SIZE;
+
+        const includeX = tankX < (x + 2) && XEnd > (x - 2);
+        const includeY = tankY < (y + 2) && YEnd > (y - 2);
+
+        if (includeX && includeY) {
+          this.explosions.push(new Explosion(x, y, 30));
+          store.dispatch(decreaseHealthCount());
+          return false;
+        }
+      }
+
+      if (projectile.type === TankType.player) {
+        const collideEnemyIndex = this.enemies.findIndex((tank) => {
+          const { x: tankX, y: tankY } = tank.position;
+          const XEnd = tankX + TANK_SIZE;
+          const YEnd = tankY + TANK_SIZE;
+
+          const includeX = tankX < (x + 2) && XEnd > (x - 2);
+          const includeY = tankY < (y + 2) && YEnd > (y - 2);
+
+          return includeX && includeY;
+        });
+
+        if (collideEnemyIndex !== -1) {
+          this.explosions.push(new Explosion(x, y, 30));
+          this.enemies = this.enemies.filter((item, index) => index !== collideEnemyIndex);
+          store.dispatch(defeatEnemy());
+          return false;
+        }
+      }
+
       const collideCell = collidableTiles.find((cell) => {
         if (!cell.colliderBorders || !cell.spriteType) {
           return false;
@@ -439,9 +485,14 @@ export class Level {
 
       if (collideCell && collideCell.spriteType) {
         if (isCellBreakable(collideCell.spriteType)) {
-          collideCell.spriteType = LEVEL_OBJECT.EMPTY;
           collideCell.colliderBorders = null;
           this.explosions.push(new Explosion(x, y, 30));
+          if (collideCell.spriteType === LEVEL_OBJECT.STANDARD) {
+            setTimeout(() => {
+              store.dispatch(setGameStatus(GameStatus.gameOver));
+            }, 200);
+          }
+          collideCell.spriteType = LEVEL_OBJECT.EMPTY;
         }
 
         return false;
