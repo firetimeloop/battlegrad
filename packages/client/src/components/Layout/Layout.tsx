@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '@components/Button';
 import { LogOut } from '@components/Auth/slice';
-import { useTheme } from 'styled-components';
+// import { useTheme } from 'styled-components';
 import ThemeSwitcher from '@components/ThemeSwitcher/ThemeSwitcher';
 import { LayoutWrapper, NavLink, NavLinks } from './styles';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -13,7 +13,7 @@ function Layout() {
   const { user } = useAppSelector((state) => state.auth);
   const loggedIn = !!user;
   const navigate = useNavigate();
-  const Theme = useTheme();
+  // const Theme = useTheme();
 
   const logOut = () => {
     dispatch(LogOut()).then(() => navigate('/login'));

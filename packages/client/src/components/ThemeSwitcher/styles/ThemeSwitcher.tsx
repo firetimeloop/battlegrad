@@ -39,7 +39,7 @@ export const ToggleSwitch = styled.div`
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    box-shadow: inset 7px -1px 0px 0px white;
+    box-shadow: inset 7px -1px 0 0 white;
     background-color: #2e2c2c;
     transition: 0.3s;
   }

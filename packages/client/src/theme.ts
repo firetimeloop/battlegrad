@@ -27,6 +27,10 @@ export const theme: DefaultTheme = {
 export const invertTheme: DefaultTheme = {
   color: {
     background: {
+      primary: '#000000',
+      secondary: '#FFFFFF',
+      light: 'gray',
+      dark: 'black',
       lightBlue: '#0882FF',
       blue: '#3369F3',
       orange: '#FF5931',
