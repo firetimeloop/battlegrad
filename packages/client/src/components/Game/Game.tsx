@@ -18,6 +18,9 @@ const handleFullScreenToggle = (e: KeyboardEvent) => {
   }
 };
 
+import enemyImg from '../../../public/enemy.png';
+import explosionImg from '../../../public/explosion.png';
+
 function Game() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dispatch = useAppDispatch();
@@ -94,21 +97,37 @@ function Game() {
 
   return (
     <GameWrapper>
-      <Content />
       {status === GameStatus.normal && (
         <GameStats>
           <h2>
-            Жизни:
+            {/* Жизни:
             <span style={{ color: 'black' }}>
               {` ${'✖ '.repeat(3 - player.healthCount)}`}
-            </span>
-            <span style={{ color: 'red' }}>
+            </span> */}
+            <span style={{ color: 'red', fontFamily: 'serif' }}>
               {` ${'❤ '.repeat(player.healthCount)}`}
             </span>
           </h2>
-          <h3>{`Уничтожено противников: ${enemiesDefeated} из 20`}</h3>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(10, 1fr)',
+              gap: '8px',
+            }}>
+            {[...Array(20).keys()].map((i) => {
+              if (i < enemiesDefeated) {
+                return (
+                  <img width="32px" height="32px" src={explosionImg} alt="" />
+                );
+              }
+              return <img width="32px" height="32px" src={enemyImg} alt="" />;
+            })}
+          </div>
+          {/*
+          <h3>{`Уничтожено противников: ${enemiesDefeated} из 20`}</h3> */}
         </GameStats>
       )}
+      <Content />
     </GameWrapper>
   );
 }

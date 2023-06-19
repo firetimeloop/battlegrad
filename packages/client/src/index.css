@@ -1,49 +1,61 @@
-body {
-    margin: 0;
-}
-* {
-    font-family: Inter, serif;
-    box-sizing: border-box;
+@font-face {
+  font-family: 'Better VCR';
+  src: local('Better VCR'), url('./../public/better-vcr.ttf');
 }
 
-h1, h2, h3, h4, h5, h6, p, span, label, form {
-    margin: 0
+body {
+  margin: 0;
+}
+* {
+  font-family: 'Better VCR', serif;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+label,
+form {
+  margin: 0;
 }
 
 @keyframes shake {
-    10%, 90% {
-        transform: translate(-51%, 0);
-    }
+  10%,
+  90% {
+    transform: translate(-51%, 0);
+  }
 
-    20%, 80% {
-        transform: translate(-49%, 0);
-    }
+  20%,
+  80% {
+    transform: translate(-49%, 0);
+  }
 
-    30%, 50%, 70% {
-        transform: translate(-53%, 0);
-    }
+  30%,
+  50%,
+  70% {
+    transform: translate(-53%, 0);
+  }
 
-    40%, 60% {
-        transform: translate(-47%, 0);
-    }
+  40%,
+  60% {
+    transform: translate(-47%, 0);
+  }
 }
 
 .shake-animated {
-    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 @keyframes animatedBackground {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: 100% 0;
-    }
-}
-
-#app {
-    background-image: url('/tank-bg.png');
+  from {
     background-position: 0 0;
-    background-repeat: repeat;
-    animation: animatedBackground 50s linear infinite alternate;
+  }
+  to {
+    background-position: 100% 0;
+  }
 }

@@ -5,8 +5,6 @@ export const Table = styled.table`
   border-radius: 30px;
   padding: 20px;
   color: ${({ theme }) => theme.color.white};
-  font-family: Inter, serif;
-  font-style: normal;
   font-weight: 500;
   font-size: 20px;
   line-height: 20px;

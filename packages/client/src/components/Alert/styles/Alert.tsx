@@ -7,7 +7,7 @@ export const AlertContainer = styled.div<{visible: boolean | undefined}>`
   max-width: 500px;
   padding: 16px;
   border-radius: 10px;
-  background: ${({ theme }) => theme.color.white};
+  background: ${({ theme }) => theme.color.background.secondary};
   position: fixed;
   z-index: 2;
   font-size: 18px;
