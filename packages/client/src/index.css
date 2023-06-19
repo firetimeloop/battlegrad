@@ -37,8 +37,8 @@ body {
     }
 }
 
-#root {
-    background-image: url('tank-bg.png');
+#app {
+    background-image: url('/tank-bg.png');
     background-position: 0 0;
     background-repeat: repeat;
     animation: animatedBackground 50s linear infinite alternate;

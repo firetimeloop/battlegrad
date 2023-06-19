@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
+    "preview": "vite preview --host",
     "lint": "npm-run-all lint:*",
     "lint:typescript": "tsc --noEmit",
     "lint:eslint": "eslint .",
