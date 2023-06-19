@@ -1,7 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { GameLogo } from '@components/Game/styles';
-import BattleGradImage from '@components/Game/styles/BattleGradImage';
 import StartGameModal from './components/StartGameModal';
 import PauseModal from './components/PauseModal';
 
@@ -36,9 +34,6 @@ function Game() {
       <GameComponent />
       <StartGameModal />
       <PauseModal isVisible={isPauseModalVisible} />
-      <GameLogo>
-        <BattleGradImage />
-      </GameLogo>
     </>
   );
 }

@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-export const AlertContainer = styled.div<{visible: boolean}>`
+export const AlertContainer = styled.div<{ visible: boolean }>`
   display: ${({ visible }) => (visible ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
   max-width: 500px;
   padding: 16px;
   border-radius: 10px;
-  background: ${({ theme }) => theme.color.white};
+  background: ${({ theme }) => theme.color.background.secondary};
   position: fixed;
   z-index: 2;
   font-size: 18px;

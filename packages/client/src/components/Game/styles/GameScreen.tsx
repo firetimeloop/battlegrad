@@ -5,17 +5,15 @@ export const GameScreen = styled.div`
   height: 520px;
   background-color: #000;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 150px;
-  flex-direction: column;
   gap: 40px;
 
   h1 {
     font-size: 48px;
     color: ${({ theme }) => theme.color.white};
   }
-  
 
   canvas {
     transform: scale(250%);
