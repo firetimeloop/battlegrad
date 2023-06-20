@@ -38,11 +38,11 @@ export const reactionModel: ModelAttributes<Model, Reaction> = {
     allowNull: false,
   },
   commentId: {
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: true,
   },
   topicId: {
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   },
 };

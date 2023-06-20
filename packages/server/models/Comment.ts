@@ -34,11 +34,11 @@ export const commentModel: ModelAttributes<Model, Comment> = {
     allowNull: false,
   },
   parentCommentId: {
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: true,
   },
   topicId: {
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   },
 };

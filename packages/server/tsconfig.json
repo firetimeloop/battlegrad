@@ -26,7 +26,7 @@
     },
     "outDir": "dist",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
     "jsx": "react-jsx",
   }
 }
