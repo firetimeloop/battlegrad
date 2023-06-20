@@ -3,6 +3,8 @@ import type { Request, Response } from 'express';
 import { Topic as TopicModel } from '../db';
 
 export const TopicController = {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   getTopics: async (request: Request, response: Response) => {
     try {
       const topics = await TopicModel.findAll();
