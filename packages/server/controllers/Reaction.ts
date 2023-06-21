@@ -2,10 +2,12 @@ import type { Request, Response } from 'express';
 
 import { Reaction as ReactionModel } from '../db';
 
+import type { Reaction } from '../models/Reaction';
+
 export const ReactionController = {
   getReactionsByTopicId: async (request: Request, response: Response) => {
     try {
-      const topicId = +request.params.topicId;
+      const topicId = +request.params.topic_id;
       const reactions = await ReactionModel.findAll({
         where: { topicId },
       });
@@ -17,7 +19,16 @@ export const ReactionController = {
 
   postReaction: async (request: Request, response: Response) => {
     try {
-      await ReactionModel.create({ ...request.body });
+      const { id, avatar, display_name } = request.body.user;
+      const messageData: Omit<Reaction, 'id'> = {
+        commentId: +request.body.commentId,
+        topicId: +request.body.topicId,
+        type: request.body.type,
+        userAvatar: avatar,
+        userDisplayName: display_name,
+        userId: id,
+      };
+      await ReactionModel.create(messageData);
       const topicId = +request.body.topicId;
       const reactions = await ReactionModel.findAll({ where: { topicId } });
       response.status(200).json({ data: reactions });

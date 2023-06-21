@@ -2,6 +2,8 @@ import type { Request, Response } from 'express';
 
 import { Topic as TopicModel } from '../db';
 
+import type { Topic } from '../models/Topic';
+
 export const TopicController = {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -17,7 +19,11 @@ export const TopicController = {
   postTopic: async (request: Request, response: Response) => {
     try {
       const { userId, title } = request.body;
-      await TopicModel.create({ userId, title });
+      const messageData: Omit<Topic, 'id'> = {
+        userId,
+        title,
+      };
+      await TopicModel.create(messageData);
       const topics = await TopicModel.findAll();
       response.status(200).json({ data: topics });
     } catch (error) {

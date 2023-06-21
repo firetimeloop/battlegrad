@@ -3,6 +3,7 @@ import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
 import type { ViteDevServer } from 'vite';
+import bodyParser from 'body-parser';
 import { renderReduxStoreObject } from './src/render-redux-store';
 import { renderStyles } from './src/render-styles';
 import { dbConnect } from './db';
@@ -52,6 +53,8 @@ export async function createServer(
   }
 
   app.use(express.static(path.resolve(__dirname, '../client/public')));
+
+  app.use(bodyParser.json());
 
   app.use(router);
 

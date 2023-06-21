@@ -2,6 +2,8 @@ import type { Request, Response } from 'express';
 
 import { Comment as CommentModel, Reaction as ReactionModel } from '../db';
 
+import type { Comment } from '../models/Comment';
+
 export const CommentController = {
   getCommentsByTopicId: async (request: Request, response: Response) => {
     try {
@@ -19,12 +21,12 @@ export const CommentController = {
   postComment: async (request: Request, response: Response) => {
     try {
       const { id, avatar, display_name } = request.body.user;
-      const messageData = {
+      const messageData: Omit<Comment, 'id'> = {
         userAvatar: avatar,
         userId: id,
         userDisplayName: display_name,
         content: request.body.content,
-        parentCommentId: +request.body.parentCommentId,
+        parentCommentId: request.body.parentCommentId,
         topicId: +request.body.topicId,
       };
       await CommentModel.create({ ...messageData });

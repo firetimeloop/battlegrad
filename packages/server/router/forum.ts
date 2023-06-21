@@ -7,9 +7,9 @@ const router = Router();
 
 router.get('/topics/', TopicController.getTopics);
 router.post('/topics/', TopicController.postTopic);
-router.delete('/themes/:topic_id', TopicController.deleteTopic);
-router.get('/comment/:topic_id', CommentController.getCommentsByTopicId);
-router.post('/comment/', CommentController.postComment);
+router.delete('/topics/:topic_id', TopicController.deleteTopic);
+router.get('/comments/:topic_id', CommentController.getCommentsByTopicId);
+router.post('/comments/', CommentController.postComment);
 router.get('/reactions/:topic_id', ReactionController.getReactionsByTopicId);
 router.post('/reactions/', ReactionController.postReaction);
 router.delete('/reactions/:reaction_id', ReactionController.deleteReaction);
