@@ -20,8 +20,6 @@ export async function createServer(
 ) {
   const resolve = (p: string) => path.resolve(__dirname, p);
 
-  dbConnect();
-
   const indexProd = isProd
     ? fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
     : '';
@@ -55,6 +53,8 @@ export async function createServer(
   app.use(express.static(path.resolve(__dirname, '../client/public')));
 
   app.use(bodyParser.json());
+
+  dbConnect();
 
   app.use(router);
 
