@@ -37,7 +37,7 @@ export interface IGetServiceIdProps {
   redirectUri: string
 }
 export interface IOauthProps {
-  redirectUri: string
+  redirect_uri: string
   code: string
 }
 export interface IGetServiceIdResponse {

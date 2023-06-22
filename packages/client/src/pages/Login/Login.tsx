@@ -2,7 +2,11 @@ import { Link } from 'react-router-dom';
 import { ErrorMessage, Formik } from 'formik';
 import { useTheme } from 'styled-components';
 import { toFormikValidate } from 'zod-formik-adapter';
-import { GetOauthServiceId, LogIn, OauthLogin } from '@components/Auth/slice';
+import {
+  // GetOauthServiceId,
+  LogIn,
+  // OauthLogin,
+} from '@components/Auth/slice';
 import { useEffect } from 'react';
 import {
   BtnText,
@@ -22,27 +26,47 @@ import Loader from '../../components/Loader';
 import { LoaderSizeEnum } from '../../enum';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import YandexLogo from './YandexLogo';
-import { REDIRECT_URI } from '../../app/api';
+import {
+  CLIENT_ID,
+  // CLIENT_ID,
+  REDIRECT_URI,
+  TEST_LOGIN,
+  TEST_PASSWORD,
+} from '../../app/api';
 
 function Login() {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  const { isFetching, service_id } = useAppSelector((state) => state.auth);
+  const {
+    isFetching,
+    // service_id,
+  } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
     if (code) {
-      dispatch(OauthLogin({ redirectUri: REDIRECT_URI, code }));
+      // @TODO API Практикум пока не работает, для oauth используем тестового юзера
+      // dispatch(OauthLogin({ redirect_uri: REDIRECT_URI, code }));
+
+      dispatch(LogIn({
+        login: TEST_LOGIN,
+        password: TEST_PASSWORD,
+      })).then((res) => {
+        if (res.meta.requestStatus === 'fulfilled') {
+          params.delete('code');
+        }
+      });
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    if (service_id) {
-      window.location.replace(`https://oauth.yandex.ru/authorize?response_type=code&client_id=${
-        service_id}&redirect_uri=${REDIRECT_URI}`);
-    }
-  }, [service_id]);
+  // @TODO API Практикум пока не работает, если заработает вернем
+  // useEffect(() => {
+  //   if (service_id) {
+  //     window.location.replace(`https://oauth.yandex.ru/authorize?response_type=code&client_id=${
+  //       CLIENT_ID}&redirect_uri=${REDIRECT_URI}`);
+  //   }
+  // }, [service_id]);
 
   return (
     <LoginContainer>
@@ -90,7 +114,14 @@ function Login() {
                 <DividerLine />
               </DividerContainer>
               <OauthButton
-                onClick={() => dispatch(GetOauthServiceId({ redirectUri: REDIRECT_URI }))}
+                onClick={() => {
+                  // @TODO API Практикум пока не работает, если заработает вернем
+                  // dispatch(GetOauthServiceId({ redirectUri: REDIRECT_URI }))
+
+                  window.location.replace(
+                    `https://oauth.yandex.ru/authorize?response_type=code&client_id=${
+                      CLIENT_ID}&redirect_uri=${REDIRECT_URI}`);
+                }}
                 type="button"
                 disabled={isFetching}>
                 {!isFetching && <YandexLogo />}
