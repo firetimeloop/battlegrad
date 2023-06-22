@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 import { GameStatus, resetGame, setGameStatus } from '@components/Game/slice';
+import { addLeader } from '@components/Leaderboard/slice';
 import Button from '@components/Button';
 import { GameScreen, GameStats, GameWrapper } from './styles';
 import { initGame } from './utils/initGame';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectGameState, selectLeaderboardState } from '../../app/selectors';
 import { H1 } from '../../styles';
 
 function Game() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dispatch = useAppDispatch();
-  const { player, enemiesDefeated, status } = useAppSelector((store) => store.game);
+  const { player, enemiesDefeated, status } = useAppSelector(selectGameState);
+  const { isSendLeaderAvailable } = useAppSelector(selectLeaderboardState);
 
   useEffect(() => {
     dispatch(resetGame());
@@ -22,7 +25,7 @@ function Game() {
     return () => {
       game?.endGame();
     };
-  }, [status]);
+  }, [dispatch, status]);
 
   useEffect(() => {
     if (player.healthCount === 0) {
@@ -33,8 +36,12 @@ function Game() {
   useEffect(() => {
     if (enemiesDefeated > 19) {
       dispatch(setGameStatus(GameStatus.win));
+
+      if (isSendLeaderAvailable) {
+        dispatch(addLeader());
+      }
     }
-  }, [dispatch, enemiesDefeated]);
+  }, [dispatch, enemiesDefeated, isSendLeaderAvailable]);
 
   const Content = useCallback(() => {
     switch (status) {
@@ -42,7 +49,9 @@ function Game() {
         return (
           <GameScreen>
             <H1>Вы проиграли! 😢</H1>
-            <Button onClick={() => dispatch(resetGame())}>Попробовать еще раз</Button>
+            <Button onClick={() => dispatch(resetGame())}>
+              Попробовать еще раз
+            </Button>
           </GameScreen>
         );
       }
@@ -61,7 +70,8 @@ function Game() {
           </GameScreen>
         );
       }
-      default: return null;
+      default:
+        return null;
     }
   }, [dispatch, status]);
 
@@ -69,20 +79,18 @@ function Game() {
     <GameWrapper>
       <Content />
       {status === GameStatus.normal && (
-      <GameStats>
-        <h2>
-          Жизни:
-          <span style={{ color: 'black' }}>
-            {` ${'✖ '.repeat(3 - player.healthCount)}`}
-          </span>
-          <span style={{ color: 'red' }}>
-            {` ${'❤ '.repeat(player.healthCount)}`}
-          </span>
-        </h2>
-        <h3>
-          {`Уничтожено противников: ${enemiesDefeated} из 20`}
-        </h3>
-      </GameStats>
+        <GameStats>
+          <h2>
+            Жизни:
+            <span style={{ color: 'black' }}>
+              {` ${'✖ '.repeat(3 - player.healthCount)}`}
+            </span>
+            <span style={{ color: 'red' }}>
+              {` ${'❤ '.repeat(player.healthCount)}`}
+            </span>
+          </h2>
+          <h3>{`Уничтожено противников: ${enemiesDefeated} из 20`}</h3>
+        </GameStats>
       )}
     </GameWrapper>
   );

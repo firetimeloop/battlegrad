@@ -2,37 +2,28 @@ import { Link } from 'react-router-dom';
 import { ErrorMessage, Formik } from 'formik';
 import { useTheme } from 'styled-components';
 import { toFormikValidate } from 'zod-formik-adapter';
-import {
-  // GetOauthServiceId,
-  LogIn,
-  // OauthLogin,
-} from '@components/Auth/slice';
+import { LogIn } from '@components/Auth/slice';
 import { useEffect } from 'react';
 import {
+  BorderedFormBlock,
   BtnText,
   DividerContainer,
   DividerLine,
   DividerText,
   FormContainer,
+  FullScreenCenteredContainer,
+  H1,
+  Input,
   LoaderBtnContainer,
-  LoginBlock,
-  LoginContainer,
   OauthButton,
   SubmitButton,
-} from './styles';
-import { H1, Input } from '../../styles';
+} from '../../styles';
 import { LoginValidationModel } from '../../interface';
 import Loader from '../../components/Loader';
 import { LoaderSizeEnum } from '../../enum';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import YandexLogo from './YandexLogo';
-import {
-  CLIENT_ID,
-  // CLIENT_ID,
-  REDIRECT_URI,
-  TEST_LOGIN,
-  TEST_PASSWORD,
-} from '../../app/api';
+import { CLIENT_ID, REDIRECT_URI, TEST_LOGIN, TEST_PASSWORD } from '../../app/api';
 
 function Login() {
   const theme = useTheme();
@@ -69,8 +60,8 @@ function Login() {
   // }, [service_id]);
 
   return (
-    <LoginContainer>
-      <LoginBlock>
+    <FullScreenCenteredContainer>
+      <BorderedFormBlock>
         <H1>Вход</H1>
         <Formik
           initialValues={{ login: '', password: '' }}
@@ -102,7 +93,7 @@ function Login() {
                 </BtnText>
                 {isFetching && (
                   <LoaderBtnContainer>
-                    <Loader color={theme.color.white} size={LoaderSizeEnum.small} />
+                    <Loader color={theme!.color.white} size={LoaderSizeEnum.small} />
                   </LoaderBtnContainer>
                 )}
               </SubmitButton>
@@ -137,8 +128,8 @@ function Login() {
             </FormContainer>
           )}
         </Formik>
-      </LoginBlock>
-    </LoginContainer>
+      </BorderedFormBlock>
+    </FullScreenCenteredContainer>
   );
 }
 

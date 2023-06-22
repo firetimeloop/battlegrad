@@ -1,6 +1,4 @@
-import {
-  createAsyncThunk, createSlice, isAnyOf, PayloadAction,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import {
   IGetMeResponse,
   IGetServiceIdProps,
@@ -14,6 +12,12 @@ import {
 } from '../../interface';
 import { axiosYandexApi } from '../../app/api';
 import { IRegisterProps, IRegisterResponse } from '../../interface/Register';
+import {
+  IChangePasswordProps,
+  IProfileChange,
+  IProfileUpdateResult,
+  IUpdatePasswordResult,
+} from '../../interface/Profile';
 
 export const LogIn = createAsyncThunk<ILoginResponse, ILoginProps, IThunkApi>(
   'LogIn',
@@ -71,6 +75,36 @@ export const GetMe = createAsyncThunk<IGetMeResponse, void, IThunkApi>(
   },
 );
 
+export const UpdateProfile = createAsyncThunk<IProfileUpdateResult, IProfileChange, IThunkApi>(
+  'UpdateProfile',
+  async (data, { signal }) => {
+    const response = await axiosYandexApi.put<IProfileUpdateResult>('/user/profile', data, {
+      signal,
+    });
+    return response.data;
+  },
+);
+
+export const UpdateAvatar = createAsyncThunk<IProfileUpdateResult, FormData, IThunkApi>(
+  'UpdateAvatar',
+  async (data, { signal }) => {
+    const response = await axiosYandexApi.put<IProfileUpdateResult>('/user/profile/avatar', data, {
+      signal,
+    });
+    return response.data;
+  },
+);
+export const UpdatePassword =
+  createAsyncThunk<IUpdatePasswordResult, IChangePasswordProps, IThunkApi>(
+    'UpdatePassword',
+    async (data, { signal }) => {
+      const response = await axiosYandexApi.put<IUpdatePasswordResult>('/user/password', data, {
+        signal,
+      });
+      return response.data;
+    },
+  );
+
 interface IAuthState {
   isFetching: boolean
   user: IUser | null
@@ -114,6 +148,9 @@ export const slice = createSlice({
       LogIn.fulfilled,
       CreateUser.fulfilled,
       OauthLogin.fulfilled,
+      UpdateProfile.fulfilled,
+      UpdateAvatar.fulfilled,
+      UpdatePassword.fulfilled,
     ), (state) => {
       state.needFetchUser = true;
       if (state.service_id) {
@@ -152,7 +189,6 @@ export const slice = createSlice({
 
 export const {
   setIsFetching,
-
 } = slice.actions;
 
 export default slice.reducer;

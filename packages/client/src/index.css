@@ -6,6 +6,10 @@ body {
     box-sizing: border-box;
 }
 
+h1, h2, h3, h4, h5, h6, p, span, label, form {
+    margin: 0
+}
+
 @keyframes shake {
     10%, 90% {
         transform: translate(-51%, 0);

@@ -37,7 +37,7 @@ function Layout() {
         {loggedIn && (
         <li>
           <Button
-            style={{ backgroundColor: Theme.color.background.orange }}
+            style={{ backgroundColor: Theme!.color.background.orange }}
             onClick={logOut}>
             Выйти
           </Button>

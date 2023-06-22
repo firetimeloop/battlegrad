@@ -1,12 +1,9 @@
 import { z } from 'zod';
+import type { IErrorResponse } from '.';
 
 export interface ILoginProps {
   login: string
   password: string
-}
-
-export interface IErrorResponse {
-  reason: string
 }
 
 export type ILoginResponse = IErrorResponse | null

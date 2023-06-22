@@ -10,22 +10,19 @@ import {
   RegisterImage,
 } from '@pages/Register/styles';
 import React from 'react';
-import { BtnText, LoaderBtnContainer, LoginContainer, SubmitButton } from '../Login/styles';
-import { H1, Input } from '../../styles';
+import {
+  H1,
+  Input,
+  BtnText,
+  LoaderBtnContainer,
+  FullScreenCenteredContainer,
+  SubmitButton,
+} from '../../styles';
 import Loader from '../../components/Loader';
 import { LoaderSizeEnum } from '../../enum';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RegisterFormInit, RegisterValidationModel } from '../../interface/Register';
-
-const validateConfirmPassword = (password: string, confirmPassword: string) => {
-  let error = '';
-  if (password && confirmPassword) {
-    if (password !== confirmPassword) {
-      error = 'Пароли не совпадают';
-    }
-  }
-  return error;
-};
+import { validateConfirmPassword } from '../../utils/password';
 
 function Register() {
   const theme = useTheme();
@@ -33,7 +30,7 @@ function Register() {
   const { isFetching } = useAppSelector((state) => state.auth);
 
   return (
-    <LoginContainer>
+    <FullScreenCenteredContainer>
       <RegisterBlock>
         <RegisterImage />
         <RegisterBlockContent>
@@ -100,7 +97,7 @@ function Register() {
                   </BtnText>
                   {isFetching && (
                     <LoaderBtnContainer>
-                      <Loader color={theme.color.white} size={LoaderSizeEnum.small} />
+                      <Loader color={theme!.color.white} size={LoaderSizeEnum.small} />
                     </LoaderBtnContainer>
                   )}
                 </SubmitButton>
@@ -110,7 +107,7 @@ function Register() {
         </RegisterBlockContent>
       </RegisterBlock>
 
-    </LoginContainer>
+    </FullScreenCenteredContainer>
   );
 }
 

@@ -4,7 +4,8 @@ export class Sprite {
   constructor(
         private src: string,
   ) {
-    this.image = new Image();
+    // Заглушка для SSR
+    this.image = typeof window !== 'undefined' ? new Image() : {} as HTMLImageElement;
   }
 
   async load() {
