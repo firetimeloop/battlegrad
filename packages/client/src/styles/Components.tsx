@@ -134,6 +134,7 @@ export const DividerContainer = styled.div`
   align-items: center;
   gap: 24px;
 `;
+
 export const DividerText = styled.div`
   font-weight: 400;
   font-size: 18px;
