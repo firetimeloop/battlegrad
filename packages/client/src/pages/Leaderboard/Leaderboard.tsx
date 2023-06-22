@@ -1,6 +1,10 @@
+import { default as LeaderboardComponent } from '@components/Leaderboard';
+
 function Leaderboard() {
   return (
-    <div>Leaderboard</div>
+    <div>
+      <LeaderboardComponent />
+    </div>
   );
 }
 

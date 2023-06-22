@@ -28,7 +28,10 @@ function Alert() {
   }, [dispatch, message, timestamp]);
 
   return (
-    <AlertContainer className={shake ? 'shake-animated' : ''} visible={!!message}>
+    <AlertContainer
+      className={shake ? 'shake-animated' : ''}
+      visible={message ? !!message : undefined}
+    >
       {message}
     </AlertContainer>
   );

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FormContainer, LoginBlock, SubmitButton } from '@pages/Login/styles';
+import { FormContainer, BorderedFormBlock, SubmitButton } from '../../../styles';
 
 export const RegisterBlock = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ export const RegisterImage = styled.div`
   background-image: url('/tank.png');
   background-color: ${({ theme }) => theme.color.background.green};
 `;
-export const RegisterBlockContent = styled(LoginBlock)`
+export const RegisterBlockContent = styled(BorderedFormBlock)`
   border: none;
   box-shadow: none;
   border-radius: 0;

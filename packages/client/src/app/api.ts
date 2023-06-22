@@ -1,8 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
 import { errorHandler, successHandler } from '../utils/requestHandlers';
 
+const yandexBaseUrl = 'https://ya-praktikum.tech/api/v2';
+
 const axiosYandexApi: AxiosInstance = axios.create({
-  baseURL: 'https://ya-praktikum.tech/api/v2',
+  baseURL: yandexBaseUrl,
   withCredentials: true,
 });
 
@@ -17,6 +19,7 @@ const TEST_LOGIN = 'Login123';
 const TEST_PASSWORD = 'Password1234';
 
 export {
+  yandexBaseUrl,
   axiosYandexApi,
   REDIRECT_URI,
   CLIENT_ID,

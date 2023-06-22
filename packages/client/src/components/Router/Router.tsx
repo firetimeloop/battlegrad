@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import React, { useEffect } from 'react';
+import { GetCurrentUserWinsNumber } from '@components/Leaderboard/slice';
 import { PrivateLoggedRoute } from './privateRoute/PrivateLoggedRoute';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -27,12 +28,20 @@ export function Router() {
     };
   }, [dispatch, needFetchUser]);
 
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(GetCurrentUserWinsNumber());
+    }
+  }, [dispatch, user?.id]);
+
   return (
     <Routes>
       <Route path="/login" element={<PrivateLoggedRoute loggedIn={loggedIn} />}>
         <Route path="/login" element={<Login />} />
       </Route>
-      <Route path="/signup" element={<PrivateLoggedRoute loggedIn={loggedIn} />}>
+      <Route
+        path="/signup"
+        element={<PrivateLoggedRoute loggedIn={loggedIn} />}>
         <Route path="/signup" element={<Register />} />
       </Route>
 
