@@ -41,8 +41,8 @@ h1, h2, h3, h4, h5, h6, p, span, label, form {
     }
 }
 
-#root {
-    background-image: url('tank-bg.png');
+#app {
+    background-image: url('/tank-bg.png');
     background-position: 0 0;
     background-repeat: repeat;
     animation: animatedBackground 50s linear infinite alternate;
