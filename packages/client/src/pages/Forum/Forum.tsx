@@ -1,6 +1,14 @@
+import { ForumBlock } from '@pages/Forum/styles';
+import React from 'react';
+import { FullScreenCenteredContainer, H1 } from '../../styles';
+
 function Forum() {
   return (
-    <div>Forum</div>
+    <FullScreenCenteredContainer>
+      <ForumBlock>
+        <H1>Форум</H1>
+      </ForumBlock>
+    </FullScreenCenteredContainer>
   );
 }
 
