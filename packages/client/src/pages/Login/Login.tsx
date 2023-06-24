@@ -121,7 +121,7 @@ function Login() {
                 </BtnText>
                 {isFetching && (
                   <LoaderBtnContainer>
-                    <Loader color={theme.color.white} size={LoaderSizeEnum.small} />
+                    <Loader color={theme!.color.white} size={LoaderSizeEnum.small} />
                   </LoaderBtnContainer>
                 )}
               </OauthButton>
