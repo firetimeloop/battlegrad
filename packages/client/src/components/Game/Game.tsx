@@ -8,12 +8,29 @@ import { initGame } from './utils/initGame';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectGameState, selectLeaderboardState } from '../../app/selectors';
 import { H1 } from '../../styles';
+import toggleFullScreen from '../../utils/toggleFullScreen';
+
+const ENTER_CODE = 13;
+
+const handleFullScreenToggle = (e: KeyboardEvent) => {
+  if (e.keyCode === ENTER_CODE) {
+    toggleFullScreen();
+  }
+};
 
 function Game() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const dispatch = useAppDispatch();
   const { player, enemiesDefeated, status } = useAppSelector(selectGameState);
   const { isSendLeaderAvailable } = useAppSelector(selectLeaderboardState);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleFullScreenToggle);
+
+    return () => {
+      document.removeEventListener('keydown', handleFullScreenToggle);
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(resetGame());
@@ -66,7 +83,7 @@ function Game() {
       case GameStatus.normal: {
         return (
           <GameScreen>
-            <canvas ref={canvasRef} />
+            <canvas id="game" ref={canvasRef} />
           </GameScreen>
         );
       }
