@@ -11,3 +11,7 @@ export function selectLeaderboardState(state: RootState) {
 export function selectAuthState(state: RootState) {
   return state.auth;
 }
+
+export function selectForumState(state: RootState) {
+  return state.forum;
+}

@@ -2,24 +2,25 @@ import styled from 'styled-components';
 import { MiniLoaderProps } from '../../../interface';
 
 export const Spinner = styled.div<MiniLoaderProps>`
-  width: ${(props) => props.size}px;
-  height: ${(props) => props.size}px;
+  width: ${({ size }) => size ?? '20'}px;
+  height: ${({ size }) => size ?? '20'}px;
   border-radius: 50%;
   display: block;
   position: relative;
 
-  ::after {
+  div {
     position: absolute;
     left: 0;
     top: 0;
-    clip: rect(0, ${(props) => props.size}px, 
-    ${(props) => props.size}px, ${(props) => +props.size / 2}px);
-    width: ${(props) => props.size}px;
-    height: ${(props) => props.size}px;
+    clip: rect(0, ${({ size }) => size ?? '20'}px, 
+    ${({ size }) => size ?? '20'}px, ${({ size }) => +(size ?? '20') / 2}px);
+    width: ${({ size }) => size ?? '20'}px;
+    height: ${({ size }) => size ?? '20'}px;
     content: '';
     animation: spinner-circle 0.8s ease-in-out infinite;
     border-radius: 50%;
-    box-shadow: inset 0 0 0 ${(props) => +props.size / 13}px ${(props) => props.color};
+    box-shadow: inset 0 0 0 ${({ size }) => +(size ?? '20') / 13}px ${
+  ({ color, theme }) => color ?? theme.color.background.blue};
   }
 
   @keyframes spinner-circle {
@@ -31,4 +32,12 @@ export const Spinner = styled.div<MiniLoaderProps>`
       transform: rotate(180deg);
     }
   }
+`;
+
+export const LoaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 `;

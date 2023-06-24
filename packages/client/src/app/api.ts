@@ -8,7 +8,16 @@ const axiosYandexApi: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
+const axiosServerApi: AxiosInstance = axios.create({
+  withCredentials: true,
+});
+
 axiosYandexApi.interceptors.response.use(
+  (response) => successHandler(response),
+  (error) => errorHandler(error),
+);
+
+axiosServerApi.interceptors.response.use(
   (response) => successHandler(response),
   (error) => errorHandler(error),
 );
@@ -16,4 +25,5 @@ axiosYandexApi.interceptors.response.use(
 export {
   yandexBaseUrl,
   axiosYandexApi,
+  axiosServerApi,
 };

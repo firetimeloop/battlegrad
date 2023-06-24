@@ -1,69 +1,70 @@
-import { createAsyncThunk, createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
-import { IThunkApi } from '../../interface';
-import { axiosYandexApi } from '../../app/api';
-import { Comment, IGetTopicsResult, Topic, TopicArrayModel } from '../../interface/Forum';
+import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
+import { CreateTopic, DeleteTopic, GetTopics } from '@components/Forum/api/topics';
+import { Topic, TopicArrayModel } from '../../interface/forum/topic';
+import { ForumComment } from '../../interface/forum/comment';
+import { Reaction } from '../../interface/forum/reaction';
 
-export const GetTopics = createAsyncThunk<IGetTopicsResult, void, IThunkApi>(
-  'GetTopics',
-  async (data, { signal }) => {
-    const response = await axiosYandexApi.get<IGetTopicsResult>('/forum/topics', {
-      signal,
-    });
-    return response.data;
-  },
-);
+type INestedComment = ForumComment & {
+  related: ForumComment[]
+}
+
+type ApiLoaders = Record<string, boolean>
 
 interface IForumState {
   topics: Topic[]
-  comments: Comment[]
-  isFetching: boolean
+  comments: INestedComment[]
+  reactions: Reaction[]
+  loaders: ApiLoaders
+  selectedTopic: Topic | null
 }
 
 const ForumStateInit: IForumState = {
   topics: [],
   comments: [],
-  isFetching: false,
+  reactions: [],
+  loaders: {},
+  selectedTopic: null,
 };
 
 export const slice = createSlice({
   name: 'forum',
   initialState: ForumStateInit,
   reducers: {
-    setIsFetching(state, action: PayloadAction<boolean>) {
-      state.isFetching = action.payload;
+    setSelectedTopic(state, action: PayloadAction<Topic | null>) {
+      state.selectedTopic = action.payload;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(GetTopics.fulfilled, (state, action) => {
-      state.topics = TopicArrayModel.parse(action.payload);
-    });
-    builder.addCase(GetTopics.pending, (state) => {
-      state.topics = [];
-    });
-
     builder.addMatcher(isAnyOf(
       GetTopics.pending,
-    ), (state) => {
-      state.isFetching = true;
+      CreateTopic.pending,
+      DeleteTopic.pending,
+    ), (state, action) => {
+      console.log(action);
+      state.loaders[action.type.split('/')[0]] = true;
     });
     builder.addMatcher(isAnyOf(
       GetTopics.fulfilled,
-    ), (state) => {
-      state.isFetching = false;
+      CreateTopic.fulfilled,
+      DeleteTopic.fulfilled,
+    ), (state, action) => {
+      state.topics = TopicArrayModel.parse(action.payload.data);
+      delete state.loaders[action.type.split('/')[0]];
     });
     builder.addMatcher(isAnyOf(
       GetTopics.rejected,
+      CreateTopic.rejected,
+      DeleteTopic.rejected,
     ), (state, action) => {
-      // если пошел новый запрос, а старый отменили, лоадер не убираем
-      if (action.error.message !== 'Aborted') {
-        state.isFetching = false;
+      if (!action.meta.aborted) {
+        delete state.loaders[action.type.split('/')[0]];
       }
     });
   },
 });
 
 export const {
-  setIsFetching,
+  setSelectedTopic,
 } = slice.actions;
 
 export default slice.reducer;
