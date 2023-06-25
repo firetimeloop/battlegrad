@@ -77,23 +77,12 @@ function Login() {
           validate={toFormikValidate(LoginValidationModel)}
           onSubmit={(values) => {
             dispatch(LogIn(values));
-          }}
-        >
-          {({
-            handleSubmit,
-          }) => (
+          }}>
+          {({ handleSubmit }) => (
             <FormContainer onSubmit={handleSubmit}>
-              <Input
-                placeholder="Логин"
-                name="login"
-                type="text"
-              />
+              <Input placeholder="Логин" name="login" type="text" />
               <ErrorMessage name="login" />
-              <Input
-                type="password"
-                placeholder="Пароль"
-                name="password"
-              />
+              <Input type="password" placeholder="Пароль" name="password" />
               <ErrorMessage name="password" />
               <Link to="/signup">У вас нет аккаунта? Регистрация</Link>
               <SubmitButton type="submit" disabled={isFetching}>
@@ -102,7 +91,10 @@ function Login() {
                 </BtnText>
                 {isFetching && (
                   <LoaderBtnContainer>
-                    <Loader color={theme!.color.white} size={LoaderSizeEnum.small} />
+                    <Loader
+                      color={theme.colors.onBackground}
+                      size={LoaderSizeEnum.small}
+                    />
                   </LoaderBtnContainer>
                 )}
               </SubmitButton>
@@ -123,7 +115,7 @@ function Login() {
                 </BtnText>
                 {isFetching && (
                   <LoaderBtnContainer>
-                    <Loader color={theme!.color.white} size={LoaderSizeEnum.small} />
+                    <Loader color={theme!.colors.onBackground} size={LoaderSizeEnum.small} />
                   </LoaderBtnContainer>
                 )}
               </OauthButton>

@@ -4,13 +4,15 @@ export const ToggleSwitch = styled.div`
   position: relative;
   width: 50px;
   height: 25px;
+  border-radius: 50px;
 
   label {
     position: absolute;
     width: 100%;
     height: 25px;
-    background-color: #2e2c2c;
+    background-color: ${({ theme }) => theme.colors.background};
     border-radius: 50px;
+    filter: contrast(0.6);
     cursor: pointer;
   }
 
@@ -28,7 +30,7 @@ export const ToggleSwitch = styled.div`
   }
 
   input:checked ~ .slider {
-    background-color: white;
+    background-color: ${({ theme }) => theme.colors.onBackground};
   }
 
   .slider::before {
@@ -39,14 +41,14 @@ export const ToggleSwitch = styled.div`
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    box-shadow: inset 7px -1px 0 0 white;
-    background-color: #2e2c2c;
+    box-shadow: inset 7px -1px 0 0 ${({ theme }) => theme.colors.onBackground};
+    background-color: ${({ theme }) => theme.colors.background};
     transition: 0.3s;
   }
 
   input:checked ~ .slider::before {
     transform: translateX(23px);
-    background-color: #2e2c2c;
+    background-color: ${({ theme }) => theme.colors.background};
     box-shadow: none;
   }
 `;

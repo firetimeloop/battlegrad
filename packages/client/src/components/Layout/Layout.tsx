@@ -8,7 +8,7 @@ import { LayoutWrapper, NavLink, NavLinks } from './styles';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import logo from '../../../public/logo.png';
 // компонент временный для разработки
-function Layout() {
+function Layout({ setSelectedTheme }) {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const loggedIn = !!user;
@@ -44,7 +44,7 @@ function Layout() {
             </Button>
           </li>
         )}
-        <ThemeSwitcher />
+        <ThemeSwitcher setSelectedTheme={setSelectedTheme} />
       </NavLinks>
     </LayoutWrapper>
   );

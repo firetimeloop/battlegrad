@@ -10,6 +10,9 @@ import { selectGameState, selectLeaderboardState } from '../../app/selectors';
 import { H1 } from '../../styles';
 import toggleFullScreen from '../../utils/toggleFullScreen';
 
+import enemyImg from '../../../public/enemy.png';
+import explosionImg from '../../../public/explosion.png';
+
 const ENTER_CODE = 13;
 
 const handleFullScreenToggle = (e: KeyboardEvent) => {
@@ -17,9 +20,6 @@ const handleFullScreenToggle = (e: KeyboardEvent) => {
     toggleFullScreen();
   }
 };
-
-import enemyImg from '../../../public/enemy.png';
-import explosionImg from '../../../public/explosion.png';
 
 function Game() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -68,7 +68,8 @@ function Game() {
       case GameStatus.gameOver: {
         return (
           <GameScreen>
-            <H1>Вы проиграли! 😢</H1>
+            <H1>Вы проиграли!</H1>
+            <H1>😢</H1>
             <Button onClick={() => dispatch(resetGame())}>
               Попробовать еще раз
             </Button>
@@ -78,7 +79,8 @@ function Game() {
       case GameStatus.win: {
         return (
           <GameScreen>
-            <H1>Вы выиграли! 🥳</H1>
+            <H1>Вы выиграли!</H1>
+            <H1>🥳</H1>
             <Button onClick={() => dispatch(resetGame())}>Сыграть еще</Button>
           </GameScreen>
         );
@@ -100,20 +102,11 @@ function Game() {
       {status === GameStatus.normal && (
         <GameStats>
           <h2>
-            {/* Жизни:
-            <span style={{ color: 'black' }}>
-              {` ${'✖ '.repeat(3 - player.healthCount)}`}
-            </span> */}
-            <span style={{ color: 'red', fontFamily: 'serif' }}>
+            <span className="lives">
               {` ${'❤ '.repeat(player.healthCount)}`}
             </span>
           </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(10, 1fr)',
-              gap: '8px',
-            }}>
+          <div className="enemies">
             {[...Array(20).keys()].map((i) => {
               if (i < enemiesDefeated) {
                 return (
@@ -123,8 +116,6 @@ function Game() {
               return <img width="32px" height="32px" src={enemyImg} alt="" />;
             })}
           </div>
-          {/*
-          <h3>{`Уничтожено противников: ${enemiesDefeated} из 20`}</h3> */}
         </GameStats>
       )}
       <Content />

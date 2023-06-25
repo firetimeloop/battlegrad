@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const GameScreen = styled.div`
   width: 520px;
   height: 520px;
-  background-color: #000;
+  background-color: ${({ theme }) => theme.colors.background};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,12 +11,18 @@ export const GameScreen = styled.div`
   gap: 40px;
 
   h1 {
-    font-size: 48px;
-    color: ${({ theme }) => theme.color.white};
+    font-size: 38px;
+    color: ${({ theme }) => theme.colors.onBackground};
   }
 
   canvas {
     transform: scale(250%);
     transform-origin: center;
+
+    ${({ theme }) => {
+      if (theme.name === 'lightTheme') {
+        return 'filter: invert(1) grayscale(.6) hue-rotate(145deg);';
+      }
+    }};
   }
 `;

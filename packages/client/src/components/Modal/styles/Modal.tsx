@@ -13,6 +13,7 @@ export const ModalWrapper = styled.div`
 export const ModalContent = styled.div`
   padding: 20px;
   border-radius: 12px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.onSurface};
   width: fit-content;
 `;
