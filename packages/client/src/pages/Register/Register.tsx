@@ -63,8 +63,7 @@ function Register() {
                   placeholder="Повторите пароль"
                   name="passwordRepeat"
                   validate={(value: string) =>
-                    validateConfirmPassword(values.password, value)
-                  }
+                    validateConfirmPassword(values.password, value)}
                 />
                 <ErrorMessage name="passwordRepeat" />
                 <Link to="/login">Уже зарегистрированы? Войти</Link>

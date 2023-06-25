@@ -250,8 +250,7 @@ function Profile() {
                   placeholder="Повторите новый пароль"
                   name="newPasswordRepeat"
                   validate={(value: string) =>
-                    validateConfirmPassword(values.newPassword, value)
-                  }
+                    validateConfirmPassword(values.newPassword, value)}
                 />
                 <ErrorMessage name="newPasswordRepeat" />
                 <RowGap10>

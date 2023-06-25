@@ -18,11 +18,10 @@ export const GameScreen = styled.div`
   canvas {
     transform: scale(250%);
     transform-origin: center;
-
     ${({ theme }) => {
-      if (theme.name === 'lightTheme') {
-        return 'filter: invert(1) grayscale(.6) hue-rotate(145deg);';
-      }
-    }};
+    if (theme.name === 'lightTheme') {
+      return 'filter: invert(1) grayscale(.6) hue-rotate(145deg);';
+    }
+  }};
   }
 `;

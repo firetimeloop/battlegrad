@@ -6,7 +6,6 @@ export const AppWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  // width: 100vw;
   min-height: 100vh;
 
   & .logo {

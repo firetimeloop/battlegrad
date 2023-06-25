@@ -9,8 +9,6 @@ export const GameWrapper = styled.div`
   align-items: center;
   min-width: 100px;
   min-height: 100px;
-  // position: fixed;
-  // background: ${({ theme }) => theme.colors.background};
 `;
 
 export const GameStats = styled.div`
@@ -40,9 +38,9 @@ export const GameStats = styled.div`
     grid-template-columns: repeat(10, 1fr);
     gap: 8px;
     ${({ theme }) => {
-      if (theme.name === 'lightTheme') {
-        return 'filter: invert(1) grayscale(.6) hue-rotate(145deg);';
-      }
-    }}
+    if (theme.name === 'lightTheme') {
+      return 'filter: invert(1) grayscale(.6) hue-rotate(145deg);';
+    }
+  }}
   }
 `;
