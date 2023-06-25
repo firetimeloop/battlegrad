@@ -9,7 +9,7 @@ const axiosYandexApi: AxiosInstance = axios.create({
 });
 
 const axiosServerApi: AxiosInstance = axios.create({
-  withCredentials: true,
+  baseURL: 'http://localhost:3001',
 });
 
 axiosYandexApi.interceptors.response.use(

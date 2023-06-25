@@ -1,18 +1,16 @@
 import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { CreateTopic, DeleteTopic, GetTopics } from '@components/Forum/api/topics';
+import { CreateComment, GetComments } from '@components/Forum/api/comments';
+import { CreateReaction, DeleteReaction, GetReactions } from '@components/Forum/api/reactions';
 import { Topic, TopicArrayModel } from '../../interface/forum/topic';
-import { ForumComment } from '../../interface/forum/comment';
-import { Reaction } from '../../interface/forum/reaction';
-
-type INestedComment = ForumComment & {
-  related: ForumComment[]
-}
+import { CommentArrayModel, ForumComment } from '../../interface/forum/comment';
+import { Reaction, ReactionArrayModel } from '../../interface/forum/reaction';
 
 type ApiLoaders = Record<string, boolean>
 
 interface IForumState {
   topics: Topic[]
-  comments: INestedComment[]
+  comments: ForumComment[]
   reactions: Reaction[]
   loaders: ApiLoaders
   selectedTopic: Topic | null
@@ -36,25 +34,65 @@ export const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(isAnyOf(
+      GetTopics.fulfilled,
+      CreateTopic.fulfilled,
+      DeleteTopic.fulfilled,
+    ), (state, action) => {
+      state.topics = TopicArrayModel.parse(action.payload.data);
+    });
+    builder.addMatcher(isAnyOf(
+      GetComments.fulfilled,
+      CreateComment.fulfilled,
+    ), (state, action) => {
+      const comments = CommentArrayModel.parse(action.payload.data.comments);
+      state.comments = comments.filter((i) => !i.parentCommentId);
+    });
+    builder.addMatcher(isAnyOf(
+      GetReactions.fulfilled,
+      CreateReaction.fulfilled,
+      DeleteReaction.fulfilled,
+    ), (state, action) => {
+      state.reactions = ReactionArrayModel.parse(action.payload.data);
+    });
+    builder.addMatcher(isAnyOf(
       GetTopics.pending,
       CreateTopic.pending,
       DeleteTopic.pending,
+
+      GetComments.pending,
+      CreateComment.pending,
+
+      GetReactions.pending,
+      CreateReaction.pending,
+      DeleteReaction.pending,
     ), (state, action) => {
-      console.log(action);
       state.loaders[action.type.split('/')[0]] = true;
     });
     builder.addMatcher(isAnyOf(
       GetTopics.fulfilled,
       CreateTopic.fulfilled,
       DeleteTopic.fulfilled,
+
+      GetComments.fulfilled,
+      CreateComment.fulfilled,
+
+      GetReactions.fulfilled,
+      CreateReaction.fulfilled,
+      DeleteReaction.fulfilled,
     ), (state, action) => {
-      state.topics = TopicArrayModel.parse(action.payload.data);
       delete state.loaders[action.type.split('/')[0]];
     });
     builder.addMatcher(isAnyOf(
       GetTopics.rejected,
       CreateTopic.rejected,
       DeleteTopic.rejected,
+
+      GetComments.rejected,
+      CreateComment.rejected,
+
+      GetReactions.rejected,
+      CreateReaction.rejected,
+      DeleteReaction.rejected,
     ), (state, action) => {
       if (!action.meta.aborted) {
         delete state.loaders[action.type.split('/')[0]];

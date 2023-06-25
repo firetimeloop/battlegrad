@@ -4,6 +4,7 @@ import { LoaderContainer } from '@components/Loader/styles';
 import { GetTopics, TopicThunks } from '@components/Forum/api/topics';
 import { Topics } from '@pages/Forum/Topics';
 import { ForumBlock } from '@pages/Forum/styles';
+import { Comments } from '@pages/Forum/Comments';
 import { FullScreenCenteredContainer } from '../../styles';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectForumState } from '../../app/selectors';
@@ -32,7 +33,7 @@ function Forum() {
           : (
             <>
               {!selectedTopic && <Topics />}
-              {!selectedTopic && <Topics />}
+              {selectedTopic && <Comments />}
             </>
           )}
       </ForumBlock>

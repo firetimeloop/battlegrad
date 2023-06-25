@@ -1,38 +1,38 @@
 version: '3.9'
 
 services:
-  client:
-    container_name: battlegrad-client
-    image: battlegrad-client
-    build:
-      context: .
-      dockerfile: Dockerfile.client
-    restart: always
-    ports:
-      - '${CLIENT_PORT}:4173'
-    expose:
-      - '4173'
-  server:
-    depends_on:
-      - postgres
-    container_name: battlegrad-server
-    image: battlegrad-server
-    build:
-      context: .
-      dockerfile: Dockerfile.server
-    restart: always
-    ports:
-      - '${SERVER_PORT}:${SERVER_PORT}'
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_HOST: postgres
-    expose:
-      - '${SERVER_PORT}'
-    networks:
-      - battlenet
+#  client:
+#    container_name: battlegrad-client
+#    image: battlegrad-client
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.client
+#    restart: always
+#    ports:
+#      - '${CLIENT_PORT}:4173'
+#    expose:
+#      - '4173'
+#  server:
+#    depends_on:
+#      - postgres
+#    container_name: battlegrad-server
+#    image: battlegrad-server
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.server
+#    restart: always
+#    ports:
+#      - '${SERVER_PORT}:${SERVER_PORT}'
+#    environment:
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#      POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_DB: ${POSTGRES_DB}
+#      POSTGRES_PORT: ${POSTGRES_PORT}
+#      POSTGRES_HOST: postgres
+#    expose:
+#      - '${SERVER_PORT}'
+#    networks:
+#      - battlenet
   postgres:
     image: postgres:14
     ports:
@@ -48,24 +48,24 @@ services:
       - '${POSTGRES_PORT}'
     networks:
       - battlenet
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4:7.3
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: secret
-      PGADMIN_LISTEN_PORT: 80
-    ports:
-      - '8080:80'
-    expose:
-      - '80'
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    depends_on:
-      - postgres
-    networks:
-      - battlenet
+#  pgadmin:
+#    container_name: pgadmin
+#    image: dpage/pgadmin4:7.3
+#    restart: always
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+#      PGADMIN_DEFAULT_PASSWORD: secret
+#      PGADMIN_LISTEN_PORT: 80
+#    ports:
+#      - '8080:80'
+#    expose:
+#      - '80'
+#    volumes:
+#      - pgadmin-data:/var/lib/pgadmin
+#    depends_on:
+#      - postgres
+#    networks:
+#      - battlenet
 
 volumes:
   pgadmin-data:

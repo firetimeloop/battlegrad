@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IErrorResponse } from '../index';
+import { IUser } from '../index';
 
 export enum ReactionEnum {
   Like = 'like',
@@ -21,8 +21,13 @@ export type Reaction = z.infer<typeof ReactionModel>
 
 export type GetReactionsResult = {
   data: Reaction[]
-} | IErrorResponse
+}
 
-export type CreateReactionProps = Omit<Reaction, 'id'>
+export type CreateReactionProps = {
+  user: IUser
+  type: ReactionEnum
+  topicId: number
+  commentId: number | null
+}
 
 export type ReactionId = number

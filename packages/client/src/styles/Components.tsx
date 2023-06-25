@@ -78,6 +78,10 @@ export const Button = styled.button`
   text-align: center;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 
   :hover {
     filter: brightness(0.95);
@@ -102,6 +106,7 @@ export const BtnText = styled.div`
   font-weight: 500;
   font-size: 20px;
   line-height: 20px;
+  white-space: nowrap;
 `;
 
 export const LoaderBtnContainer = styled.div`
@@ -115,6 +120,16 @@ export const RowGap10 = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+`;
+
+export const ColumnGap10 = styled(RowGap10)`
+  flex-direction: column;
+`;
+
+export const RowSpaceBetween = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const Divider = styled.div`

@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { IErrorResponse } from '../index';
+import { IUser } from '../index';
+import { Reaction } from './reaction';
 
 const CommentModel = z.object({
   id: z.number(),
@@ -16,7 +17,12 @@ export const CommentArrayModel = z.array(CommentModel);
 export type ForumComment = z.infer<typeof CommentModel>
 
 export type GetCommentsResult = {
-  data: ForumComment[]
-} | IErrorResponse
+  data: { comments: ForumComment[], reactions: Reaction[] }
+}
 
-export type CreateCommentProps = Omit<ForumComment, 'id'>
+export type CreateCommentProps = {
+  user: IUser
+  content: string
+  topicId: number
+  parentCommentId: number | null
+}

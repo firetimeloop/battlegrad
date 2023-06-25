@@ -4,6 +4,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import type { ViteDevServer } from 'vite';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import { renderReduxStoreObject } from './src/render-redux-store';
 import { renderStyles } from './src/render-styles';
 import { dbConnect } from './db';
@@ -55,6 +56,20 @@ export async function createServer(
   app.use(bodyParser.json());
 
   dbConnect();
+
+  const allowedOrigins = ['http://localhost:3000'];
+
+  app.use(cors({
+    origin(origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = 'CORS policy not allow access from the specified origin';
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+
+  }));
 
   app.use(router);
 
