@@ -1,12 +1,13 @@
-import { useRef } from 'react';
+import { ChangeEvent, SetStateAction, useRef } from 'react';
 import { ToggleSwitch } from './styles';
 import { darkTheme, lightTheme } from '../../theme';
 
-function ThemeSwitcher({ setSelectedTheme }) {
+function ThemeSwitcher({ setSelectedTheme }: { setSelectedTheme: SetStateAction<any>}) {
   const swithcer = useRef(null);
 
-  const switchTheme = (e) => {
-    if (e.target.checked) {
+  const switchTheme = (e: ChangeEvent) => {
+    const target = e?.target;
+    if ((target as HTMLInputElement).checked) {
       setSelectedTheme(lightTheme);
     } else {
       setSelectedTheme(darkTheme);

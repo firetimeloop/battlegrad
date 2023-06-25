@@ -25,7 +25,6 @@ export const FullScreenCenteredContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  // width: 100vw;
 `;
 
 export const FormContainer = styled.form`

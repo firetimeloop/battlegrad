@@ -4,11 +4,12 @@ import Button from '@components/Button';
 import { LogOut } from '@components/Auth/slice';
 // import { useTheme } from 'styled-components';
 import ThemeSwitcher from '@components/ThemeSwitcher/ThemeSwitcher';
+import { SetStateAction } from 'react';
 import { LayoutWrapper, NavLink, NavLinks } from './styles';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import logo from '../../../public/logo.png';
 // компонент временный для разработки
-function Layout({ setSelectedTheme }) {
+function Layout({ setSelectedTheme }: { setSelectedTheme: SetStateAction<any>}) {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const loggedIn = !!user;
