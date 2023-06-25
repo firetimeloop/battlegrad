@@ -1,24 +1,24 @@
 import type { Request, Response } from 'express';
 
+import { tryCatch } from '../helpers/controllerHelper';
+
 import { Reaction as ReactionModel } from '../db';
 
 import type { Reaction } from '../models/Reaction';
 
 export const ReactionController = {
   getReactionsByTopicId: async (request: Request, response: Response) => {
-    try {
+    tryCatch(response, async () => {
       const topicId = +request.params.topic_id;
       const reactions = await ReactionModel.findAll({
         where: { topicId },
       });
       response.status(200).json({ data: reactions });
-    } catch (error) {
-      response.status(400).json({ error: (error as Error).message });
-    }
+    });
   },
 
   postReaction: async (request: Request, response: Response) => {
-    try {
+    tryCatch(response, async () => {
       const { id, avatar, display_name } = request.body.user;
       const messageData: Omit<Reaction, 'id'> = {
         commentId: +request.body.commentId,
@@ -32,13 +32,11 @@ export const ReactionController = {
       const topicId = +request.body.topicId;
       const reactions = await ReactionModel.findAll({ where: { topicId } });
       response.status(200).json({ data: reactions });
-    } catch (error) {
-      response.status(400).json({ error: (error as Error).message });
-    }
+    });
   },
 
   deleteReaction: async (request: Request, response: Response) => {
-    try {
+    tryCatch(response, async () => {
       const reactionId = +request.params.reaction_id;
       const reaction = await ReactionModel.findByPk(reactionId);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -53,8 +51,6 @@ export const ReactionController = {
       } else {
         response.status(400).json({ error: 'Реакция не найдена!' });
       }
-    } catch (error) {
-      response.status(400).json({ error: (error as Error).message });
-    }
+    });
   },
 };
