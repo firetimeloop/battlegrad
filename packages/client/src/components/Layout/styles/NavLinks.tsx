@@ -9,10 +9,10 @@ export const NavLinks = styled.ul`
 `;
 
 export const NavLink = styled(Link)`
-  color: ${({ theme }) => theme.color.white};
+  color: ${({ theme }) => theme.colors.onBackground};
   text-decoration: none;
   white-space: nowrap;
-  background-color: ${({ theme }) => theme.color.background.blue};
+  background-color: ${({ theme }) => theme.colors.background};
   border-radius: 60px;
   font-style: normal;
   font-weight: 500;

@@ -1,6 +1,10 @@
+import { ForumContent } from './styles';
+
 function Forum() {
   return (
-    <div>Forum</div>
+    <ForumContent>
+      <h1>Work in progress...</h1>
+    </ForumContent>
   );
 }
 

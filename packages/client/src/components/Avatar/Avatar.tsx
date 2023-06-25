@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from 'react';
+import { useTheme } from 'styled-components';
 
 import { AvatarImg } from './styles';
 
@@ -8,8 +9,14 @@ type TAvatarProps = PropsWithChildren<{
 }>;
 
 function Avatar({ avatarUrl, size }: TAvatarProps) {
+  const theme = useTheme();
   const isAvatarAvailable = avatarUrl && avatarUrl?.length > 0;
-  const defaultAvatarSrc = '../../../public/tank-bg.png';
+  let defaultAvatarSrc = '';
+  if (theme.name === 'darkTheme') {
+    defaultAvatarSrc = '../../../public/tank-bg-light.png';
+  } else {
+    defaultAvatarSrc = '../../../public/tank-bg-dark.png';
+  }
   const defaultAvatarForHighResolution =
     '../../../public/tank-bg-2048×2048.png';
 
@@ -20,11 +27,7 @@ function Avatar({ avatarUrl, size }: TAvatarProps) {
           media="(min-width: 1920px)"
           srcSet={defaultAvatarForHighResolution}
         />
-        <AvatarImg
-          src={defaultAvatarSrc}
-          alt="Аватар"
-          size={size}
-        />
+        <AvatarImg src={defaultAvatarSrc} alt="Аватар" size={size} />
       </picture>
     );
   }

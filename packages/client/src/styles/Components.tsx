@@ -2,35 +2,30 @@ import styled from 'styled-components';
 import { Field } from 'formik';
 
 export const Input = styled(Field)`
-  font-family: Inter,serif;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
   line-height: 20px;
-  color: ${({ theme }) => theme.color.text.primary};
+  color: ${({ theme }) => theme.colors.onSurface};
   padding: 25px 32px;
   border-radius: 60px;
-  border: ${({ theme }) => theme.border};
   width: 100%;
   max-width: 500px;
-  
+
   ::placeholder {
-    font-family: Inter,serif;
     font-style: normal;
     font-weight: 500;
     font-size: 20px;
     line-height: 20px;
-    color: ${({ theme }) => theme.color.text.secondary}
+    color: ${({ theme }) => theme.colors.onSurface};
   }
-  
 `;
 
 export const FullScreenCenteredContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
+  // width: 100vw;
 `;
 
 export const FormContainer = styled.form`
@@ -39,6 +34,7 @@ export const FormContainer = styled.form`
   align-items: center;
   gap: 22px;
   width: 430px;
+  color: ${({ theme }) => theme.colors.onBackground};
 `;
 
 export const BorderedFormBlock = styled.div`
@@ -48,29 +44,25 @@ export const BorderedFormBlock = styled.div`
   gap: 22px;
   width: 600px;
   padding: 51px 85px 48px;
-  background: ${({ theme }) => theme.color.white};
-  border: ${({ theme }) => theme.border};
-  box-shadow: ${({ theme }) => theme.boxShadow};
+  background: ${({ theme }) => theme.colors.background};
   border-radius: 12px;
 
   a {
-    font-family: Inter, serif;
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 16px;
     text-align: center;
     text-decoration-line: underline;
-    color: ${({ theme }) => theme.color.text.link};
+    color: ${({ theme }) => theme.colors.accent};
   }
 
   a:visited {
-    color: ${({ theme }) => theme.color.text.link};
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
 
 export const Button = styled.button`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -93,8 +85,8 @@ export const SubmitButton = styled(Button)`
   border-radius: 60px;
   max-width: 500px;
   padding: 25px 0;
-  color: ${({ theme }) => theme.color.white};
-  background: ${({ theme }) => theme.color.background.blue};
+  color: ${({ theme }) => theme.colors.onAccent};
+  background: ${({ theme }) => theme.colors.accent};
 `;
 
 export const BtnText = styled.div`
@@ -114,12 +106,18 @@ export const LoaderBtnContainer = styled.div`
 export const RowGap10 = styled.div`
   display: flex;
   align-items: center;
+  align-self: flex-start;
   gap: 10px;
+  color: ${({ theme }) => theme.colors.onBackground};
+
+  & h3 {
+    color: ${({ theme }) => theme.colors.accent};
+  }
 `;
 
 export const Divider = styled.div`
   width: 100%;
   height: 1px;
   margin: 5px 0;
-  background: ${({ theme }) => theme.color.text.secondary};
+  background: ${({ theme }) => theme.colors.secondary};
 `;

@@ -1,12 +1,14 @@
 import styled from 'styled-components';
-import { FormContainer, BorderedFormBlock, SubmitButton } from '../../../styles';
+import {
+  FormContainer,
+  BorderedFormBlock,
+  SubmitButton,
+} from '../../../styles';
 
 export const RegisterBlock = styled.div`
   display: flex;
   align-items: stretch;
   width: 800px;
-  border: ${({ theme }) => theme.border};
-  box-shadow: ${({ theme }) => theme.boxShadow};
   border-radius: 12px;
   overflow: hidden;
 `;
@@ -15,8 +17,13 @@ export const RegisterImage = styled.div`
   width: 300px;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('/tank.png');
-  background-color: ${({ theme }) => theme.color.background.green};
+  background-image: ${({ theme }) => {
+    if (theme.name === 'darkTheme') {
+      return "url('/tank-bg-light.png')";
+    }
+    return "url('/tank-bg-dark.png')";
+  }};
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 export const RegisterBlockContent = styled(BorderedFormBlock)`
   border: none;
@@ -31,8 +38,8 @@ export const RegisterForm = styled(FormContainer)`
     padding: 12px 32px;
   }
 
-  a, ${SubmitButton} {
+  a,
+  ${SubmitButton} {
     margin-top: 10px;
   }
-
 `;

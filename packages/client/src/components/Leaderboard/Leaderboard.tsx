@@ -17,7 +17,7 @@ function Leaderboard() {
   }, [dispatch]);
 
   return isFetching ? (
-    <Loader color={theme.color.white} size={LoaderSizeEnum.large} />
+    <Loader color={theme.colors.onBackground} size={LoaderSizeEnum.large} />
   ) : (
     <LeaderboardTable leaders={leaders} />
   );
