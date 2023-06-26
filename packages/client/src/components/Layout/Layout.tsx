@@ -2,19 +2,17 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '@components/Button';
 import { LogOut } from '@components/Auth/slice';
-// import { useTheme } from 'styled-components';
 import ThemeSwitcher from '@components/ThemeSwitcher';
-import { SetStateAction } from 'react';
 import { LayoutWrapper, NavLink, NavLinks } from './styles';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import logo from '../../../public/logo.png';
+import { ThemeSwitcherProps } from '../../interface/ThemeSwitcher';
 // компонент временный для разработки
-function Layout({ setSelectedTheme }: { setSelectedTheme: SetStateAction<any>}) {
+function Layout({ setSelectedTheme }: ThemeSwitcherProps) {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const loggedIn = !!user;
   const navigate = useNavigate();
-  // const Theme = useTheme();
 
   const logOut = () => {
     dispatch(LogOut()).then(() => navigate('/login'));

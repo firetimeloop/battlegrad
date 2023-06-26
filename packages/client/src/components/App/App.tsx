@@ -14,6 +14,7 @@ const __SERVER_PORT__ = 3001;
 function App() {
   const { user } = useAppSelector((state) => state.auth);
   const loggedIn = !!user;
+  const [selectedTheme, setSelectedTheme] = useState(darkTheme);
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -24,9 +25,13 @@ function App() {
     };
 
     fetchServerData();
-  }, []);
 
-  const [selectedTheme, setSelectedTheme] = useState(darkTheme);
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme) {
+      setSelectedTheme(JSON.parse(savedTheme));
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={selectedTheme}>
@@ -34,7 +39,13 @@ function App() {
         {loggedIn ? (
           <Layout setSelectedTheme={setSelectedTheme} />
         ) : (
-          <img src={logo} alt="" width="700px" height="auto" className="logo" />
+          <img
+            src={logo}
+            alt=""
+            width="700px"
+            height="auto"
+            className="logo"
+            />
         )}
         <Router />
         <Alert />
