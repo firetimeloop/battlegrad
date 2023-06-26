@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@components/Button';
 import { LogOut } from '@components/Auth/slice';
 // import { useTheme } from 'styled-components';
-import ThemeSwitcher from '@components/ThemeSwitcher/ThemeSwitcher';
+import ThemeSwitcher from '@components/ThemeSwitcher';
 import { SetStateAction } from 'react';
 import { LayoutWrapper, NavLink, NavLinks } from './styles';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';

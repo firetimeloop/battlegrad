@@ -7,8 +7,8 @@ import { GameScreen, GameStats, GameWrapper } from './styles';
 import { initGame } from './utils/initGame';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectGameState, selectLeaderboardState } from '../../app/selectors';
-import { H1 } from '../../styles';
 import toggleFullScreen from '../../utils/toggleFullScreen';
+import { H1, Emoji } from '../../styles';
 
 import enemyImg from '../../../public/enemy.png';
 import explosionImg from '../../../public/explosion.png';
@@ -69,7 +69,7 @@ function Game() {
         return (
           <GameScreen>
             <H1>Вы проиграли!</H1>
-            <H1>😢</H1>
+            <Emoji>😢</Emoji>
             <Button onClick={() => dispatch(resetGame())}>
               Попробовать еще раз
             </Button>
@@ -80,7 +80,7 @@ function Game() {
         return (
           <GameScreen>
             <H1>Вы выиграли!</H1>
-            <H1>🥳</H1>
+            <Emoji>🥳</Emoji>
             <Button onClick={() => dispatch(resetGame())}>Сыграть еще</Button>
           </GameScreen>
         );
