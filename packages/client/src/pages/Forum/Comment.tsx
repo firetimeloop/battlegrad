@@ -3,7 +3,6 @@ import {
   CommentAuthorAvatar,
   CommentAuthorAvatarContainer,
   CommentContainer,
-  Plus,
 } from '@pages/Forum/styles';
 import React, { useState } from 'react';
 import { Like } from '@components/Like/Like';
@@ -18,7 +17,8 @@ import {
   Button,
   ColumnGap10,
   FormContainer,
-  Input, RepliesContainer,
+  Input,
+  RepliesContainer,
   RowGap10,
   RowSpaceBetween,
   SubmitButton,
@@ -51,9 +51,8 @@ export function Comment({ comment }: ICommentProps) {
         </CommentAuthorAvatarContainer>
         <h3>{comment.userDisplayName}</h3>
       </CommentAuthor>
-      <p style={{ margin: '20px 10px' }}>{comment.content}</p>
       <RowSpaceBetween>
-        <Button onClick={() => setReplyInputOpened(true)}>Ответить</Button>
+        <p style={{ margin: '20px 10px' }}>{comment.content}</p>
         <RowGap10>
           <Like
             liked={!!userLike}
@@ -79,6 +78,15 @@ export function Comment({ comment }: ICommentProps) {
           )}
         </RowGap10>
       </RowSpaceBetween>
+      {replyInputOpened
+        ? <div />
+        : (
+          <Button
+            style={{ width: 'fit-content' }}
+            onClick={() => setReplyInputOpened(true)}>
+            Ответить
+          </Button>
+        )}
       {replyInputOpened && (
         <Formik
           initialValues={{ reply: '' }}
@@ -127,9 +135,8 @@ export function Comment({ comment }: ICommentProps) {
                 <SubmitButton
                   style={{ width: 'fit-content', padding: 6, height: 38 }}
                   type="submit">
-                  <Plus />
                   <BtnText>
-                    Отправить ответ
+                    Отправить
                   </BtnText>
                 </SubmitButton>
               </RowSpaceBetween>
@@ -138,9 +145,9 @@ export function Comment({ comment }: ICommentProps) {
         </Formik>
       )}
       {related.length > 0 && (
-      <RepliesContainer>
-        {related.map((comm) => <Comment key={comm.id} comment={comm} />)}
-      </RepliesContainer>
+        <RepliesContainer>
+          {related.map((comm) => <Comment key={comm.id} comment={comm} />)}
+        </RepliesContainer>
       )}
     </CommentContainer>
   );

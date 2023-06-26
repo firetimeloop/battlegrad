@@ -5,7 +5,6 @@ import {
   ForumTitle,
   GoBack,
   GoBackContainer,
-  Plus,
 } from '@pages/Forum/styles';
 import React, { useEffect, useState } from 'react';
 import { CreateComment, GetComments } from '@components/Forum/api/comments';
@@ -103,9 +102,8 @@ export function Comments() {
               <SubmitButton
                 style={{ width: 'fit-content', padding: 10, height: 48 }}
                 type="submit">
-                <Plus />
                 <BtnText>
-                  Добавить комментарий
+                  Отправить
                 </BtnText>
               </SubmitButton>
             </RowSpaceBetween>
