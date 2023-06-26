@@ -179,7 +179,7 @@ function Profile() {
                     {isFetching && (
                       <LoaderBtnContainer>
                         <Loader
-                          color={theme.colors.onBackground}
+                          color={theme!.colors.onBackground}
                           size={LoaderSizeEnum.small}
                         />
                       </LoaderBtnContainer>
@@ -263,7 +263,7 @@ function Profile() {
                     {isFetching && (
                       <LoaderBtnContainer>
                         <Loader
-                          color={theme.colors.onBackground}
+                          color={theme!.colors.onBackground}
                           size={LoaderSizeEnum.small}
                         />
                       </LoaderBtnContainer>

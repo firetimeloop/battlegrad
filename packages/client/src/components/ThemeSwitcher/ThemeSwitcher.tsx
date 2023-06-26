@@ -24,7 +24,7 @@ function ThemeSwitcher({ setSelectedTheme }: ThemeSwitcherProps) {
     <ToggleSwitch>
       <label htmlFor="theme">
         <input
-          checked={currentTheme.name !== 'darkTheme'}
+          checked={currentTheme!.name !== 'darkTheme'}
           type="checkbox"
           id="theme"
           ref={swithcer}

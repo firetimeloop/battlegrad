@@ -74,7 +74,7 @@ function Register() {
                   {isFetching && (
                     <LoaderBtnContainer>
                       <Loader
-                        color={theme.colors.background}
+                        color={theme!.colors.background}
                         size={LoaderSizeEnum.small}
                       />
                     </LoaderBtnContainer>

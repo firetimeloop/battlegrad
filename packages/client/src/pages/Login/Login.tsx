@@ -92,7 +92,7 @@ function Login() {
                 {isFetching && (
                   <LoaderBtnContainer>
                     <Loader
-                      color={theme.colors.onBackground}
+                      color={theme!.colors.onBackground}
                       size={LoaderSizeEnum.small}
                     />
                   </LoaderBtnContainer>

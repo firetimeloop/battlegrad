@@ -12,7 +12,7 @@ function Avatar({ avatarUrl, size }: TAvatarProps) {
   const theme = useTheme();
   const isAvatarAvailable = avatarUrl && avatarUrl?.length > 0;
   let defaultAvatarSrc = '../../../public/tank-bg-light.png';
-  if (theme.name === 'darkTheme') {
+  if (theme!.name === 'darkTheme') {
     defaultAvatarSrc = '../../../public/tank-bg-light.png';
   } else {
     defaultAvatarSrc = '../../../public/tank-bg-dark.png';
