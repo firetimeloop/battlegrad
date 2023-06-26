@@ -11,7 +11,7 @@ type TAvatarProps = PropsWithChildren<{
 function Avatar({ avatarUrl, size }: TAvatarProps) {
   const theme = useTheme();
   const isAvatarAvailable = avatarUrl && avatarUrl?.length > 0;
-  let defaultAvatarSrc = '';
+  let defaultAvatarSrc = '../../../public/tank-bg-light.png';
   if (theme.name === 'darkTheme') {
     defaultAvatarSrc = '../../../public/tank-bg-light.png';
   } else {
