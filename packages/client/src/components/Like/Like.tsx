@@ -5,7 +5,7 @@ interface ILikeProps {
   onClick(): void
 }
 
-const LikeContainer = styled.div`
+const LikeContainer = styled.div<{liked: boolean}>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,18 +14,21 @@ const LikeContainer = styled.div`
   max-width: 24px;
   min-height: 24px;
   max-height: 24px;
+  color: ${({ liked, theme }) => (liked
+    ? theme.color.background.orange :
+    theme.color.background.black)}
 `;
 
 export function Like({ liked, onClick }: ILikeProps) {
   return (
-    <LikeContainer onClick={onClick}>
+    <LikeContainer liked={liked} onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24"
         viewBox="0 -960 960 960"
         width="24">
         <path
-          fill={liked ? 'red' : undefined}
+          fill="currentColor"
           d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94
         63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5
         90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5

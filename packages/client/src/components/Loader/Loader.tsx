@@ -4,9 +4,7 @@ import { MiniLoaderProps } from '../../interface';
 
 function Loader({ color, size }: MiniLoaderProps) {
   return (
-    <Spinner color={color} size={size}>
-      <div />
-    </Spinner>
+    <Spinner color={color} size={size} />
   );
 }
 

@@ -113,12 +113,13 @@ export const SubmitButton = styled(Button)`
   background: ${({ theme }) => theme.color.background.blue};
 `;
 
-export const BtnText = styled.div`
+export const BtnText = styled.div<{hidden?: boolean}>`
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
   line-height: 20px;
   white-space: nowrap;
+  opacity: ${({ hidden }) => (hidden ? 0 : 1)};
 `;
 
 export const LoaderBtnContainer = styled.div`

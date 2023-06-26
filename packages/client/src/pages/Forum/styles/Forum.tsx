@@ -1,6 +1,17 @@
 import styled from 'styled-components';
 import { ModalContent } from '@components/Modal/styles';
-import { BorderedFormBlock, H1 } from '../../../styles';
+import {
+  BorderedFormBlock,
+  BtnText,
+  Button,
+  ColumnGap10,
+  FormContainer,
+  H1,
+  Input,
+  RowGap10,
+  RowSpaceBetween,
+  SubmitButton,
+} from '../../../styles';
 
 export const ForumBlock = styled(BorderedFormBlock)`
   width: 1000px;
@@ -14,8 +25,32 @@ export const ForumBlock = styled(BorderedFormBlock)`
   @media screen and (width <= 768px) {
     width: 90vw;
   }
+
+  ${FormContainer} {
+    width: 100%;
+  }
 `;
 
+export const ForumMessageForm = styled.div`
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  gap: 20px;
+  ${Input} {
+    width: 100%;
+    padding: 10px;
+  }
+  ${ColumnGap10} {
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  ${SubmitButton} {
+    width: fit-content;
+    padding: 10px;
+    height: 48px;
+  }
+  `;
 export const TopicList = styled.ul`
   display: flex;
   flex-direction: column;
@@ -40,11 +75,49 @@ export const CommentsContainer = styled.div`
   overflow-y: scroll;
   width: 100%;
 `;
+export const EmptyText = styled.p`
+  margin: 100px 0;
+  font-size: 18px
+`;
+export const ReplyButton = styled(Button)`
+  padding: 6px 8px;
+  height: fit-content;
+  font-size: 14px;
+`;
 export const CommentContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px 20px 10px 0;
   width: 100%;
+
+  p {
+    margin: 20px;
+  }
+  ${FormContainer} {
+    width: 100%;
+    margin-top: 5px;
+  }
+  ${RowSpaceBetween} {
+    width: 100%;
+    gap: 20px;
+  }
+  ${ColumnGap10} {
+    width: 100%;
+  }
+  ${Input} {
+    padding: 6px;
+  }
+  ${Button} {
+    width: fit-content;
+    height: 38px;
+  }
+  ${ReplyButton} {
+    height: fit-content;
+  }
+  ${SubmitButton} {
+    padding: 6px;
+    
+  }
 `;
 export const CommentAuthor = styled.div`
   display: flex;
@@ -97,9 +170,50 @@ export const DeleteTopicContainer = styled.div`
   font-size: 20px;
   color: ${({ theme }) => theme.color.background.orange};
 `;
+
+export const CommentsBlock = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  ${FormContainer} {
+    width: 100%;
+    gap: 20px;
+    align-items: start;
+  }
+  ${RowGap10} {
+    width: 100%;
+  }
+  ${ColumnGap10} {
+    width: 100%;
+  }
+  ${Input} {
+    width: 100%;
+    padding: 10px;
+  }
+  ${SubmitButton} {
+    width: fit-content;
+    padding: 10px;
+    height: 48px;
+  }
+`;
 export const DeleteTopicOverlay = styled.div`
   ${ModalContent} {
     padding: 0;
+  }
+
+  ${RowSpaceBetween} {
+    margin-top: 10px;
+  }
+
+  ${Button} {
+    padding: 10px;
+  }
+  ${SubmitButton} {
+    height: 28px;
+    margin-left: 20px;
+    padding: 20px;
+    background: ${({ theme }) => theme.color.background.orange};
   }
 
   .modal-overlay {
@@ -109,6 +223,27 @@ export const DeleteTopicOverlay = styled.div`
   }
 `;
 
+export const ReplyForm = styled.div`
+  display: flex;
+  align-items: start;
+  gap: 20px;
+  width: 100%;
+  ${Input} {
+    padding: 3px 8px;
+  }
+  ${ColumnGap10} {
+    width: fit-content;
+  }
+  ${Button} {
+    padding: 6px;
+    font-size: 15px;
+    height: fit-content;
+  }
+  ${BtnText} {
+    font-size: 15px;
+  }
+  
+`;
 export function ArrowRight() {
   return (
     <svg

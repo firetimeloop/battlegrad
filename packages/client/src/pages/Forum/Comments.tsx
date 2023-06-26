@@ -1,7 +1,10 @@
 import {
+  CommentsBlock,
   CommentsContainer,
   DeleteTopicContainer,
   DeleteTopicOverlay,
+  EmptyText,
+  ForumMessageForm,
   ForumTitle,
   GoBack,
   GoBackContainer,
@@ -28,7 +31,6 @@ import {
   RowSpaceBetween,
   SubmitButton,
 } from '../../styles';
-import { theme } from '../../theme';
 
 export function Comments() {
   const dispatch = useAppDispatch();
@@ -45,13 +47,26 @@ export function Comments() {
     }
   }, [dispatch, selectedTopic]);
 
+  const onGoBack = () => dispatch(setSelectedTopic(null));
+  const onDeleteTopic = () => {
+    if (selectedTopic) {
+      dispatch(DeleteTopic(selectedTopic.id)).then((res) => {
+        if (res.type.includes('fulfilled')) {
+          onGoBack();
+        }
+      });
+    }
+  };
+  const openDeleteModal = () => setDeleteModalTopicOpened(true);
+  const closeDeleteModal = () => setDeleteModalTopicOpened(false);
+
   return (
-    <>
-      <GoBackContainer onClick={() => dispatch(setSelectedTopic(null))}>
+    <CommentsBlock>
+      <GoBackContainer onClick={onGoBack}>
         <GoBack />
         Назад
       </GoBackContainer>
-      <DeleteTopicContainer onClick={() => setDeleteModalTopicOpened(true)}>
+      <DeleteTopicContainer onClick={openDeleteModal}>
         Удалить топик
       </DeleteTopicContainer>
       <ForumTitle>{selectedTopic?.title}</ForumTitle>
@@ -61,7 +76,7 @@ export function Comments() {
             {commentsWithoutParent.map((comment) => <Comment key={comment.id} comment={comment} />)}
           </CommentsContainer>
         )
-        : <p style={{ margin: '100px 0', fontSize: 18 }}>Комментариев пока нет</p>}
+        : <EmptyText>Комментариев пока нет</EmptyText>}
       <Formik
         initialValues={{ comment: '' }}
         validate={toFormikValidate(z.object({
@@ -89,24 +104,22 @@ export function Comments() {
         {({
           handleSubmit,
         }) => (
-          <FormContainer style={{ width: '100%' }} onSubmit={handleSubmit}>
-            <RowSpaceBetween style={{ width: '100%', gap: 20, alignItems: 'start' }}>
-              <ColumnGap10 style={{ width: '100%' }}>
+          <FormContainer onSubmit={handleSubmit}>
+            <ForumMessageForm>
+              <ColumnGap10>
                 <Input
-                  style={{ padding: 10 }}
                   placeholder="Добавить комментарий"
                   name="comment"
                 />
                 <ErrorMessage name="comment" />
               </ColumnGap10>
               <SubmitButton
-                style={{ width: 'fit-content', padding: 10, height: 48 }}
                 type="submit">
                 <BtnText>
                   Отправить
                 </BtnText>
               </SubmitButton>
-            </RowSpaceBetween>
+            </ForumMessageForm>
           </FormContainer>
         )}
       </Formik>
@@ -115,31 +128,17 @@ export function Comments() {
           <Modal
             className="modal-overlay"
             isVisible={deleteTopicModalOpened}
-            closeModal={() => setDeleteModalTopicOpened(false)}>
+            closeModal={closeDeleteModal}>
             <BorderedFormBlock>
               <ForumTitle>
                 {`Удалить топик "${selectedTopic?.title}" ?`}
               </ForumTitle>
-              <RowSpaceBetween style={{ marginTop: 10 }}>
-                <Button style={{ padding: 10 }} onClick={() => setDeleteModalTopicOpened(false)}>
+              <RowSpaceBetween>
+                <Button onClick={closeDeleteModal}>
                   Отмена
                 </Button>
                 <SubmitButton
-                  style={{
-                    height: 28,
-                    marginLeft: 20,
-                    padding: 20,
-                    background: theme!.color.background.orange,
-                  }}
-                  onClick={() => {
-                    if (selectedTopic) {
-                      dispatch(DeleteTopic(selectedTopic.id)).then((res) => {
-                        if (res.type.includes('fulfilled')) {
-                          dispatch(setSelectedTopic(null));
-                        }
-                      });
-                    }
-                  }}>
+                  onClick={onDeleteTopic}>
                   Удалить
                 </SubmitButton>
               </RowSpaceBetween>
@@ -147,6 +146,6 @@ export function Comments() {
           </Modal>
         </DeleteTopicOverlay>
       )}
-    </>
+    </CommentsBlock>
   );
 }

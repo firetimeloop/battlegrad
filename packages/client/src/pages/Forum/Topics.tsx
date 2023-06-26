@@ -1,4 +1,12 @@
-import { ArrowRight, ForumTitle, ListItem, Plus, TopicList, TopicTitle } from '@pages/Forum/styles';
+import {
+  ArrowRight,
+  ForumMessageForm,
+  ForumTitle,
+  ListItem,
+  Plus,
+  TopicList,
+  TopicTitle,
+} from '@pages/Forum/styles';
 import { setSelectedTopic } from '@components/Forum/slice';
 import React from 'react';
 import { toFormikValidate } from 'zod-formik-adapter';
@@ -15,7 +23,6 @@ import {
   FormContainer,
   Input,
   LoaderBtnContainer,
-  RowSpaceBetween,
   SubmitButton,
 } from '../../styles';
 import { LoaderSizeEnum } from '../../enum';
@@ -62,22 +69,20 @@ export function Topics() {
         {({
           handleSubmit,
         }) => (
-          <FormContainer style={{ width: '100%' }} onSubmit={handleSubmit}>
-            <RowSpaceBetween style={{ width: '100%', gap: 20 }}>
-              <ColumnGap10 style={{ width: '100%' }}>
+          <FormContainer onSubmit={handleSubmit}>
+            <ForumMessageForm>
+              <ColumnGap10>
                 <Input
-                  style={{ padding: 10 }}
                   placeholder="Название нового топика"
                   name="newTopic"
                 />
                 <ErrorMessage name="newTopic" />
               </ColumnGap10>
               <SubmitButton
-                style={{ width: 'fit-content', padding: 10, height: 48 }}
                 type="submit"
                 disabled={isFetching}>
                 <Plus />
-                <BtnText style={{ opacity: isFetching ? '0' : '1' }}>
+                <BtnText hidden={isFetching}>
                   Создать новый
                 </BtnText>
                 {isFetching && (
@@ -86,7 +91,7 @@ export function Topics() {
                   </LoaderBtnContainer>
                 )}
               </SubmitButton>
-            </RowSpaceBetween>
+            </ForumMessageForm>
           </FormContainer>
         )}
       </Formik>

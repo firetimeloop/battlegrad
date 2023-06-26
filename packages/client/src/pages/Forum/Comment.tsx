@@ -3,6 +3,8 @@ import {
   CommentAuthorAvatar,
   CommentAuthorAvatarContainer,
   CommentContainer,
+  ReplyButton,
+  ReplyForm,
 } from '@pages/Forum/styles';
 import React, { useState } from 'react';
 import { Like } from '@components/Like/Like';
@@ -43,6 +45,25 @@ export function Comment({ comment }: ICommentProps) {
   const userLike = commentReactions.find((i) => i.userId === user?.id);
   const related = comments.filter((i) => i.parentCommentId === comment.id);
 
+  const onLikeClick = () => {
+    if (user && selectedTopic) {
+      if (userLike) {
+        dispatch(DeleteReaction(userLike.id));
+        return;
+      }
+
+      dispatch(CreateReaction({
+        user,
+        type: ReactionEnum.Like,
+        topicId: selectedTopic.id,
+        commentId: comment.id,
+      }));
+    }
+  };
+
+  const openReply = () => setReplyInputOpened(true);
+  const closeReply = () => setReplyInputOpened(false);
+
   return (
     <CommentContainer>
       <CommentAuthor>
@@ -52,25 +73,11 @@ export function Comment({ comment }: ICommentProps) {
         <h3>{comment.userDisplayName}</h3>
       </CommentAuthor>
       <RowSpaceBetween>
-        <p style={{ margin: '20px 10px' }}>{comment.content}</p>
+        <p>{comment.content}</p>
         <RowGap10>
           <Like
             liked={!!userLike}
-            onClick={() => {
-              if (user && selectedTopic) {
-                if (userLike) {
-                  dispatch(DeleteReaction(userLike.id));
-                  return;
-                }
-
-                dispatch(CreateReaction({
-                  user,
-                  type: ReactionEnum.Like,
-                  topicId: selectedTopic.id,
-                  commentId: comment.id,
-                }));
-              }
-            }} />
+            onClick={onLikeClick} />
           {commentReactions.length > 0 && (
             <span>
               {commentReactions.length}
@@ -79,71 +86,66 @@ export function Comment({ comment }: ICommentProps) {
         </RowGap10>
       </RowSpaceBetween>
       {replyInputOpened
-        ? <div />
-        : (
-          <Button
-            style={{ width: 'fit-content' }}
-            onClick={() => setReplyInputOpened(true)}>
-            Ответить
-          </Button>
-        )}
-      {replyInputOpened && (
-        <Formik
-          initialValues={{ reply: '' }}
-          validate={toFormikValidate(z.object({
-            reply: z.string().min(4, 'Введите хотя бы 4 символа'),
-          }))}
-          onSubmit={({ reply }, { resetForm }) => {
-            if (user && selectedTopic) {
-              dispatch(CreateComment({
-                user,
-                content: reply,
-                topicId: selectedTopic.id,
-                parentCommentId: comment.id,
-              })).then((res) => {
-                if (res.type.includes('fulfilled')) {
-                  resetForm();
-                  setReplyInputOpened(false);
-                }
-              });
-            }
-          }}
-        >
-          {({
-            handleSubmit, resetForm,
-          }) => (
-            <FormContainer style={{ width: '100%', marginTop: 5 }} onSubmit={handleSubmit}>
-              <RowSpaceBetween style={{ width: '100%', gap: 20, alignItems: 'start' }}>
-                <ColumnGap10 style={{ width: '100%' }}>
-                  <Input
-                    style={{ padding: 6 }}
-                    placeholder="Введите ответ"
-                    name="reply"
-                  />
-                  <ErrorMessage name="reply" />
-                </ColumnGap10>
-                <Button
-                  type="button"
-                  style={{ height: 38 }}
-                  onClick={(e) => {
-                    e.preventDefault();
+        ? (
+          <Formik
+            initialValues={{ reply: '' }}
+            validate={toFormikValidate(z.object({
+              reply: z.string().min(4, 'Введите хотя бы 4 символа'),
+            }))}
+            onSubmit={({ reply }, { resetForm }) => {
+              if (user && selectedTopic) {
+                dispatch(CreateComment({
+                  user,
+                  content: reply,
+                  topicId: selectedTopic.id,
+                  parentCommentId: comment.id,
+                })).then((res) => {
+                  if (res.type.includes('fulfilled')) {
                     resetForm();
-                    setReplyInputOpened(false);
-                  }}>
-                  Отмена
-                </Button>
-                <SubmitButton
-                  style={{ width: 'fit-content', padding: 6, height: 38 }}
-                  type="submit">
-                  <BtnText>
-                    Отправить
-                  </BtnText>
-                </SubmitButton>
-              </RowSpaceBetween>
-            </FormContainer>
-          )}
-        </Formik>
-      )}
+                    closeReply();
+                  }
+                });
+              }
+            }}
+        >
+            {({
+              handleSubmit, resetForm,
+            }) => (
+              <FormContainer onSubmit={handleSubmit}>
+                <ReplyForm>
+                  <ColumnGap10>
+                    <Input
+                      placeholder="Введите ответ"
+                      name="reply"
+                  />
+                    <ErrorMessage name="reply" />
+                  </ColumnGap10>
+                  <Button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      resetForm();
+                      closeReply();
+                    }}>
+                    Отмена
+                  </Button>
+                  <SubmitButton
+                    type="submit">
+                    <BtnText>
+                      Отправить
+                    </BtnText>
+                  </SubmitButton>
+                </ReplyForm>
+              </FormContainer>
+            )}
+          </Formik>
+        )
+        : (
+          <ReplyButton
+            onClick={openReply}>
+            Ответить
+          </ReplyButton>
+        )}
       {related.length > 0 && (
         <RepliesContainer>
           {related.map((comm) => <Comment key={comm.id} comment={comm} />)}

@@ -8,12 +8,12 @@ export const Spinner = styled.div<MiniLoaderProps>`
   display: block;
   position: relative;
 
-  div {
+  &::before {
     position: absolute;
     left: 0;
     top: 0;
-    clip: rect(0, ${({ size }) => size ?? '20'}px, 
-    ${({ size }) => size ?? '20'}px, ${({ size }) => +(size ?? '20') / 2}px);
+    clip: rect(0, ${({ size }) => size ?? '20'}px, ${
+  ({ size }) => size ?? '20'}px, ${({ size }) => +(size ?? '20') / 2}px);
     width: ${({ size }) => size ?? '20'}px;
     height: ${({ size }) => size ?? '20'}px;
     content: '';
