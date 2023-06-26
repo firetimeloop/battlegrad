@@ -41,6 +41,16 @@ export const FormContainer = styled.form`
   width: 430px;
 `;
 
+export const RepliesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-left: 1px solid #DADADA;
+  margin-left: 10px;
+  margin-top: 5px;
+  padding-left: 10px;
+`;
+
 export const BorderedFormBlock = styled.div`
   display: flex;
   flex-direction: column;
@@ -78,6 +88,12 @@ export const Button = styled.button`
   text-align: center;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 4px 8px;
 
   :hover {
     filter: brightness(0.95);
@@ -97,11 +113,13 @@ export const SubmitButton = styled(Button)`
   background: ${({ theme }) => theme.color.background.blue};
 `;
 
-export const BtnText = styled.div`
+export const BtnText = styled.div<{hidden?: boolean}>`
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
   line-height: 20px;
+  white-space: nowrap;
+  opacity: ${({ hidden }) => (hidden ? 0 : 1)};
 `;
 
 export const LoaderBtnContainer = styled.div`
@@ -115,6 +133,16 @@ export const RowGap10 = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+`;
+
+export const ColumnGap10 = styled(RowGap10)`
+  flex-direction: column;
+`;
+
+export const RowSpaceBetween = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const Divider = styled.div`

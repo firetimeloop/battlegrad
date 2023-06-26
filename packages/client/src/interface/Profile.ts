@@ -7,6 +7,7 @@ import {
   UserPhoneModel,
   UserSecondNameModel,
 } from './Register';
+import { IErrorResponse } from './index';
 
 export const ProfileChangeValidationModel = z.object({
   first_name: UserFirstNameModel,
@@ -20,11 +21,9 @@ export const ProfileChangeValidationModel = z.object({
 
 export type IProfileChange = z.infer<typeof ProfileChangeValidationModel>
 
-export type IProfileUpdated = IProfileChange & {id: number}
+export type IProfileUpdated = IProfileChange & { id: number }
 
-export type IProfileUpdateResult = IProfileUpdated | {
-  reason: string
-}
+export type IProfileUpdateResult = IProfileUpdated | IErrorResponse
 
 export const ProfileChangeInit: IProfileChange = {
   first_name: '',
@@ -48,9 +47,10 @@ export const ChangePasswordInit: IChangePassword = {
   newPassword: '',
   newPasswordRepeat: '',
 };
+
 export interface IChangePasswordProps {
   oldPassword: string
   newPassword: string
 }
 
-export type IUpdatePasswordResult = null | {reason: string}
+export type IUpdatePasswordResult = null | IErrorResponse
