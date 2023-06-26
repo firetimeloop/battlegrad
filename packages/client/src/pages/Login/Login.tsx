@@ -59,6 +59,15 @@ function Login() {
   //   }
   // }, [service_id]);
 
+  const oauthSubmit = () => {
+    // @TODO API Практикум пока не работает, если заработает вернем
+    // dispatch(GetOauthServiceId({ redirectUri: REDIRECT_URI }))
+
+    window.location.replace(
+      `https://oauth.yandex.ru/authorize?response_type=code&client_id=${
+        CLIENT_ID}&redirect_uri=${REDIRECT_URI}`);
+  };
+
   return (
     <FullScreenCenteredContainer>
       <BorderedFormBlock>
@@ -105,18 +114,11 @@ function Login() {
                 <DividerLine />
               </DividerContainer>
               <OauthButton
-                onClick={() => {
-                  // @TODO API Практикум пока не работает, если заработает вернем
-                  // dispatch(GetOauthServiceId({ redirectUri: REDIRECT_URI }))
-
-                  window.location.replace(
-                    `https://oauth.yandex.ru/authorize?response_type=code&client_id=${
-                      CLIENT_ID}&redirect_uri=${REDIRECT_URI}`);
-                }}
+                onClick={oauthSubmit}
                 type="button"
                 disabled={isFetching}>
                 {!isFetching && <YandexLogo />}
-                <BtnText style={{ opacity: isFetching ? '0' : '1' }}>
+                <BtnText hidden={isFetching}>
                   Войти с Яндекс ID
                 </BtnText>
                 {isFetching && (

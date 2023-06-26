@@ -10,7 +10,7 @@ import {
   IUser,
   UserModel,
 } from '../../interface';
-import { axiosYandexApi } from '../../app/api';
+import { axiosYandexApi, OAUTH_ROUTE } from '../../app/api';
 import { IRegisterProps, IRegisterResponse } from '../../interface/Register';
 import {
   IChangePasswordProps,
@@ -33,7 +33,7 @@ export const GetOauthServiceId = createAsyncThunk<IGetServiceIdResponse, IGetSer
   'GetOauthServiceId',
   async ({ redirectUri }) => {
     const response = await axiosYandexApi
-      .get<IGetServiceIdResponse>(`/oauth/yandex/service-id?redirect_uri=${redirectUri}`);
+      .get<IGetServiceIdResponse>(`${OAUTH_ROUTE}/service-id?redirect_uri=${redirectUri}`);
     return response.data;
   },
 );
@@ -41,7 +41,7 @@ export const GetOauthServiceId = createAsyncThunk<IGetServiceIdResponse, IGetSer
 export const OauthLogin = createAsyncThunk<ILoginResponse, IOauthProps>(
   'OauthLogin',
   async (data) => {
-    const response = await axiosYandexApi.post<ILoginResponse>('/oauth/yandex', data);
+    const response = await axiosYandexApi.post<ILoginResponse>(OAUTH_ROUTE, data);
     return response.data;
   },
 );

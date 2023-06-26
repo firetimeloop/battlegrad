@@ -107,11 +107,13 @@ export const OauthButton = styled(SubmitButton)`
   border: 1px solid black;
 `;
 
-export const BtnText = styled.div`
+export const BtnText = styled.div<{hidden?: boolean}>`
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
   line-height: 20px;
+  white-space: nowrap;
+  opacity: ${({ hidden }) => (hidden ? 0 : 1)};
 `;
 
 export const LoaderBtnContainer = styled.div`
