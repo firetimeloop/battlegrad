@@ -15,7 +15,7 @@ export const UserModel = z.object({
   display_name: z.string().nullable(),
   login: z.string(),
   email: z.string(),
-  phone: z.string(),
+  phone: z.string().nullable(),
   avatar: z.string().nullable(),
 });
 
@@ -29,3 +29,14 @@ export const LoginValidationModel = z.object({
   login: z.string().min(MIN_LOGIN, `Логин не может быть короче ${MIN_LOGIN} символов`),
   password: z.string().min(MIN_PASSWORD, `Пароль не может быть короче ${MIN_PASSWORD} символов`),
 });
+
+export interface IGetServiceIdProps {
+  redirectUri: string
+}
+export interface IOauthProps {
+  redirect_uri: string
+  code: string
+}
+export interface IGetServiceIdResponse {
+  service_id?: string
+}

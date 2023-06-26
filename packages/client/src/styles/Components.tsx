@@ -113,6 +113,16 @@ export const SubmitButton = styled(Button)`
   background: ${({ theme }) => theme.color.background.blue};
 `;
 
+export const OauthButton = styled(SubmitButton)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: ${({ theme }) => theme.color.text.primary};
+  background: ${({ theme }) => theme.color.white};
+  border: 1px solid black;
+`;
+
 export const BtnText = styled.div<{hidden?: boolean}>`
   font-style: normal;
   font-weight: 500;
@@ -148,6 +158,26 @@ export const RowSpaceBetween = styled.div`
 export const Divider = styled.div`
   width: 100%;
   height: 1px;
-  margin: 5px 0;
-  background: ${({ theme }) => theme.color.text.secondary};
+  background: #DADDEE;
+`;
+
+export const DividerContainer = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 0 24px;
+  align-items: center;
+  gap: 24px;
+`;
+
+export const DividerText = styled.div`
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #85889E;
+`;
+
+export const DividerLine = styled.div`
+  width: 100%;
+  height: 1px;
+  background: #DADDEE;
 `;

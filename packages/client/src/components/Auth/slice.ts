@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import {
   IGetMeResponse,
+  IGetServiceIdProps,
+  IGetServiceIdResponse,
   ILoginProps,
   ILoginResponse,
+  IOauthProps,
   IThunkApi,
   IUser,
   UserModel,
 } from '../../interface';
-import { axiosYandexApi } from '../../app/api';
+import { axiosYandexApi, OAUTH_ROUTE } from '../../app/api';
 import { IRegisterProps, IRegisterResponse } from '../../interface/Register';
 import {
   IChangePasswordProps,
@@ -22,6 +25,23 @@ export const LogIn = createAsyncThunk<ILoginResponse, ILoginProps, IThunkApi>(
     const response = await axiosYandexApi.post<ILoginResponse>('/auth/signin', data, {
       signal,
     });
+    return response.data;
+  },
+);
+
+export const GetOauthServiceId = createAsyncThunk<IGetServiceIdResponse, IGetServiceIdProps>(
+  'GetOauthServiceId',
+  async ({ redirectUri }) => {
+    const response = await axiosYandexApi
+      .get<IGetServiceIdResponse>(`${OAUTH_ROUTE}/service-id?redirect_uri=${redirectUri}`);
+    return response.data;
+  },
+);
+
+export const OauthLogin = createAsyncThunk<ILoginResponse, IOauthProps>(
+  'OauthLogin',
+  async (data) => {
+    const response = await axiosYandexApi.post<ILoginResponse>(OAUTH_ROUTE, data);
     return response.data;
   },
 );
@@ -89,12 +109,14 @@ interface IAuthState {
   isFetching: boolean
   user: IUser | null
   needFetchUser: boolean
+  service_id: string | null
 }
 
 const AuthStateInit: IAuthState = {
   isFetching: false,
   user: null,
   needFetchUser: true,
+  service_id: null,
 };
 
 export const slice = createSlice({
@@ -117,19 +139,29 @@ export const slice = createSlice({
     builder.addCase(LogOut.fulfilled, (state) => {
       state.user = null;
     });
+    builder.addCase(GetOauthServiceId.fulfilled, (state, action) => {
+      if (action.payload.service_id) {
+        state.service_id = action.payload.service_id;
+      }
+    });
     builder.addMatcher(isAnyOf(
       LogIn.fulfilled,
       CreateUser.fulfilled,
+      OauthLogin.fulfilled,
       UpdateProfile.fulfilled,
       UpdateAvatar.fulfilled,
       UpdatePassword.fulfilled,
     ), (state) => {
       state.needFetchUser = true;
+      if (state.service_id) {
+        state.service_id = null;
+      }
     });
     builder.addMatcher(isAnyOf(
       LogIn.pending,
       GetMe.pending,
       CreateUser.pending,
+      GetOauthServiceId.pending,
     ), (state) => {
       state.isFetching = true;
     });
@@ -137,6 +169,7 @@ export const slice = createSlice({
       LogIn.fulfilled,
       GetMe.fulfilled,
       CreateUser.fulfilled,
+      GetOauthServiceId.fulfilled,
     ), (state) => {
       state.isFetching = false;
     });
@@ -144,6 +177,7 @@ export const slice = createSlice({
       LogIn.rejected,
       GetMe.rejected,
       CreateUser.rejected,
+      GetOauthServiceId.rejected,
     ), (state, action) => {
       // если пошел новый запрос, а старый отменили, лоадер не убираем
       if (action.error.message !== 'Aborted') {

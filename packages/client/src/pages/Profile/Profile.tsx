@@ -14,7 +14,7 @@ import Loader from '@components/Loader';
 import {
   BtnText,
   Button,
-  Divider,
+  DividerLine,
   FormContainer,
   FullScreenCenteredContainer,
   H1,
@@ -69,7 +69,7 @@ function Profile() {
         display_name,
         login,
         email,
-        phone,
+        phone: phone ?? '',
         avatar,
       });
       setNewAvatar(null);
@@ -134,7 +134,7 @@ function Profile() {
             </Button>
           )}
 
-        <Divider />
+        <DividerLine style={{ margin: '0 5px' }} />
 
         {mode === ProfileMode.profileChange ? (
           <Formik
@@ -236,7 +236,7 @@ function Profile() {
             </>
           )}
 
-        <Divider />
+        <DividerLine style={{ margin: '0 5px' }} />
         {mode === ProfileMode.passwordChange ? (
           <Formik
             initialValues={ChangePasswordInit}
