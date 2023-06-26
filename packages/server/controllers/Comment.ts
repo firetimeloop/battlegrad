@@ -1,21 +1,21 @@
 import type { Request, Response } from 'express';
 
+import { tryCatch } from '../helpers/controllerHelper';
+
 import { Comment as CommentModel, Reaction as ReactionModel } from '../db';
 
 import type { Comment } from '../models/Comment';
 
 export const CommentController = {
   getCommentsByTopicId: async (request: Request, response: Response) => {
-    try {
+    tryCatch(response, async () => {
       const topicId = +request.params.topic_id;
       const comments = await CommentModel.findAll({ where: { topicId } });
       const reactions = await ReactionModel.findAll({
         where: { topicId },
       });
       response.status(200).json({ data: { comments, reactions } });
-    } catch (error) {
-      response.status(400).json({ error: (error as Error).message });
-    }
+    });
   },
 
   postComment: async (request: Request, response: Response) => {
