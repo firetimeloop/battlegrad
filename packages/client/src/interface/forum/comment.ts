@@ -20,6 +20,10 @@ export type GetCommentsResult = {
   data: { comments: ForumComment[], reactions: Reaction[] }
 }
 
+export type CreateCommentResult = {
+  data: ForumComment[]
+}
+
 export type CreateCommentProps = {
   user: IUser
   content: string

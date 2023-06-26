@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { BorderedFormBlock } from '../../../styles';
+import { ModalContent } from '@components/Modal/styles';
+import { BorderedFormBlock, H1 } from '../../../styles';
 
 export const ForumBlock = styled(BorderedFormBlock)`
   width: 1000px;
@@ -28,7 +29,7 @@ export const ListItem = styled.li`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  padding: 10px 0;
+  padding: 10px 20px 10px 0;
 `;
 export const CommentsContainer = styled.div`
   display: flex;
@@ -36,15 +37,18 @@ export const CommentsContainer = styled.div`
   gap: 5px;
   max-height: 60vh;
   overflow-y: scroll;
+  width: 100%;
 `;
 export const CommentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px 0;
+  padding: 10px 20px 10px 0;
+  width: 100%;
 `;
 export const CommentAuthor = styled.div`
   display: flex;
   gap: 10px;
+  align-items: end;
 `;
 
 export const CommentAuthorAvatarContainer = styled.div`
@@ -67,14 +71,41 @@ export const CommentAuthorAvatar = styled.img`
 export const TopicTitle = styled.h2`
   display: flex;
 `;
+export const ForumTitle = styled(H1)`
+  font-size: 30px;
+  line-height: 30px;
+  white-space: nowrap;
+`;
 export const GoBackContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
   position: absolute;
-  left: 20px;
-  top: 20px;
+  left: 30px;
+  top: 30px;
   cursor: pointer;
+  font-size: 20px;
+  color: ${({ theme }) => theme.color.text.link};
+`;
+export const DeleteTopicContainer = styled.div`
+  display: flex;
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  cursor: pointer;
+  font-size: 20px;
+  color: ${({ theme }) => theme.color.background.orange};
+`;
+export const DeleteTopicOverlay = styled.div`
+  ${ModalContent} {
+    padding: 0;
+  }
+
+  .modal-overlay {
+    background: rgb(0 0 0 / 15%);
+    inset: 0;
+    transform: none;
+  }
 `;
 
 export function ArrowRight() {

@@ -33,19 +33,18 @@ export const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(GetComments.fulfilled, (state, action) => {
+      state.comments = CommentArrayModel.parse(action.payload.data.comments);
+    });
+    builder.addCase(CreateComment.fulfilled, (state, action) => {
+      state.comments = CommentArrayModel.parse(action.payload.data);
+    });
     builder.addMatcher(isAnyOf(
       GetTopics.fulfilled,
       CreateTopic.fulfilled,
       DeleteTopic.fulfilled,
     ), (state, action) => {
       state.topics = TopicArrayModel.parse(action.payload.data);
-    });
-    builder.addMatcher(isAnyOf(
-      GetComments.fulfilled,
-      CreateComment.fulfilled,
-    ), (state, action) => {
-      const comments = CommentArrayModel.parse(action.payload.data.comments);
-      state.comments = comments.filter((i) => !i.parentCommentId);
     });
     builder.addMatcher(isAnyOf(
       GetReactions.fulfilled,

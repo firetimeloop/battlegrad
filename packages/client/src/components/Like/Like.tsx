@@ -10,10 +10,10 @@ const LikeContainer = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  min-width: 48px;
-  max-width: 48px;
-  min-height: 48px;
-  max-height: 48px;
+  min-width: 24px;
+  max-width: 24px;
+  min-height: 24px;
+  max-height: 24px;
 `;
 
 export function Like({ liked, onClick }: ILikeProps) {

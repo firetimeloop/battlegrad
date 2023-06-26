@@ -41,6 +41,16 @@ export const FormContainer = styled.form`
   width: 430px;
 `;
 
+export const RepliesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-left: 1px solid #DADADA;
+  margin-left: 10px;
+  margin-top: 5px;
+  padding-left: 10px;
+`;
+
 export const BorderedFormBlock = styled.div`
   display: flex;
   flex-direction: column;
@@ -82,6 +92,8 @@ export const Button = styled.button`
   align-items: center;
   justify-content: center;
   gap: 8px;
+  border-radius: 12px;
+  padding: 4px 8px;
 
   :hover {
     filter: brightness(0.95);

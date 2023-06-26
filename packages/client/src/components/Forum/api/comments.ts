@@ -1,5 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { CreateCommentProps, GetCommentsResult } from '../../../interface/forum/comment';
+import {
+  CreateCommentProps,
+  CreateCommentResult,
+  GetCommentsResult,
+} from '../../../interface/forum/comment';
 import { IThunkApi } from '../../../interface';
 import { axiosServerApi } from '../../../app/api';
 import { TopicId } from '../../../interface/forum/topic';
@@ -14,10 +18,10 @@ export const GetComments = createAsyncThunk<GetCommentsResult, TopicId, IThunkAp
   },
 );
 
-export const CreateComment = createAsyncThunk<GetCommentsResult, CreateCommentProps, IThunkApi>(
+export const CreateComment = createAsyncThunk<CreateCommentResult, CreateCommentProps, IThunkApi>(
   'CreateComment',
   async (data, { signal }) => {
-    const response = await axiosServerApi.post<GetCommentsResult>('/api/forum/comments', data, {
+    const response = await axiosServerApi.post<CreateCommentResult>('/api/forum/comments', data, {
       signal,
     });
     return response.data;

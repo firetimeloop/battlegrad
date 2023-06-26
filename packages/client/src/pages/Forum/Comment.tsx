@@ -18,7 +18,7 @@ import {
   Button,
   ColumnGap10,
   FormContainer,
-  Input,
+  Input, RepliesContainer,
   RowGap10,
   RowSpaceBetween,
   SubmitButton,
@@ -26,6 +26,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ReactionEnum } from '../../interface/forum/reaction';
 import { selectAuthState, selectForumState } from '../../app/selectors';
+import { yandexBaseUrl } from '../../app/api';
 
 interface ICommentProps {
   comment: ForumComment
@@ -46,11 +47,11 @@ export function Comment({ comment }: ICommentProps) {
     <CommentContainer>
       <CommentAuthor>
         <CommentAuthorAvatarContainer>
-          <CommentAuthorAvatar src={comment.userAvatar} />
-          <h3>{comment.userDisplayName}</h3>
+          <CommentAuthorAvatar src={`${yandexBaseUrl}/resources${comment.userAvatar}`} />
         </CommentAuthorAvatarContainer>
+        <h3>{comment.userDisplayName}</h3>
       </CommentAuthor>
-      <p>{comment.content}</p>
+      <p style={{ margin: '20px 10px' }}>{comment.content}</p>
       <RowSpaceBetween>
         <Button onClick={() => setReplyInputOpened(true)}>Ответить</Button>
         <RowGap10>
@@ -71,7 +72,7 @@ export function Comment({ comment }: ICommentProps) {
                 }));
               }
             }} />
-          {commentReactions.length && (
+          {commentReactions.length > 0 && (
             <span>
               {commentReactions.length}
             </span>
@@ -84,32 +85,47 @@ export function Comment({ comment }: ICommentProps) {
           validate={toFormikValidate(z.object({
             reply: z.string().min(4, 'Введите хотя бы 4 символа'),
           }))}
-          onSubmit={({ reply }) => {
+          onSubmit={({ reply }, { resetForm }) => {
             if (user && selectedTopic) {
               dispatch(CreateComment({
                 user,
                 content: reply,
                 topicId: selectedTopic.id,
                 parentCommentId: comment.id,
-              }));
+              })).then((res) => {
+                if (res.type.includes('fulfilled')) {
+                  resetForm();
+                  setReplyInputOpened(false);
+                }
+              });
             }
           }}
         >
           {({
-            handleSubmit,
+            handleSubmit, resetForm,
           }) => (
-            <FormContainer style={{ width: '100%' }} onSubmit={handleSubmit}>
+            <FormContainer style={{ width: '100%', marginTop: 5 }} onSubmit={handleSubmit}>
               <RowSpaceBetween style={{ width: '100%', gap: 20, alignItems: 'start' }}>
                 <ColumnGap10 style={{ width: '100%' }}>
                   <Input
-                    style={{ padding: 10 }}
+                    style={{ padding: 6 }}
                     placeholder="Введите ответ"
                     name="reply"
                   />
                   <ErrorMessage name="reply" />
                 </ColumnGap10>
+                <Button
+                  type="button"
+                  style={{ height: 38 }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    resetForm();
+                    setReplyInputOpened(false);
+                  }}>
+                  Отмена
+                </Button>
                 <SubmitButton
-                  style={{ width: 'fit-content', padding: 10, height: 48 }}
+                  style={{ width: 'fit-content', padding: 6, height: 38 }}
                   type="submit">
                   <Plus />
                   <BtnText>
@@ -121,8 +137,11 @@ export function Comment({ comment }: ICommentProps) {
           )}
         </Formik>
       )}
-
-      {related.map((i) => <Comment comment={i} />)}
+      {related.length > 0 && (
+      <RepliesContainer>
+        {related.map((comm) => <Comment key={comm.id} comment={comm} />)}
+      </RepliesContainer>
+      )}
     </CommentContainer>
   );
 }

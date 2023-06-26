@@ -1,4 +1,4 @@
-import { ArrowRight, ListItem, Plus, TopicList, TopicTitle } from '@pages/Forum/styles';
+import { ArrowRight, ForumTitle, ListItem, Plus, TopicList, TopicTitle } from '@pages/Forum/styles';
 import { setSelectedTopic } from '@components/Forum/slice';
 import React from 'react';
 import { toFormikValidate } from 'zod-formik-adapter';
@@ -13,7 +13,6 @@ import {
   ColumnGap10,
   Divider,
   FormContainer,
-  H1,
   Input,
   LoaderBtnContainer,
   RowSpaceBetween,
@@ -29,7 +28,7 @@ export function Topics() {
   const isFetching = loaders[TopicThunks.Create];
   return (
     <>
-      <H1>Форум</H1>
+      <ForumTitle>Форум</ForumTitle>
       <TopicList>
         {topics.length
           ? topics.map((topic) => (
@@ -50,9 +49,13 @@ export function Topics() {
         validate={toFormikValidate(z.object({
           newTopic: z.string().min(4, 'Введите хотя бы 4 символа'),
         }))}
-        onSubmit={({ newTopic }) => {
+        onSubmit={({ newTopic }, { resetForm }) => {
           if (user) {
-            dispatch(CreateTopic({ title: newTopic, userId: user.id }));
+            dispatch(CreateTopic({ title: newTopic, userId: user.id })).then((res) => {
+              if (res.type.includes('fulfilled')) {
+                resetForm();
+              }
+            });
           }
         }}
       >
