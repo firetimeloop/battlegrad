@@ -6,7 +6,6 @@ import logo from '../../../public/logo.png';
 import { AppWrapper } from './styles';
 import { Router } from '../Router';
 import Alert from '../Alert';
-
 import { darkTheme } from '../../theme';
 import { useAppSelector } from '../../app/hooks';
 // Пока без SSR пропишу явно

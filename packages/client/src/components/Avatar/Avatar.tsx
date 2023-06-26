@@ -11,14 +11,12 @@ type TAvatarProps = PropsWithChildren<{
 function Avatar({ avatarUrl, size }: TAvatarProps) {
   const theme = useTheme();
   const isAvatarAvailable = avatarUrl && avatarUrl?.length > 0;
-
   let defaultAvatarSrc = '';
   if (theme.name === 'darkTheme') {
     defaultAvatarSrc = '../../../public/tank-bg-light.png';
   } else {
     defaultAvatarSrc = '../../../public/tank-bg-dark.png';
   }
-
   const defaultAvatarForHighResolution =
     '/tank-bg-2048×2048.png';
 
