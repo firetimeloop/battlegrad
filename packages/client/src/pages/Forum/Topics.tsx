@@ -14,6 +14,7 @@ import { ErrorMessage, Formik } from 'formik';
 import Loader from '@components/Loader';
 import { z } from 'zod';
 import { CreateTopic, TopicThunks } from '@components/Forum/api/topics';
+import { useTheme } from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectAuthState, selectForumState } from '../../app/selectors';
 import {
@@ -26,13 +27,14 @@ import {
   SubmitButton,
 } from '../../styles';
 import { LoaderSizeEnum } from '../../enum';
-import { theme } from '../../theme';
 
 export function Topics() {
   const { topics, loaders } = useAppSelector(selectForumState);
   const { user } = useAppSelector(selectAuthState);
   const dispatch = useAppDispatch();
   const isFetching = loaders[TopicThunks.Create];
+  const theme = useTheme();
+
   return (
     <>
       <ForumTitle>Форум</ForumTitle>
@@ -87,7 +89,7 @@ export function Topics() {
                 </BtnText>
                 {isFetching && (
                   <LoaderBtnContainer>
-                    <Loader color={theme!.color.white} size={LoaderSizeEnum.small} />
+                    <Loader color={theme!.colors.onBackground} size={LoaderSizeEnum.small} />
                   </LoaderBtnContainer>
                 )}
               </SubmitButton>
