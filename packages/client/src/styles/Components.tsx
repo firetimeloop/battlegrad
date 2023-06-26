@@ -135,7 +135,6 @@ export const RowGap10 = styled.div`
   align-items: center;
   align-self: flex-start;
   gap: 10px;
-
   color: ${({ theme }) => theme.colors.onBackground};
 
   & h3 {
