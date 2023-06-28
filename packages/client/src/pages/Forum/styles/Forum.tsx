@@ -159,7 +159,7 @@ export const GoBackContainer = styled.div`
   top: 30px;
   cursor: pointer;
   font-size: 20px;
-  color: ${({ theme }) => theme.color.text.link};
+  color: ${({ theme }) => theme.colors.accent};
 `;
 export const DeleteTopicContainer = styled.div`
   display: flex;
@@ -168,7 +168,7 @@ export const DeleteTopicContainer = styled.div`
   top: 30px;
   cursor: pointer;
   font-size: 20px;
-  color: ${({ theme }) => theme.color.background.orange};
+  color: ${({ theme }) => theme.colors.accent};
 `;
 
 export const CommentsBlock = styled.div`
@@ -213,7 +213,7 @@ export const DeleteTopicOverlay = styled.div`
     height: 28px;
     margin-left: 20px;
     padding: 20px;
-    background: ${({ theme }) => theme.color.background.orange};
+    background: ${({ theme }) => theme.colors.accent};
   }
 
   .modal-overlay {

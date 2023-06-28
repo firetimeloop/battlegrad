@@ -4,41 +4,43 @@ export const GameWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-width: 100px;
   min-height: 100px;
-  position: relative;
-`;
-
-export const GameLogo = styled.div`
-  display: flex;
-  position: fixed;
-  left: 50%;
-  top: 55px;
-  align-items: center;
-  justify-content: center;
-  transform: translateX(-50%);
-  pointer-events: none;
 `;
 
 export const GameStats = styled.div`
   display: flex;
-  position: absolute;
-  left: 40px;
-  top: 50%;
-  align-items: start;
+  align-items: center;
   justify-content: center;
-  transform: translateY(-50%);
   pointer-events: none;
   gap: 20px;
-  flex-direction: column;
-  color: ${({ theme }) => theme.color.white};
-  background: rgb(0 0 0 / 40%);
-  padding: 10px;
-  border-radius: 10px;
+  margin-bottom: 20px;
+  width: 520px;
+
+  h2 {
+    width: 25%;
+  }
 
   span {
-    font-size: 42px;
+    font-size: 30px;
+  }
+
+  .lives {
+    color: red;
+    font-family: serif;
+  }
+
+  .enemies {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 8px;
+    ${({ theme }) => {
+    if (theme.name === 'lightTheme') {
+      return 'filter: invert(1) grayscale(.6) hue-rotate(145deg);';
+    }
+  }}
   }
 `;

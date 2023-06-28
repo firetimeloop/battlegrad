@@ -9,7 +9,6 @@ export const ControlList = styled.ul`
   list-style: none;
   padding-inline-start: 0;
   width: 300px;
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: 500;
   gap: 20px;

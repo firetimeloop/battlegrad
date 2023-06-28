@@ -1,10 +1,9 @@
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { Provider } from 'react-redux';
-import { ServerStyleSheet, StyleSheetManager, ThemeProvider } from 'styled-components';
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 
 import App from 'client/src/components/App';
-import { theme } from 'client/src/theme';
 import { store } from 'client/src/app/store';
 
 export function getAppComponentForSSR(url: string) {
@@ -13,9 +12,7 @@ export function getAppComponentForSSR(url: string) {
     <Provider store={store}>
       <StaticRouter location={url}>
         <StyleSheetManager sheet={sheet.instance}>
-          <ThemeProvider theme={theme}>
-            <App />
-          </ThemeProvider>
+          <App />
         </StyleSheetManager>
       </StaticRouter>
     </Provider>,

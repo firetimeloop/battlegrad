@@ -1,9 +1,14 @@
 import styled from 'styled-components';
 
 export const AppWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
+  background-color: ${({ theme }) => theme.colors.background};
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+
+  & .logo {
+    margin-top: 40px;
+  }
 `;

@@ -20,7 +20,7 @@ export const Spinner = styled.div<MiniLoaderProps>`
     animation: spinner-circle 0.8s ease-in-out infinite;
     border-radius: 50%;
     box-shadow: inset 0 0 0 ${({ size }) => +(size ?? '20') / 13}px ${
-  ({ color, theme }) => color ?? theme.color.background.blue};
+  ({ color, theme }) => color ?? theme.colors.onBackground};
   }
 
   @keyframes spinner-circle {
