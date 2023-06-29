@@ -169,7 +169,7 @@ export const DeleteTopicContainer = styled.div`
   top: 30px;
   cursor: pointer;
   font-size: 20px;
-  color: ${({ theme }) => theme.colors.accent};
+  color: ${({ theme }) => theme.colors.accentVariant};
 `;
 
 export const CommentsBlock = styled.div`
@@ -214,7 +214,7 @@ export const DeleteTopicOverlay = styled.div`
     height: 28px;
     margin-left: 20px;
     padding: 20px;
-    background: ${({ theme }) => theme.colors.accent};
+    background: ${({ theme }) => theme.colors.accentVariant};
   }
 
   .modal-overlay {
@@ -252,7 +252,9 @@ export function ArrowRight() {
       height="24"
       viewBox="0 -960 960 960"
       width="24">
-      <path d="m480-160-57-56 224-224H160v-80h487L423-744l57-56 320 320-320 320Z" />
+      <path
+        fill="currentColor"
+        d="m480-160-57-56 224-224H160v-80h487L423-744l57-56 320 320-320 320Z" />
     </svg>
   );
 }
@@ -264,7 +266,9 @@ export function Plus() {
       height="24"
       viewBox="0 -960 960 960"
       width="24">
-      <path d="M440-200v-240H200v-80h240v-240h80v240h240v80H520v240h-80Z" />
+      <path
+        fill="currentColor"
+        d="M440-200v-240H200v-80h240v-240h80v240h240v80H520v240h-80Z" />
     </svg>
   );
 }
@@ -276,7 +280,9 @@ export function GoBack() {
       height="24"
       viewBox="0 -960 960 960"
       width="24">
-      <path d="M480-160 160-480l320-320 57 56-224 224h487v80H313l224 224-57 56Z" />
+      <path
+        fill="currentColor"
+        d="M480-160 160-480l320-320 57 56-224 224h487v80H313l224 224-57 56Z" />
     </svg>
   );
 }
