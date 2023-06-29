@@ -15,8 +15,8 @@ const LikeContainer = styled.div<{liked: boolean}>`
   min-height: 24px;
   max-height: 24px;
   color: ${({ liked, theme }) => (liked
-    ? theme.colors.accent
-    : theme.colors.onBackground
+    ? theme.colors.accentVariant
+    : theme.colors.commentHighlight
   )}
 `;
 

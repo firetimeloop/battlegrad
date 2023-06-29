@@ -169,7 +169,7 @@ export const DeleteTopicContainer = styled.div`
   top: 30px;
   cursor: pointer;
   font-size: 20px;
-  color: ${({ theme }) => theme.colors.accent};
+  color: ${({ theme }) => theme.colors.accentVariant};
 `;
 
 export const CommentsBlock = styled.div`
@@ -214,7 +214,7 @@ export const DeleteTopicOverlay = styled.div`
     height: 28px;
     margin-left: 20px;
     padding: 20px;
-    background: ${({ theme }) => theme.colors.accent};
+    background: ${({ theme }) => theme.colors.accentVariant};
   }
 
   .modal-overlay {
