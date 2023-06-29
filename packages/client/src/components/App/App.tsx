@@ -19,7 +19,6 @@ import { LoaderSizeEnum } from '../../enum';
 const __SERVER_PORT__ = 3001;
 
 function App() {
-  const dispatch = useAppDispatch();
   const { user, needFetchUser } = useAppSelector((state) => state.auth);
 
   const loggedIn = !!user;
