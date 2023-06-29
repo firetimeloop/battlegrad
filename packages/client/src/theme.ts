@@ -18,6 +18,7 @@ export const darkTheme: DefaultTheme = {
     onBackground: '#FFFFFF',
     onSurface: '#000000',
     onError: '#FFFFFF',
+    commentHighlight: 'rgba(255,255,255,.3)',
   },
   boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.14)',
 };
@@ -40,6 +41,7 @@ export const lightTheme: DefaultTheme = {
     onBackground: '#000000',
     onSurface: '#000000',
     onError: '#FFFFFF',
+    commentHighlight: 'rgba(0,0,0,.3)',
   },
   boxShadow: '0px 0px 6px rgba(0, 0, 0, 0.14)',
 };
