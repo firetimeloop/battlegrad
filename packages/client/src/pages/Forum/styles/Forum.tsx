@@ -17,6 +17,7 @@ export const ForumBlock = styled(BorderedFormBlock)`
   width: 1000px;
   position: relative;
   padding: 75px 35px 30px;
+  color: ${({ theme }) => theme.colors.onBackground};
 
   @media screen and (width <= 1080px) {
     width: 700px;

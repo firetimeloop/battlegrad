@@ -1,12 +1,20 @@
 import { Router } from 'express';
 
 import forum from './forum';
+import theme from './theme';
 
 const router = Router();
 
+router.use('/api/theme', theme);
 router.use('/api/forum', forum);
 
 router.use('/api/forum/*', (req, res) =>
+  res
+    .status(400)
+    .json({ requestMethod: req.method, message: 'Путь не найден' }),
+);
+
+router.use('/api/theme/*', (req, res) =>
   res
     .status(400)
     .json({ requestMethod: req.method, message: 'Путь не найден' }),

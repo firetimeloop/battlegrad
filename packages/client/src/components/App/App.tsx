@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
+import { GetTheme } from '@components/ThemeSwitcher/api/theme';
 import Layout from '../Layout';
 import logo from '../../../public/logo.png';
 
@@ -7,12 +8,14 @@ import { AppWrapper } from './styles';
 import { Router } from '../Router';
 import Alert from '../Alert';
 import { darkTheme } from '../../theme';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 // Пока без SSR пропишу явно
 const __SERVER_PORT__ = 3001;
 
 function App() {
   const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
   const loggedIn = !!user;
   const [selectedTheme, setSelectedTheme] = useState(darkTheme);
 
@@ -28,10 +31,12 @@ function App() {
 
     const savedTheme = localStorage.getItem('theme');
 
-    if (savedTheme) {
+    if (user) {
+      dispatch(GetTheme({ userId: user.id, setSelectedTheme }));
+    } else if (savedTheme) {
       setSelectedTheme(JSON.parse(savedTheme));
     }
-  }, []);
+  }, [dispatch, user]);
 
   return (
     <ThemeProvider theme={selectedTheme}>

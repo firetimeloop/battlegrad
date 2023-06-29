@@ -1,5 +1,5 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
-
+import { themeModel } from './models/Theme';
 import { topicModel } from './models/Topic';
 import { commentModel } from './models/Comment';
 import { reactionModel } from './models/Reaction';
@@ -32,6 +32,10 @@ export const Comment = sequelize.define('Comment', commentModel, {
   createdAt: false,
 });
 export const Reaction = sequelize.define('Reaction', reactionModel, {
+  updatedAt: false,
+  createdAt: false,
+});
+export const Theme = sequelize.define('Theme', themeModel, {
   updatedAt: false,
   createdAt: false,
 });

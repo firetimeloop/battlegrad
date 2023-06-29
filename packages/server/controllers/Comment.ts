@@ -29,9 +29,12 @@ export const CommentController = {
         parentCommentId: request.body.parentCommentId,
         topicId: +request.body.topicId,
       };
-      await CommentModel.create({ ...messageData });
+      console.log('Before comment create');
+      const comment = await CommentModel.create({ ...messageData });
+      console.log(comment);
       const topicId = +request.body.topicId;
       const topics = await CommentModel.findAll({ where: { topicId } });
+      console.log(topics);
       response.status(200).json({ data: topics });
     });
   },
