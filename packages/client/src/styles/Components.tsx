@@ -133,7 +133,6 @@ export const LoaderBtnContainer = styled.div`
 export const RowGap10 = styled.div`
   display: flex;
   align-items: center;
-  align-self: flex-start;
   gap: 10px;
   color: ${({ theme }) => theme.colors.onBackground};
 
