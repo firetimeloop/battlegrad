@@ -21,6 +21,7 @@ declare module 'styled-components' {
       onBackground: string;
       onSurface: string;
       onError: string;
+      commentHighlight: string;
     };
     boxShadow: string;
   }

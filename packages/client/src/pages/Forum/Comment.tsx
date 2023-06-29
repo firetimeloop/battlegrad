@@ -13,6 +13,7 @@ import { z } from 'zod';
 import { toFormikValidate } from 'zod-formik-adapter';
 import { CreateComment } from '@components/Forum/api/comments';
 import { ErrorMessage, Formik } from 'formik';
+import { useTheme } from 'styled-components';
 import { ForumComment } from '../../interface/forum/comment';
 import {
   BtnText,
@@ -39,7 +40,7 @@ export function Comment({ comment }: ICommentProps) {
   const [replyInputOpened, setReplyInputOpened] = useState(false);
   const { user } = useAppSelector(selectAuthState);
   const { selectedTopic, reactions, comments } = useAppSelector(selectForumState);
-
+  const theme = useTheme();
   const commentReactions = reactions.filter((i) => i.commentId === comment.id);
 
   const userLike = commentReactions.find((i) => i.userId === user?.id);
@@ -65,7 +66,7 @@ export function Comment({ comment }: ICommentProps) {
   const closeReply = () => setReplyInputOpened(false);
 
   return (
-    <CommentContainer>
+    <CommentContainer id={`comment-${comment.id}`}>
       <CommentAuthor>
         <CommentAuthorAvatarContainer>
           <CommentAuthorAvatar src={`${yandexBaseUrl}/resources${comment.userAvatar}`} />
@@ -103,11 +104,25 @@ export function Comment({ comment }: ICommentProps) {
                   if (res.type.includes('fulfilled')) {
                     resetForm();
                     closeReply();
+                    const scrollable = document.getElementById('CommentsContainer');
+                    const commentEl = document.getElementById(`comment-${comment.id}`);
+                    if (scrollable && commentEl) {
+                      const lastChild = commentEl.lastChild?.lastChild as HTMLDivElement;
+                      if (lastChild) {
+                        lastChild.scrollIntoView({ block: 'center' });
+                        setTimeout(() => {
+                          lastChild.style.background = theme!.colors.commentHighlight;
+                          setTimeout(() => {
+                            lastChild.style.background = 'none';
+                          }, 1000);
+                        }, 200);
+                      }
+                    }
                   }
                 });
               }
             }}
-        >
+          >
             {({
               handleSubmit, resetForm,
             }) => (
@@ -115,9 +130,10 @@ export function Comment({ comment }: ICommentProps) {
                 <ReplyForm>
                   <ColumnGap10>
                     <Input
+                      autoFocus
                       placeholder="Введите ответ"
                       name="reply"
-                  />
+                    />
                     <ErrorMessage name="reply" />
                   </ColumnGap10>
                   <Button

@@ -14,19 +14,11 @@ import Leaderboard from '../../pages/Leaderboard';
 import Error500 from '../../pages/Error500';
 import Error404 from '../../pages/Error404';
 import { PrivateRoute } from './privateRoute/PrivateRoute';
-import { GetMe } from '../Auth/slice';
 
 export function Router() {
-  const { user, needFetchUser } = useAppSelector((state) => state.auth);
-  const loggedIn = !!user;
+  const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const request = dispatch(GetMe());
-    return () => {
-      request.abort();
-    };
-  }, [dispatch, needFetchUser]);
+  const loggedIn = !!user;
 
   useEffect(() => {
     if (user?.id) {
@@ -69,7 +61,10 @@ export function Router() {
         path="/"
         element={
           loggedIn ? (
-            <Navigate to="/game" replace />
+            <Navigate
+              to="/game"
+              replace
+            />
           ) : (
             <Navigate
               to={{

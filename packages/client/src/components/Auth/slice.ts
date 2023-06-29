@@ -129,12 +129,14 @@ export const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(GetMe.fulfilled, (state, action) => {
-      state.needFetchUser = false;
       state.user = UserModel.parse(action.payload);
-    });
-    builder.addCase(GetMe.rejected, (state) => {
       state.needFetchUser = false;
-      state.user = null;
+    });
+    builder.addCase(GetMe.rejected, (state, action) => {
+      if (!action.meta.aborted) {
+        state.needFetchUser = false;
+        state.user = null;
+      }
     });
     builder.addCase(LogOut.fulfilled, (state) => {
       state.user = null;
