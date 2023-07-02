@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
-import { GetTheme } from '@components/ThemeSwitcher/api/theme';
+import { GetTheme, setThemeByTitle } from '@components/ThemeSwitcher/api/theme';
 import { LoaderContainer } from '@components/Loader/styles';
 import Loader from '@components/Loader';
 import { GetMe } from '@components/Auth/slice';
 import Layout from '../Layout';
 import logo from '../../../public/logo.png';
-
 import { AppWrapper } from './styles';
 import { Router } from '../Router';
 import Alert from '../Alert';
@@ -40,7 +39,7 @@ function App() {
     if (user) {
       dispatch(GetTheme({ userId: user.id, setSelectedTheme }));
     } else if (savedTheme) {
-      setSelectedTheme(JSON.parse(savedTheme));
+      setThemeByTitle(savedTheme, setSelectedTheme);
     }
   }, [dispatch, user]);
 

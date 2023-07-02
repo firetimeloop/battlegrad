@@ -9,6 +9,19 @@ export enum ThemeThunks {
   Create = 'CreateTheme',
 }
 
+export const setThemeByTitle = (title: string, setSelectedTheme: any): void => {
+  switch (title) {
+    case 'darkTheme':
+      setSelectedTheme(darkTheme);
+      break;
+    case 'lightTheme':
+      setSelectedTheme(lightTheme);
+      break;
+    default:
+      setSelectedTheme(darkTheme);
+  }
+};
+
 export const GetTheme = createAsyncThunk<
   GetThemeResult,
   { userId: number; setSelectedTheme: any },
@@ -21,16 +34,9 @@ export const GetTheme = createAsyncThunk<
     },
   );
   const { theme } = response.data.data;
-  switch (theme) {
-    case 'darkTheme':
-      setSelectedTheme(darkTheme);
-      break;
-    case 'lightTheme':
-      setSelectedTheme(lightTheme);
-      break;
-    default:
-      setSelectedTheme(darkTheme);
-  }
+
+  setThemeByTitle(theme, setSelectedTheme);
+
   return response.data;
 });
 

@@ -1,11 +1,11 @@
 import { ChangeEvent, useRef } from 'react';
 import { useTheme } from 'styled-components';
 import { ToggleSwitch } from './styles';
-import { darkTheme, lightTheme } from '../../theme';
 import { ThemeSwitcherProps } from '../../interface/ThemeSwitcher';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectAuthState } from '../../app/selectors';
 import { CreateTheme } from './api/theme';
+import { lightTheme, darkTheme } from '../../theme';
 
 function ThemeSwitcher({ setSelectedTheme }: ThemeSwitcherProps) {
   const swithcer = useRef(null);
@@ -13,16 +13,16 @@ function ThemeSwitcher({ setSelectedTheme }: ThemeSwitcherProps) {
   const { user } = useAppSelector(selectAuthState);
   const currentTheme = useTheme();
 
-  const switchTheme = async (e: ChangeEvent) => {
+  const switchTheme = (e: ChangeEvent) => {
     const target = e?.target;
     let themeName = 'darkTheme';
 
     if ((target as HTMLInputElement).checked) {
-      localStorage.setItem('theme', JSON.stringify(lightTheme));
+      localStorage.setItem('theme', 'lightTheme');
       setSelectedTheme(lightTheme);
       themeName = 'lightTheme';
     } else {
-      localStorage.setItem('theme', JSON.stringify(darkTheme));
+      localStorage.setItem('theme', 'darkTheme');
       setSelectedTheme(darkTheme);
       themeName = 'darkTheme';
     }

@@ -17,7 +17,7 @@ export const GameInfo = styled.div`
     font-size: 16px;
     line-height: 24px;
     margin-bottom: 20px;
-    width: 180px;
+    width: 170px;
     margin-left: 15px;
     color: ${({ theme }) => theme.colors.onBackground};
   }
