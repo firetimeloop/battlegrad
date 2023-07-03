@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const GameScreen = styled.div`
+  position: relative;
   width: 520px;
   height: 520px;
   background-color: ${({ theme }) => theme.colors.background};

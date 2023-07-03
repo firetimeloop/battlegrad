@@ -12,6 +12,7 @@ import { H1, Emoji } from '../../styles';
 
 import enemyImg from '../../../public/enemy.png';
 import explosionImg from '../../../public/explosion.png';
+import { GameInfo } from './styles/GameInfo';
 
 const ENTER_CODE = 13;
 
@@ -88,6 +89,16 @@ function Game() {
       case GameStatus.normal: {
         return (
           <GameScreen>
+            <GameInfo>
+              <section>
+                <span>Enter</span>
+                <p> для перехода в полноэкранный режим</p>
+              </section>
+              <section>
+                <span>Esc</span>
+                <p> для вызова меню</p>
+              </section>
+            </GameInfo>
             <canvas id="game" ref={canvasRef} />
           </GameScreen>
         );
