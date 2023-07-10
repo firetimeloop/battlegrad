@@ -9,7 +9,7 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn bootstrap
+RUN yarn bootstrap --y
 RUN rm -rf /app/packages/server/dist/ && yarn build --scope=client
 
 CMD yarn preview --scope=client
