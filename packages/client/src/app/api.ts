@@ -4,14 +4,13 @@ import { errorHandler, successHandler } from '../utils/requestHandlers';
 const yandexBaseUrl = 'https://ya-praktikum.tech/api/v2';
 
 const axiosYandexApi: AxiosInstance = axios.create({
-  baseURL: yandexBaseUrl,
+  baseURL: 'http://localhost:3001/api/v2',
   withCredentials: true,
 });
 
-const baseURL = window.location.origin.replace('3000', '3001');
-
 const axiosServerApi: AxiosInstance = axios.create({
-  baseURL,
+  baseURL: 'http://localhost:3001',
+  withCredentials: true,
 });
 
 axiosYandexApi.interceptors.response.use(
