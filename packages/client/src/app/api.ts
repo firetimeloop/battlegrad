@@ -8,8 +8,10 @@ const axiosYandexApi: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
+const baseURL = window.location.origin.replace('3000', '3001');
+
 const axiosServerApi: AxiosInstance = axios.create({
-  baseURL: `${window.location.origin}:3001`,
+  baseURL,
 });
 
 axiosYandexApi.interceptors.response.use(
