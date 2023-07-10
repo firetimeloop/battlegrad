@@ -9,6 +9,6 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn lerna bootstrap
+RUN yarn bootstrap
 
 CMD yarn dev --scope=server
