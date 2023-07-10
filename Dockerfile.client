@@ -1,7 +1,7 @@
 ARG NODE_VERSION=16
 
 FROM node:$NODE_VERSION-buster
-
+ENV NODE_ENV development
 WORKDIR /app
 
 COPY package.json yarn.lock
