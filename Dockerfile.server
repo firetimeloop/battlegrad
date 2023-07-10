@@ -6,9 +6,11 @@ WORKDIR /app
 
 COPY package.json yarn.lock
 RUN yarn install --frozen-lockfile
+yes
 
 COPY . .
 
-RUN yarn bootstrap -y
+RUN yarn bootstrap
+yes
 
 CMD yarn dev --scope=server

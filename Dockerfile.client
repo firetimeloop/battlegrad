@@ -6,10 +6,13 @@ WORKDIR /app
 
 COPY package.json yarn.lock
 RUN yarn install --frozen-lockfile
+yes
 
 COPY . .
 
 RUN yarn bootstrap
+yes
+
 RUN rm -rf /app/packages/server/dist/ && yarn build --scope=client
 
 CMD yarn preview --scope=client
