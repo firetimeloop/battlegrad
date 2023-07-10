@@ -3,7 +3,7 @@ ARG NODE_VERSION=16
 FROM node:$NODE_VERSION-buster
 
 WORKDIR /app
-RUN yarn global add lerna
+
 COPY package.json yarn.lock
 RUN yarn install --frozen-lockfile
 
