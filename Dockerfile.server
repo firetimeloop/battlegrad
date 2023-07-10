@@ -5,10 +5,10 @@ FROM node:$NODE_VERSION-buster
 WORKDIR /app
 
 COPY package.json yarn.lock
-RUN yarn install -y --frozen-lockfile
+RUN yes | yarn install --frozen-lockfile
 
 COPY . .
 
-RUN yarn bootstrap -y
+RUN yes | yarn bootstrap
 
 CMD yarn dev --scope=server
