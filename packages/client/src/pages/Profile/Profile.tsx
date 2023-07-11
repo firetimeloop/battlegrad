@@ -98,7 +98,7 @@ function Profile() {
           {user.avatar ? (
             <Avatar
               alt="profile avatar"
-              src={`${yandexBaseUrl}/resources${user.avatar}`}
+              src={`api/v2/resources${user.avatar}`}
             />
           ) : (
             <EmptyAvatar />

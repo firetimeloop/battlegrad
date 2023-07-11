@@ -69,7 +69,7 @@ export function Comment({ comment }: ICommentProps) {
     <CommentContainer id={`comment-${comment.id}`}>
       <CommentAuthor>
         <CommentAuthorAvatarContainer>
-          <CommentAuthorAvatar src={`${yandexBaseUrl}/resources${comment.userAvatar}`} />
+          <CommentAuthorAvatar src={`api/v2/resources${comment.userAvatar}`} />
         </CommentAuthorAvatarContainer>
         <h3>{comment.userDisplayName}</h3>
       </CommentAuthor>
