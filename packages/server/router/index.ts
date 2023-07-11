@@ -1,5 +1,4 @@
 import { Router } from 'express';
-//@ts-ignore
 import { checkAuthorization } from '../middlewares/checkAuthorization';
 
 import forum from './forum';
@@ -10,7 +9,7 @@ const router = Router();
 router.use('/api/theme', theme);
 router.use(
   '/api/forum',
-  // (req, res, next) => checkAuthorization(req, res, next),
+  (req, res, next) => checkAuthorization(req, res, next),
   forum,
 );
 

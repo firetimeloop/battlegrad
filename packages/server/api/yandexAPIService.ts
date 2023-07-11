@@ -23,9 +23,15 @@ axiosYandexApi.interceptors.response.use(
 );
 
 export class YandexAPIService {
+  constructor(private _cookieHeader: string | undefined) {}
+
   // eslint-disable-next-line
   async getCurrentUser() {
-    const result = await axiosYandexApi.get('/auth/user');
+    const result = await axiosYandexApi.get('/api/v2/auth/user', {
+      headers: {
+        cookie: this._cookieHeader,
+      },
+    });
 
     return result.data;
   }
