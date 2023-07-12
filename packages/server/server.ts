@@ -4,13 +4,13 @@ import express from 'express';
 import dotenv from 'dotenv';
 import type { ViteDevServer } from 'vite';
 import bodyParser from 'body-parser';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 import { renderReduxStoreObject } from './src/render-redux-store';
 import { renderStyles } from './src/render-styles';
 import { dbConnect } from './db';
 import router from './router/index';
+import cors from './cors';
 
 dotenv.config();
 
@@ -31,7 +31,7 @@ export async function createServer(
   // @ts-ignore
   app.use(cookieParser());
 
-  app.use(cors());
+  app.use(cors);
 
   let vite: ViteDevServer | undefined;
   if (!isProd) {
@@ -63,7 +63,7 @@ export async function createServer(
 
   dbConnect();
 
-  app.use(router);
+  app.use(cors, router);
 
   app.use(
     '/api/v2',
