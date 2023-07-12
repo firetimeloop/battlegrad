@@ -29,7 +29,6 @@ import {
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ReactionEnum } from '../../interface/forum/reaction';
 import { selectAuthState, selectForumState } from '../../app/selectors';
-import { yandexBaseUrl } from '../../app/api';
 
 interface ICommentProps {
   comment: ForumComment

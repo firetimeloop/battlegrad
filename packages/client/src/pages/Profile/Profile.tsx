@@ -37,7 +37,6 @@ import {
   ProfileChangeInit,
   ProfileChangeValidationModel,
 } from '../../interface/Profile';
-import { yandexBaseUrl } from '../../app/api';
 import { selectAuthState } from '../../app/selectors';
 
 enum ProfileMode {
