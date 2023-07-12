@@ -38,6 +38,7 @@ import {
   ProfileChangeValidationModel,
 } from '../../interface/Profile';
 import { selectAuthState } from '../../app/selectors';
+import { proxyYandexBaseUrl } from '../../app/api';
 
 enum ProfileMode {
   normal,
@@ -97,7 +98,7 @@ function Profile() {
           {user.avatar ? (
             <Avatar
               alt="profile avatar"
-              src={`api/v2/resources${user.avatar}`}
+              src={`${proxyYandexBaseUrl}/resources${user.avatar}`}
             />
           ) : (
             <EmptyAvatar />
@@ -248,7 +249,9 @@ function Profile() {
                   type="password"
                   placeholder="Повторите новый пароль"
                   name="newPasswordRepeat"
-                  validate={(value: string) => validateConfirmPassword(values.newPassword, value)}
+                  validate={(value: string) =>
+                    validateConfirmPassword(values.newPassword, value)
+                  }
                 />
                 <ErrorMessage name="newPasswordRepeat" />
                 <RowGap10>

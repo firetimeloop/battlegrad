@@ -3,6 +3,8 @@ import { useTheme } from 'styled-components';
 
 import { AvatarImg } from './styles';
 
+import { proxyYandexBaseUrl } from '../../app/api';
+
 type TAvatarProps = PropsWithChildren<{
   avatarUrl: string | null;
   size: number;
@@ -32,7 +34,7 @@ function Avatar({ avatarUrl, size }: TAvatarProps) {
     );
   }
 
-  const avatarSrc = `/api/v2/resources${avatarUrl}`;
+  const avatarSrc = `${proxyYandexBaseUrl}/resources${avatarUrl}`;
 
   return <AvatarImg src={avatarSrc} alt="Аватар" size={size} />;
 }

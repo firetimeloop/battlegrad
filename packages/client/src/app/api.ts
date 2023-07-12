@@ -1,10 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
 import { errorHandler, successHandler } from '../utils/requestHandlers';
 
-const yandexBaseUrl = 'https://ya-praktikum.tech/api/v2';
+const proxyYandexBaseUrl = 'http://localhost:3001/api/v2';
 
-const axiosYandexApi: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:3001/api/v2',
+const axiosProxyYandexApi: AxiosInstance = axios.create({
+  baseURL: proxyYandexBaseUrl,
   withCredentials: true,
 });
 
@@ -13,7 +13,7 @@ const axiosServerApi: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-axiosYandexApi.interceptors.response.use(
+axiosProxyYandexApi.interceptors.response.use(
   (response) => successHandler(response),
   (error) => errorHandler(error),
 );
@@ -30,8 +30,8 @@ const TEST_PASSWORD = 'Password1234';
 const OAUTH_ROUTE = '/oauth/yandex';
 
 export {
-  yandexBaseUrl,
-  axiosYandexApi,
+  proxyYandexBaseUrl,
+  axiosProxyYandexApi as axiosYandexApi,
   axiosServerApi,
   REDIRECT_URI,
   CLIENT_ID,
