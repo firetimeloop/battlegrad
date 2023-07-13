@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  isAnyOf,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import {
   IGetMeResponse,
   IGetServiceIdProps,
@@ -22,45 +27,63 @@ import {
 export const LogIn = createAsyncThunk<ILoginResponse, ILoginProps, IThunkApi>(
   'LogIn',
   async (data, { signal }) => {
-    const response = await axiosYandexApi.post<ILoginResponse>('/auth/signin', data, {
-      signal,
-    });
+    const response = await axiosYandexApi.post<ILoginResponse>(
+      '/auth/signin',
+      data,
+      {
+        signal,
+        withCredentials: true,
+      },
+    );
     return response.data;
   },
 );
 
-export const GetOauthServiceId = createAsyncThunk<IGetServiceIdResponse, IGetServiceIdProps>(
-  'GetOauthServiceId',
-  async ({ redirectUri }) => {
-    const response = await axiosYandexApi
-      .get<IGetServiceIdResponse>(`${OAUTH_ROUTE}/service-id?redirect_uri=${redirectUri}`);
-    return response.data;
-  },
-);
+export const GetOauthServiceId = createAsyncThunk<
+  IGetServiceIdResponse,
+  IGetServiceIdProps
+>('GetOauthServiceId', async ({ redirectUri }) => {
+  const response = await axiosYandexApi.get<IGetServiceIdResponse>(
+    `${OAUTH_ROUTE}/service-id?redirect_uri=${redirectUri}`,
+  );
+  return response.data;
+});
 
 export const OauthLogin = createAsyncThunk<ILoginResponse, IOauthProps>(
   'OauthLogin',
   async (data) => {
-    const response = await axiosYandexApi.post<ILoginResponse>(OAUTH_ROUTE, data);
+    const response = await axiosYandexApi.post<ILoginResponse>(
+      OAUTH_ROUTE,
+      data,
+    );
     return response.data;
   },
 );
 
-export const CreateUser = createAsyncThunk<IRegisterResponse, IRegisterProps, IThunkApi>(
-  'CreateUser',
-  async (data, { signal }) => {
-    const response = await axiosYandexApi.post<IRegisterResponse>('/auth/signup', data, {
+export const CreateUser = createAsyncThunk<
+  IRegisterResponse,
+  IRegisterProps,
+  IThunkApi
+>('CreateUser', async (data, { signal }) => {
+  const response = await axiosYandexApi.post<IRegisterResponse>(
+    '/auth/signup',
+    data,
+    {
       signal,
-    });
-    return response.data;
-  },
-);
+    },
+  );
+  return response.data;
+});
 export const LogOut = createAsyncThunk<ILoginResponse, undefined, IThunkApi>(
   'LogOut',
   async (data, { signal }) => {
-    const response = await axiosYandexApi.post<ILoginResponse>('/auth/logout', data, {
-      signal,
-    });
+    const response = await axiosYandexApi.post<ILoginResponse>(
+      '/auth/logout',
+      data,
+      {
+        signal,
+      },
+    );
     return response.data;
   },
 );
@@ -70,46 +93,61 @@ export const GetMe = createAsyncThunk<IGetMeResponse, void, IThunkApi>(
   async (data, { signal }) => {
     const response = await axiosYandexApi.get<IGetMeResponse>('/auth/user', {
       signal,
+      withCredentials: true,
     });
     return response.data;
   },
 );
 
-export const UpdateProfile = createAsyncThunk<IProfileUpdateResult, IProfileChange, IThunkApi>(
-  'UpdateProfile',
-  async (data, { signal }) => {
-    const response = await axiosYandexApi.put<IProfileUpdateResult>('/user/profile', data, {
+export const UpdateProfile = createAsyncThunk<
+  IProfileUpdateResult,
+  IProfileChange,
+  IThunkApi
+>('UpdateProfile', async (data, { signal }) => {
+  const response = await axiosYandexApi.put<IProfileUpdateResult>(
+    '/user/profile',
+    data,
+    {
       signal,
-    });
-    return response.data;
-  },
-);
-
-export const UpdateAvatar = createAsyncThunk<IProfileUpdateResult, FormData, IThunkApi>(
-  'UpdateAvatar',
-  async (data, { signal }) => {
-    const response = await axiosYandexApi.put<IProfileUpdateResult>('/user/profile/avatar', data, {
-      signal,
-    });
-    return response.data;
-  },
-);
-export const UpdatePassword =
-  createAsyncThunk<IUpdatePasswordResult, IChangePasswordProps, IThunkApi>(
-    'UpdatePassword',
-    async (data, { signal }) => {
-      const response = await axiosYandexApi.put<IUpdatePasswordResult>('/user/password', data, {
-        signal,
-      });
-      return response.data;
     },
   );
+  return response.data;
+});
+
+export const UpdateAvatar = createAsyncThunk<
+  IProfileUpdateResult,
+  FormData,
+  IThunkApi
+>('UpdateAvatar', async (data, { signal }) => {
+  const response = await axiosYandexApi.put<IProfileUpdateResult>(
+    '/user/profile/avatar',
+    data,
+    {
+      signal,
+    },
+  );
+  return response.data;
+});
+export const UpdatePassword = createAsyncThunk<
+  IUpdatePasswordResult,
+  IChangePasswordProps,
+  IThunkApi
+>('UpdatePassword', async (data, { signal }) => {
+  const response = await axiosYandexApi.put<IUpdatePasswordResult>(
+    '/user/password',
+    data,
+    {
+      signal,
+    },
+  );
+  return response.data;
+});
 
 interface IAuthState {
-  isFetching: boolean
-  user: IUser | null
-  needFetchUser: boolean
-  service_id: string | null
+  isFetching: boolean;
+  user: IUser | null;
+  needFetchUser: boolean;
+  service_id: string | null;
 }
 
 const AuthStateInit: IAuthState = {
@@ -146,51 +184,61 @@ export const slice = createSlice({
         state.service_id = action.payload.service_id;
       }
     });
-    builder.addMatcher(isAnyOf(
-      LogIn.fulfilled,
-      CreateUser.fulfilled,
-      OauthLogin.fulfilled,
-      UpdateProfile.fulfilled,
-      UpdateAvatar.fulfilled,
-      UpdatePassword.fulfilled,
-    ), (state) => {
-      state.needFetchUser = true;
-      if (state.service_id) {
-        state.service_id = null;
-      }
-    });
-    builder.addMatcher(isAnyOf(
-      LogIn.pending,
-      GetMe.pending,
-      CreateUser.pending,
-      GetOauthServiceId.pending,
-    ), (state) => {
-      state.isFetching = true;
-    });
-    builder.addMatcher(isAnyOf(
-      LogIn.fulfilled,
-      GetMe.fulfilled,
-      CreateUser.fulfilled,
-      GetOauthServiceId.fulfilled,
-    ), (state) => {
-      state.isFetching = false;
-    });
-    builder.addMatcher(isAnyOf(
-      LogIn.rejected,
-      GetMe.rejected,
-      CreateUser.rejected,
-      GetOauthServiceId.rejected,
-    ), (state, action) => {
-      // если пошел новый запрос, а старый отменили, лоадер не убираем
-      if (action.error.message !== 'Aborted') {
+    builder.addMatcher(
+      isAnyOf(
+        LogIn.fulfilled,
+        CreateUser.fulfilled,
+        OauthLogin.fulfilled,
+        UpdateProfile.fulfilled,
+        UpdateAvatar.fulfilled,
+        UpdatePassword.fulfilled,
+      ),
+      (state) => {
+        state.needFetchUser = true;
+        if (state.service_id) {
+          state.service_id = null;
+        }
+      },
+    );
+    builder.addMatcher(
+      isAnyOf(
+        LogIn.pending,
+        GetMe.pending,
+        CreateUser.pending,
+        GetOauthServiceId.pending,
+      ),
+      (state) => {
+        state.isFetching = true;
+      },
+    );
+    builder.addMatcher(
+      isAnyOf(
+        LogIn.fulfilled,
+        GetMe.fulfilled,
+        CreateUser.fulfilled,
+        GetOauthServiceId.fulfilled,
+      ),
+      (state) => {
         state.isFetching = false;
-      }
-    });
+      },
+    );
+    builder.addMatcher(
+      isAnyOf(
+        LogIn.rejected,
+        GetMe.rejected,
+        CreateUser.rejected,
+        GetOauthServiceId.rejected,
+      ),
+      (state, action) => {
+        // если пошел новый запрос, а старый отменили, лоадер не убираем
+        if (action.error.message !== 'Aborted') {
+          state.isFetching = false;
+        }
+      },
+    );
   },
 });
 
-export const {
-  setIsFetching,
-} = slice.actions;
+export const { setIsFetching } = slice.actions;
 
 export default slice.reducer;

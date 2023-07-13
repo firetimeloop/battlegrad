@@ -8,7 +8,10 @@ import {
 } from '@pages/Forum/styles';
 import React, { useState } from 'react';
 import { Like } from '@components/Like/Like';
-import { CreateReaction, DeleteReaction } from '@components/Forum/api/reactions';
+import {
+  CreateReaction,
+  DeleteReaction,
+} from '@components/Forum/api/reactions';
 import { z } from 'zod';
 import { toFormikValidate } from 'zod-formik-adapter';
 import { CreateComment } from '@components/Forum/api/comments';
@@ -29,17 +32,18 @@ import {
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ReactionEnum } from '../../interface/forum/reaction';
 import { selectAuthState, selectForumState } from '../../app/selectors';
-import { yandexBaseUrl } from '../../app/api';
+import { proxyYandexBaseUrl } from '../../app/api';
 
 interface ICommentProps {
-  comment: ForumComment
+  comment: ForumComment;
 }
 
 export function Comment({ comment }: ICommentProps) {
   const dispatch = useAppDispatch();
   const [replyInputOpened, setReplyInputOpened] = useState(false);
   const { user } = useAppSelector(selectAuthState);
-  const { selectedTopic, reactions, comments } = useAppSelector(selectForumState);
+  const { selectedTopic, reactions, comments } =
+    useAppSelector(selectForumState);
   const theme = useTheme();
   const commentReactions = reactions.filter((i) => i.commentId === comment.id);
 
@@ -53,12 +57,14 @@ export function Comment({ comment }: ICommentProps) {
         return;
       }
 
-      dispatch(CreateReaction({
-        user,
-        type: ReactionEnum.Like,
-        topicId: selectedTopic.id,
-        commentId: comment.id,
-      }));
+      dispatch(
+        CreateReaction({
+          user,
+          type: ReactionEnum.Like,
+          topicId: selectedTopic.id,
+          commentId: comment.id,
+        }),
+      );
     }
   };
 
@@ -69,102 +75,96 @@ export function Comment({ comment }: ICommentProps) {
     <CommentContainer id={`comment-${comment.id}`}>
       <CommentAuthor>
         <CommentAuthorAvatarContainer>
-          <CommentAuthorAvatar src={`${yandexBaseUrl}/resources${comment.userAvatar}`} />
+          <CommentAuthorAvatar
+            src={`${proxyYandexBaseUrl}/resources${comment.userAvatar}`}
+          />
         </CommentAuthorAvatarContainer>
         <h3>{comment.userDisplayName}</h3>
       </CommentAuthor>
       <RowSpaceBetween>
         <p>{comment.content}</p>
         <RowGap10>
-          <Like
-            liked={!!userLike}
-            onClick={onLikeClick} />
+          <Like liked={!!userLike} onClick={onLikeClick} />
           {commentReactions.length > 0 && (
-            <span>
-              {commentReactions.length}
-            </span>
+            <span>{commentReactions.length}</span>
           )}
         </RowGap10>
       </RowSpaceBetween>
-      {replyInputOpened
-        ? (
-          <Formik
-            initialValues={{ reply: '' }}
-            validate={toFormikValidate(z.object({
+      {replyInputOpened ? (
+        <Formik
+          initialValues={{ reply: '' }}
+          validate={toFormikValidate(
+            z.object({
               reply: z.string().min(4, 'Введите хотя бы 4 символа'),
-            }))}
-            onSubmit={({ reply }, { resetForm }) => {
-              if (user && selectedTopic) {
-                dispatch(CreateComment({
+            }),
+          )}
+          onSubmit={({ reply }, { resetForm }) => {
+            if (user && selectedTopic) {
+              dispatch(
+                CreateComment({
                   user,
                   content: reply,
                   topicId: selectedTopic.id,
                   parentCommentId: comment.id,
-                })).then((res) => {
-                  if (res.type.includes('fulfilled')) {
-                    resetForm();
-                    closeReply();
-                    const scrollable = document.getElementById('CommentsContainer');
-                    const commentEl = document.getElementById(`comment-${comment.id}`);
-                    if (scrollable && commentEl) {
-                      const lastChild = commentEl.lastChild?.lastChild as HTMLDivElement;
-                      if (lastChild) {
-                        lastChild.scrollIntoView({ block: 'center' });
+                }),
+              ).then((res) => {
+                if (res.type.includes('fulfilled')) {
+                  resetForm();
+                  closeReply();
+                  const scrollable =
+                    document.getElementById('CommentsContainer');
+                  const commentEl = document.getElementById(
+                    `comment-${comment.id}`,
+                  );
+                  if (scrollable && commentEl) {
+                    const lastChild = commentEl.lastChild
+                      ?.lastChild as HTMLDivElement;
+                    if (lastChild) {
+                      lastChild.scrollIntoView({ block: 'center' });
+                      setTimeout(() => {
+                        lastChild.style.background =
+                          theme!.colors.commentHighlight;
                         setTimeout(() => {
-                          lastChild.style.background = theme!.colors.commentHighlight;
-                          setTimeout(() => {
-                            lastChild.style.background = 'none';
-                          }, 1000);
-                        }, 200);
-                      }
+                          lastChild.style.background = 'none';
+                        }, 1000);
+                      }, 200);
                     }
                   }
-                });
-              }
-            }}
-          >
-            {({
-              handleSubmit, resetForm,
-            }) => (
-              <FormContainer onSubmit={handleSubmit}>
-                <ReplyForm>
-                  <ColumnGap10>
-                    <Input
-                      autoFocus
-                      placeholder="Введите ответ"
-                      name="reply"
-                    />
-                    <ErrorMessage name="reply" />
-                  </ColumnGap10>
-                  <Button
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      resetForm();
-                      closeReply();
-                    }}>
-                    Отмена
-                  </Button>
-                  <SubmitButton
-                    type="submit">
-                    <BtnText>
-                      Отправить
-                    </BtnText>
-                  </SubmitButton>
-                </ReplyForm>
-              </FormContainer>
-            )}
-          </Formik>
-        )
-        : (
-          <ReplyButton
-            onClick={openReply}>
-            Ответить
-          </ReplyButton>
-        )}
+                }
+              });
+            }
+          }}>
+          {({ handleSubmit, resetForm }) => (
+            <FormContainer onSubmit={handleSubmit}>
+              <ReplyForm>
+                <ColumnGap10>
+                  <Input autoFocus placeholder="Введите ответ" name="reply" />
+                  <ErrorMessage name="reply" />
+                </ColumnGap10>
+                <Button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    resetForm();
+                    closeReply();
+                  }}>
+                  Отмена
+                </Button>
+                <SubmitButton type="submit">
+                  <BtnText>Отправить</BtnText>
+                </SubmitButton>
+              </ReplyForm>
+            </FormContainer>
+          )}
+        </Formik>
+      ) : (
+        <ReplyButton onClick={openReply}>Ответить</ReplyButton>
+      )}
       {related.length > 0 && (
         <RepliesContainer>
-          {related.map((comm) => <Comment key={comm.id} comment={comm} />)}
+          {related.map((comm) => (
+            <Comment key={comm.id} comment={comm} />
+          ))}
         </RepliesContainer>
       )}
     </CommentContainer>
