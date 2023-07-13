@@ -14,9 +14,6 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 import { LoaderSizeEnum } from '../../enum';
 
-// Пока без SSR пропишу явно
-const __SERVER_PORT__ = 3001;
-
 function App() {
   const { user, needFetchUser } = useAppSelector((state) => state.auth);
 

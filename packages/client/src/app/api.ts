@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { errorHandler, successHandler } from '../utils/requestHandlers';
 
-const proxyYandexBaseUrl = 'http://localhost:3001/api/v2';
+const proxyYandexBaseUrl = `http://localhost:${__SERVER_PORT__}/api/v2`;
 
 const axiosProxyYandexApi: AxiosInstance = axios.create({
   baseURL: proxyYandexBaseUrl,
@@ -9,7 +9,7 @@ const axiosProxyYandexApi: AxiosInstance = axios.create({
 });
 
 const axiosServerApi: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: `http://localhost:${__SERVER_PORT__}`,
   withCredentials: true,
 });
 
