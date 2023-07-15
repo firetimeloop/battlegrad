@@ -3,6 +3,8 @@ import { useTheme } from 'styled-components';
 
 import { AvatarImg } from './styles';
 
+import { proxyYandexBaseUrl } from '../../app/api';
+
 type TAvatarProps = PropsWithChildren<{
   avatarUrl: string | null;
   size: number;
@@ -11,11 +13,11 @@ type TAvatarProps = PropsWithChildren<{
 function Avatar({ avatarUrl, size }: TAvatarProps) {
   const theme = useTheme();
   const isAvatarAvailable = avatarUrl && avatarUrl?.length > 0;
-  let defaultAvatarSrc = '../../../public/tank-bg-light.png';
+  let defaultAvatarSrc = '/tank-bg-light.png';
   if (theme!.name === 'darkTheme') {
-    defaultAvatarSrc = '../../../public/tank-bg-light.png';
+    defaultAvatarSrc = '/tank-bg-light.png';
   } else {
-    defaultAvatarSrc = '../../../public/tank-bg-dark.png';
+    defaultAvatarSrc = '/tank-bg-dark.png';
   }
   const defaultAvatarForHighResolution =
     '/tank-bg-2048×2048.png';
@@ -32,7 +34,7 @@ function Avatar({ avatarUrl, size }: TAvatarProps) {
     );
   }
 
-  const avatarSrc = `https://ya-praktikum.tech/api/v2/resources${avatarUrl}`;
+  const avatarSrc = `${proxyYandexBaseUrl}/resources${avatarUrl}`;
 
   return <AvatarImg src={avatarSrc} alt="Аватар" size={size} />;
 }

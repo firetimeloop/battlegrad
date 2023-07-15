@@ -1,20 +1,19 @@
 import axios, { AxiosInstance } from 'axios';
 import { errorHandler, successHandler } from '../utils/requestHandlers';
 
-const yandexBaseUrl = 'https://ya-praktikum.tech/api/v2';
+const proxyYandexBaseUrl = `http://localhost:${__SERVER_PORT__}/api/v2`;
 
-const axiosYandexApi: AxiosInstance = axios.create({
-  baseURL: yandexBaseUrl,
+const axiosProxyYandexApi: AxiosInstance = axios.create({
+  baseURL: proxyYandexBaseUrl,
   withCredentials: true,
 });
 
-const baseURL = window.location.origin.replace('3000', '3001');
-
 const axiosServerApi: AxiosInstance = axios.create({
-  baseURL,
+  baseURL: `http://localhost:${__SERVER_PORT__}`,
+  withCredentials: true,
 });
 
-axiosYandexApi.interceptors.response.use(
+axiosProxyYandexApi.interceptors.response.use(
   (response) => successHandler(response),
   (error) => errorHandler(error),
 );
@@ -24,15 +23,15 @@ axiosServerApi.interceptors.response.use(
   (error) => errorHandler(error),
 );
 
-const REDIRECT_URI = `${window.location.origin}:3000`;
+const REDIRECT_URI = 'http://localhost:3000';
 const CLIENT_ID = '3f0f557b908a4de88942a25cfa35a090';
 const TEST_LOGIN = 'Login123';
 const TEST_PASSWORD = 'Password1234';
 const OAUTH_ROUTE = '/oauth/yandex';
 
 export {
-  yandexBaseUrl,
-  axiosYandexApi,
+  proxyYandexBaseUrl,
+  axiosProxyYandexApi as axiosYandexApi,
   axiosServerApi,
   REDIRECT_URI,
   CLIENT_ID,
