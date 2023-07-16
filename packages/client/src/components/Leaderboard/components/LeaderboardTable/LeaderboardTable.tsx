@@ -24,24 +24,26 @@ function LeaderboardTable({ leaders }: TLeaderboardTableProps) {
   return (
     <Table>
       <caption>TOP-10</caption>
-      <tr>
-        <th>№</th>
-        <th>Аватар</th>
-        <th>Имя</th>
-        <th>Почта</th>
-        <th>Количество побед</th>
-      </tr>
-      {numberedList.map((leader) => (
+      <tbody>
         <tr>
-          <td>{leader.number}</td>
-          <td>
-            <Avatar avatarUrl={leader.avatar} size={40} />
-          </td>
-          <td>{leader.name}</td>
-          <td>{leader.email}</td>
-          <td>{leader.winsNumber}</td>
+          <th>№</th>
+          <th>Аватар</th>
+          <th>Имя</th>
+          <th>Почта</th>
+          <th>Количество побед</th>
         </tr>
-      ))}
+        {numberedList.map((leader) => (
+          <tr key={leader.name}>
+            <td>{leader.number}</td>
+            <td>
+              <Avatar avatarUrl={leader.avatar} size={40} />
+            </td>
+            <td>{leader.name}</td>
+            <td>{leader.email}</td>
+            <td>{leader.winsNumber}</td>
+          </tr>
+        ))}
+      </tbody>
     </Table>
   );
 }
