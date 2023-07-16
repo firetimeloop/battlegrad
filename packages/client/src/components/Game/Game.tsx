@@ -121,10 +121,12 @@ function Game() {
             {[...Array(20).keys()].map((i) => {
               if (i < enemiesDefeated) {
                 return (
-                  <img width="32px" height="32px" src={explosionImg} alt="" />
+                  <img width="32px" height="32px" src={explosionImg} alt="" key={i} />
                 );
               }
-              return <img width="32px" height="32px" src={enemyImg} alt="" />;
+              return (
+                <img width="32px" height="32px" src={enemyImg} alt="" key={i} />
+              );
             })}
           </div>
         </GameStats>
