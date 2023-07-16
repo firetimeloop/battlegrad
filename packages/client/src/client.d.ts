@@ -2,6 +2,8 @@ import 'styled-components';
 
 declare global {
   declare const __SERVER_PORT__: number;
+
+  declare const __API_URL__: string;
 }
 
 declare module 'styled-components' {
