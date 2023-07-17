@@ -1,10 +1,10 @@
 const cspSettings = `
                       default-src 'self';
                       base-uri 'self';
-                      connect-src 'self' localhost:3001;
+                      connect-src 'self' localhost:${__SERVER_PORT__};
                       font-src 'self';
                       form-action 'self';
-                      img-src 'self' localhost:3001;
+                      img-src 'self' localhost:${__SERVER_PORT__};
                       object-src 'self';
                       script-src-attr 'self';
                       style-src 'self' 'unsafe-inline';
