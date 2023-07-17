@@ -1,7 +1,9 @@
+// localhost:24678 используется Vite для web socket. Без него в Docker выдает ошибку при SSR
+
 const cspSettings = `
                       default-src 'self';
                       base-uri 'self';
-                      connect-src 'self' localhost:${__SERVER_PORT__};
+                      connect-src 'self' localhost:${__SERVER_PORT__} localhost:24678;
                       font-src 'self';
                       form-action 'self';
                       img-src 'self' localhost:${__SERVER_PORT__};
