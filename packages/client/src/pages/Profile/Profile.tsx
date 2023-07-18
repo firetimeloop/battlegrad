@@ -37,8 +37,8 @@ import {
   ProfileChangeInit,
   ProfileChangeValidationModel,
 } from '../../interface/Profile';
-import { yandexBaseUrl } from '../../app/api';
 import { selectAuthState } from '../../app/selectors';
+import { proxyYandexBaseUrl } from '../../app/api';
 
 enum ProfileMode {
   normal,
@@ -98,7 +98,7 @@ function Profile() {
           {user.avatar ? (
             <Avatar
               alt="profile avatar"
-              src={`${yandexBaseUrl}/resources${user.avatar}`}
+              src={`${proxyYandexBaseUrl}/resources${user.avatar}`}
             />
           ) : (
             <EmptyAvatar />
