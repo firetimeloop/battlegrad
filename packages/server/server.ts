@@ -4,13 +4,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import type { ViteDevServer } from 'vite';
 import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 import { renderReduxStoreObject } from './src/render-redux-store';
 import { renderStyles } from './src/render-styles';
 import { dbConnect } from './db';
 import router from './router/index';
-import cors from './cors';
 
 dotenv.config();
 
@@ -28,10 +25,6 @@ export async function createServer(
     : '';
 
   const app = express();
-  // @ts-ignore
-  app.use(cookieParser());
-
-  app.use(cors);
 
   let vite: ViteDevServer | undefined;
   if (!isProd) {
@@ -63,20 +56,7 @@ export async function createServer(
 
   dbConnect();
 
-  app.use(cors, router);
-
-  app.use(
-    '/api/v2',
-    createProxyMiddleware({
-      changeOrigin: true,
-      cookieDomainRewrite: {
-        '*': '',
-      },
-      target: process.env.YANDEX_BASE_URL,
-      logLevel: 'debug',
-      onProxyReq: fixRequestBody,
-    }),
-  );
+  app.use(router);
 
   app.use('*', async (req, res) => {
     try {

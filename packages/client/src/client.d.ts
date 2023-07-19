@@ -1,10 +1,6 @@
 import 'styled-components';
 
-declare global {
-  declare const __SERVER_PORT__: number;
-
-  declare const __API_URL__: string;
-}
+declare const __SERVER_PORT__: number;
 
 declare module 'styled-components' {
   export interface DefaultTheme {
