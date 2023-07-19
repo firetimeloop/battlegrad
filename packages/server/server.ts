@@ -75,7 +75,6 @@ export async function createServer(
       target: process.env.YANDEX_BASE_URL,
       logLevel: 'debug',
       onProxyReq: fixRequestBody,
-      secure: true,
     }),
   );
 
