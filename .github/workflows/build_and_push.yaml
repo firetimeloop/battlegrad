@@ -31,8 +31,6 @@ jobs:
           file: Dockerfile.client
           push: true
           tags: ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/client:${{ github.sha }}
-        env:
-          API_URL: http://62.84.121.9:3001
 
       - name: Build and push server image
         uses: docker/build-push-action@v2
@@ -41,5 +39,3 @@ jobs:
           file: Dockerfile.server
           push: true
           tags: ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/server:${{ github.sha }}
-        env:
-          API_URL: http://62.84.121.9:3001

@@ -12,7 +12,6 @@ export default defineConfig({
   },
   define: {
     __SERVER_PORT__: process.env.SERVER_PORT,
-    __API_URL__: JSON.stringify(process.env.API_URL),
   },
   plugins: [react()],
   resolve: {
