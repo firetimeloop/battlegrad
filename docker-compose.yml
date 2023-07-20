@@ -32,7 +32,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_HOST: postgres
-      YANDEX_BASE_URL: https://ya-praktikum.tech
       API_URL: ${API_URL}
     expose:
       - '${SERVER_PORT}'
