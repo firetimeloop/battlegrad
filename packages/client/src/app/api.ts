@@ -3,12 +3,14 @@ import { errorHandler, successHandler } from '../utils/requestHandlers';
 
 const yandexBaseUrl = 'https://ya-praktikum.tech/api/v2';
 
+const isSSR = typeof window === 'undefined';
+
 const axiosYandexApi: AxiosInstance = axios.create({
   baseURL: yandexBaseUrl,
   withCredentials: true,
 });
 
-const baseURL = window.location.origin.replace('3000', '3001');
+const baseURL = isSSR ? '' : window.location.origin.replace('3000', '3001');
 
 const axiosServerApi: AxiosInstance = axios.create({
   baseURL,
@@ -24,7 +26,7 @@ axiosServerApi.interceptors.response.use(
   (error) => errorHandler(error),
 );
 
-const REDIRECT_URI = `${window.location.origin}:3000`;
+const REDIRECT_URI = isSSR ? '' : `${window.location.origin}:3000`;
 const CLIENT_ID = '3f0f557b908a4de88942a25cfa35a090';
 const TEST_LOGIN = 'Login123';
 const TEST_PASSWORD = 'Password1234';
