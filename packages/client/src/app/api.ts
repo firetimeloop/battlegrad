@@ -6,16 +6,13 @@ const yandexBaseUrl = 'https://ya-praktikum.tech/api/v2';
 const isSSR = typeof window === 'undefined';
 
 const axiosProxyYandexApi: AxiosInstance = axios.create({
-  baseURL: proxyYandexBaseUrl,
+  baseURL: yandexBaseUrl,
   withCredentials: true,
 });
 
 const baseURL = isSSR ? '' : window.location.origin.replace('3000', '3001');
 
-const axiosServerApi: AxiosInstance = axios.create({
-  baseURL: __API_URL__,
-  withCredentials: true,
-});
+const axiosServerApi: AxiosInstance = axios.create({ baseURL });
 
 axiosProxyYandexApi.interceptors.response.use(
   (response) => successHandler(response),
@@ -34,7 +31,7 @@ const TEST_PASSWORD = 'Password1234';
 const OAUTH_ROUTE = '/oauth/yandex';
 
 export {
-  proxyYandexBaseUrl,
+  yandexBaseUrl,
   axiosProxyYandexApi as axiosYandexApi,
   axiosServerApi,
   REDIRECT_URI,
