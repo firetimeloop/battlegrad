@@ -4,6 +4,7 @@ import { GetTheme, setThemeByTitle } from '@components/ThemeSwitcher/api/theme';
 import { LoaderContainer } from '@components/Loader/styles';
 import Loader from '@components/Loader';
 import { GetMe } from '@components/Auth/slice';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Layout from '../Layout';
 import logo from '../../../public/logo.png';
 import { AppWrapper } from './styles';
@@ -13,9 +14,7 @@ import { darkTheme } from '../../theme';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 import { LoaderSizeEnum } from '../../enum';
-
-// Пока без SSR пропишу явно
-const __SERVER_PORT__ = 3001;
+import cspSettings from '../../app/csp';
 
 function App() {
   const { user, needFetchUser } = useAppSelector((state) => state.auth);
@@ -25,14 +24,16 @@ function App() {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-    };
+    // Постоянно выдает ошибку при парсинге json, что понятно, так как возвращается html.
+    // Да и смысла в вызове функции не увидел
+    // const fetchServerData = async () => {
+    //   const url = `http://localhost:${__SERVER_PORT__}`;
+    //   const response = await fetch(url);
+    //   const data = await response.json();
+    //   console.log(data);
+    // };
 
-    fetchServerData();
+    // fetchServerData();
 
     const savedTheme = localStorage.getItem('theme');
 
@@ -51,30 +52,37 @@ function App() {
   }, [dispatch, needFetchUser]);
 
   return (
-    <ThemeProvider theme={selectedTheme}>
-      <AppWrapper>
-        {loggedIn ? (
-          <Layout setSelectedTheme={setSelectedTheme} />
-        ) : (
-          <img
-            src={logo}
-            alt=""
-            width="700px"
-            height="auto"
-            className="logo"
-            />
-        )}
-        {needFetchUser
-          ? (
+    <HelmetProvider>
+      <ThemeProvider theme={selectedTheme}>
+        <Helmet>
+          <meta
+            httpEquiv="Content-Security-Policy"
+            content={cspSettings}
+          />
+        </Helmet>
+        <AppWrapper>
+          {loggedIn ? (
+            <Layout setSelectedTheme={setSelectedTheme} />
+          ) : (
+            <img
+              src={logo}
+              alt=""
+              width="700px"
+              height="auto"
+              className="logo" />
+          )}
+          {needFetchUser ? (
             <LoaderContainer>
               <Loader size={LoaderSizeEnum.medium} />
             </LoaderContainer>
-          )
-          : <Router />}
-        <Alert />
-        <div />
-      </AppWrapper>
-    </ThemeProvider>
+          ) : (
+            <Router />
+          )}
+          <Alert />
+          <div />
+        </AppWrapper>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 

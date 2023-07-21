@@ -28,8 +28,8 @@ export const errorHandler = (error: AxiosError<{reason?: string}>) => {
   return Promise.reject(error);
 };
 
-export const successHandler = (response: AxiosResponse) => {
+export const successHandler = (response: AxiosResponse) =>
   // а сюда действия для успешных запросов
-  console.log('Handled response', response);
-  return response;
-};
+  // думаю, использовалось для дебага, убрал, чтобы консоль была чистой
+  // console.log('Handled response', response);
+  response;
