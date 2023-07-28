@@ -1,0 +1,75 @@
+@font-face {
+  font-family: 'Better VCR';
+  src: local('Better VCR'), url('./../public/better-vcr.ttf');
+}
+
+body {
+  margin: 0;
+}
+* {
+  font-family: 'Better VCR', serif;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+label,
+form {
+  margin: 0;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate(-51%, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate(-49%, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate(-53%, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate(-47%, 0);
+  }
+}
+
+.shake-animated {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes animatedBackground {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #e4e4e452;
+  border-radius: 100px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #8f492e;
+  border-radius: 100px;
+}
